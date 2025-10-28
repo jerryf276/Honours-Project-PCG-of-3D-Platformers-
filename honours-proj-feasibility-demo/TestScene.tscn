@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkk6mcojdfrbq"]
+
+[ext_resource type="PackedScene" uid="uid://dryea61gais4q" path="res://Level parts/flat_grass_block.tscn" id="1_wicfy"]
+[ext_resource type="PackedScene" uid="uid://l6em6ibixqa8" path="res://Level parts/grass_edge_corner.tscn" id="2_go42g"]
+[ext_resource type="PackedScene" uid="uid://3of4s1wswjy4" path="res://Level parts/grass_edge_front.tscn" id="3_sreuk"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="flatGrassBlock" parent="." instance=ExtResource("1_wicfy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.7981415, 0, -0.29312992)
+
+[node name="grassEdgeCorner" parent="." instance=ExtResource("2_go42g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.87044275, 0, -1.964817)
+
+[node name="grassEdgeFront" parent="." instance=ExtResource("3_sreuk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2494617, 0.77374995, -0.9062798)
