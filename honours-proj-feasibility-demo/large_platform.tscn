@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://dc7pypn0lqn8b"]
+
+[ext_resource type="PackedScene" uid="uid://cwh86qiadegpl" path="res://glb/large_grass_block.tscn" id="1_sgtm8"]
+
+[node name="large_platform" type="Node3D"]
+
+[node name="largeGrassBlock" parent="." instance=ExtResource("1_sgtm8")]
+
+[node name="largeGrassBlock2" parent="." instance=ExtResource("1_sgtm8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+
+[node name="largeGrassBlock3" parent="." instance=ExtResource("1_sgtm8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+
+[node name="largeGrassBlock4" parent="." instance=ExtResource("1_sgtm8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
+
+[node name="largeGrassBlock5" parent="." instance=ExtResource("1_sgtm8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+
+[node name="largeGrassBlock6" parent="." instance=ExtResource("1_sgtm8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
+
+[node name="largeGrassBlock7" parent="." instance=ExtResource("1_sgtm8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="largeGrassBlock8" parent="." instance=ExtResource("1_sgtm8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
+
+[node name="largeGrassBlock9" parent="." instance=ExtResource("1_sgtm8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)

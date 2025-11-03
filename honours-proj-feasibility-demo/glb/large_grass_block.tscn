@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://cwh86qiadegpl"]
+
+[ext_resource type="PackedScene" uid="uid://dryea61gais4q" path="res://Level parts/flat_grass_block.tscn" id="1_eoc3a"]
+
+[node name="largeGrassBlock" type="Node3D"]
+
+[node name="flatGrassBlock" parent="." instance=ExtResource("1_eoc3a")]
+
+[node name="flatGrassBlock2" parent="." instance=ExtResource("1_eoc3a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="flatGrassBlock3" parent="." instance=ExtResource("1_eoc3a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+
+[node name="flatGrassBlock4" parent="." instance=ExtResource("1_eoc3a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="flatGrassBlock5" parent="." instance=ExtResource("1_eoc3a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="flatGrassBlock6" parent="." instance=ExtResource("1_eoc3a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1)
+
+[node name="flatGrassBlock7" parent="." instance=ExtResource("1_eoc3a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1)
+
+[node name="flatGrassBlock8" parent="." instance=ExtResource("1_eoc3a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1)
+
+[node name="flatGrassBlock9" parent="." instance=ExtResource("1_eoc3a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -1)

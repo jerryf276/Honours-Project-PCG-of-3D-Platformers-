@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ck0ed7lyk1y3h"]
+
+[ext_resource type="PackedScene" uid="uid://cwh86qiadegpl" path="res://glb/large_grass_block.tscn" id="1_xkkb2"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="largeGrassBlock" parent="." instance=ExtResource("1_xkkb2")]
