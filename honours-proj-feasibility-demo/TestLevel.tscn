@@ -1,6 +1,15 @@
-[gd_scene load_steps=2 format=3 uid="uid://dkab7dx5puo8n"]
+[gd_scene load_steps=3 format=3 uid="uid://dkab7dx5puo8n"]
 
 [ext_resource type="Script" uid="uid://dsvpgqtkelfai" path="res://TestLevel.cs" id="1_y1jsw"]
 
+[sub_resource type="BoxMesh" id="BoxMesh_y1jsw"]
+
 [node name="TestLevel" type="Node3D"]
 script = ExtResource("1_y1jsw")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(-0.99844563, -0.01868428, 0.052509245, 0.013786137, 0.8300633, 0.55749875, -0.05400246, 0.5573561, -0.82851547, 0, 7.7508736, -6.68996)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, -2.7850893)
+mesh = SubResource("BoxMesh_y1jsw")

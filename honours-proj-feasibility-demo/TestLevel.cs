@@ -15,7 +15,8 @@ enum Direction {POSITIVE_X, NEGATIVE_X, POSITIVE_Z, NEGATIVE_Z};
 public partial class TestLevel : Node3D
 {
     //Current position so that we can translate the platform when spawning it
-    Vector3 currentPosition = new Vector3(0, 0, 0);
+    Vector3 currentPosition;
+    bool levelSpawned = false;
     private struct LevelComponent
     {
         public ActionStates action;
@@ -36,18 +37,28 @@ public partial class TestLevel : Node3D
     }
     public override void _Ready()
     {
+        currentPosition = new Vector3(0, 0, 0);
+      
+    }
 
-        List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP, ActionStates.TURN_LEFT, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP };
+    public override void _Process(double delta)
+    {
+        //Ideally, each spawn we could change the actions.
 
-        //int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
-        SortedDictionary<int, Lengths> actionSizes = new SortedDictionary<int, Lengths> { };
-        
-        //Do we change the name of this variable to levelPart instead?
-        //A part of a level would have many components
-        List<LevelComponent> levelComponents = new List<LevelComponent> { };
+        if (!levelSpawned)
+        {
+            //Do logic in here if _Ready doesn't work (very likely btw)
+            List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK};
 
-        //    levelStates.Add(ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.WALK);
-        for (int i = 0; i < actionsToAdd.Count; ++i)
+            //int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
+            SortedDictionary<int, Lengths> actionSizes = new SortedDictionary<int, Lengths> { };
+
+            //Do we change the name of this variable to levelPart instead?
+            //A part of a level would have many components
+            List<LevelComponent> levelComponents = new List<LevelComponent> { };
+
+            //    levelStates.Add(ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.WALK);
+            for (int i = 0; i < actionsToAdd.Count; ++i)
             {
                 if (actionsToAdd[i] == ActionStates.WALK || actionsToAdd[i] == ActionStates.JUMP)
                 {
@@ -56,18 +67,18 @@ public partial class TestLevel : Node3D
 
                     switch (rng)
                     {
-                    case 1:
-                        //Adds short platform or makes the jump length small
-                        levelComponents.Add(new LevelComponent(actionsToAdd[i], Lengths.SHORT));
-                        break;
-                    case 2:
-                        //Adds medium platform or makes the jump length medium
-                        levelComponents.Add(new LevelComponent(actionsToAdd[i], Lengths.MEDIUM));
-                        break;
-                    case 3:
-                        //Adds long platform or makes the jump length long
-                        levelComponents.Add(new LevelComponent(actionsToAdd[i], Lengths.LONG));
-                        break;
+                        case 1:
+                            //Adds short platform or makes the jump length small
+                            levelComponents.Add(new LevelComponent(actionsToAdd[i], Lengths.SHORT));
+                            break;
+                        case 2:
+                            //Adds medium platform or makes the jump length medium
+                            levelComponents.Add(new LevelComponent(actionsToAdd[i], Lengths.MEDIUM));
+                            break;
+                        case 3:
+                            //Adds long platform or makes the jump length long
+                            levelComponents.Add(new LevelComponent(actionsToAdd[i], Lengths.LONG));
+                            break;
                     }
 
                 }
@@ -76,28 +87,27 @@ public partial class TestLevel : Node3D
                     //Adds turning direction to the section of the level
                     levelComponents.Add(new LevelComponent(actionsToAdd[i], Lengths.NONE));
                 }
-              
-            }
-        GenerateLevel(levelComponents);
-    }
 
-    public override void _Process(double delta)
-    {
-        //Do logic in here if _Ready doesn't work (very likely btw)
+            }
+            GenerateLevel(levelComponents);
+            levelSpawned = true;
+        }
     }
 
     private void GenerateLevel(List<LevelComponent> componentsToAdd)
     {
-        //Default direction is +ve z
-        Direction direction = Direction.POSITIVE_Z;
+        //Default direction is +ve x
+        Direction direction = Direction.POSITIVE_X;
 
         //How long the jump is
         //Index 0 - short, Index 1 - medium, index 2 - long
+
+        //List<float> jumpGaps = new List<float> { 3.0f, 6.0f, 9.0f };
         List<float> jumpGaps = new List<float> { 3.0f, 6.0f, 9.0f };
 
         //Float since the platform size could not be a whole number
         //Index 0 - short, Index 1 - medium, index 2 - long
-        List<float> platformSizes = new List<float> { 3.0f, 6.0f, 9.0f };
+        List<float> platformSizes = new List<float> { 6.0f, 9.0f, 12.0f };
 
       for (int i = 0; i < componentsToAdd.Count; ++i)
         {
@@ -125,27 +135,32 @@ public partial class TestLevel : Node3D
     void SpawnPlatform(Lengths platformLength, Direction currentDirection, List<float> platSizes)
     {
         float numberToAdd = 0;
+        var platform = ResourceLoader.Load<PackedScene>("");
+
         switch (platformLength)
         {
             case Lengths.SHORT:
                 //Do packed scene thing here
-                //Translate it by currentPosition.
+                platform = ResourceLoader.Load<PackedScene>("res://small_platform.tscn");
                 numberToAdd = platSizes[0];
-                //Add onto currentPosition.
                 break;
             case Lengths.MEDIUM:
                 //Do packed scene thing here
-                //Translate it by currentPosition.
+                platform = ResourceLoader.Load<PackedScene>("res://medium_platform.tscn");
                 numberToAdd = platSizes[1];
-                //Add onto currentPosition.
                 break;
             case Lengths.LONG:
                 //Do packed scene thing here
-                //Translate it by currentPosition.
+                platform = ResourceLoader.Load<PackedScene>("res://large_platform.tscn");
                 numberToAdd = platSizes[2];
-                //Add onto currentPosition.
                 break;
         }
+
+        Node3D newPlatform = platform.Instantiate<Node3D>();
+        //Translate it by currentPosition.
+        newPlatform.Position = currentPosition;
+        GD.Print(newPlatform.Position);
+        GetTree().Root.AddChild(newPlatform);
 
         switch (currentDirection)
         {
@@ -162,6 +177,8 @@ public partial class TestLevel : Node3D
                 currentPosition += new Vector3(0, 0, -numberToAdd);
                 break;
         }
+
+
      
     }
 

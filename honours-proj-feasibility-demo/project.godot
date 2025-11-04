@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="Honours Proj Feasibility Demo"
+run/main_scene="uid://dkab7dx5puo8n"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 
 [dotnet]
 
