@@ -14,7 +14,8 @@ enum Direction {POSITIVE_X, NEGATIVE_X, POSITIVE_Z, NEGATIVE_Z};
 //short - small platform, medium - medium platform, long - large platform
 public partial class TestLevel : Node3D
 {
-    
+    //Current position so that we can translate the platform when spawning it
+    Vector3 currentPosition = new Vector3(0, 0, 0);
     private struct LevelComponent
     {
         public ActionStates action;
@@ -35,6 +36,7 @@ public partial class TestLevel : Node3D
     }
     public override void _Ready()
     {
+
         List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP, ActionStates.TURN_LEFT, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP };
 
         //int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
@@ -90,56 +92,29 @@ public partial class TestLevel : Node3D
         Direction direction = Direction.POSITIVE_Z;
 
         //How long the jump is
-        float longGap = 3.0f;
-        float mediumGap = 2.0f;
-        float shortGap = 1.0f;
-
+        //Index 0 - short, Index 1 - medium, index 2 - long
+        List<float> jumpGaps = new List<float> { 3.0f, 6.0f, 9.0f };
 
         //Float since the platform size could not be a whole number
-        float largePlatformSize = 9.0f;
-        float mediumPlatformSize = 6.0f;
-        float smallPlatformSize = 3.0f;
-
-
-        //Current position so that we can translate the platform when spawning it
-        Vector3 currentPosition = new Vector3(0, 0, 0);
+        //Index 0 - short, Index 1 - medium, index 2 - long
+        List<float> platformSizes = new List<float> { 3.0f, 6.0f, 9.0f };
 
       for (int i = 0; i < componentsToAdd.Count; ++i)
         {
             if (componentsToAdd[i].action == ActionStates.WALK)
             {
-                //TODO: Make this into a function?
-                switch (componentsToAdd[i].lengthOfComponent)
-                {
-                    case Lengths.SHORT:
-                        break;
-                    case Lengths.MEDIUM:
-                        break;
-                    case Lengths.LONG:
-                        break;
-
-                }
-
-                
+                //Spawns a platform
+                SpawnPlatform(componentsToAdd[i].lengthOfComponent, direction, platformSizes);
             }
 
             else if (componentsToAdd[i].action == ActionStates.JUMP)
             {
-                //TODO: Make this into a function
-                switch (componentsToAdd[i].lengthOfComponent)
-                {
-                    case Lengths.SHORT:
-                        break;
-                    case Lengths.MEDIUM:
-                        break;
-                    case Lengths.LONG:
-                        break;
-
-                }
+                AddJumpSpace(componentsToAdd[i].lengthOfComponent, direction, jumpGaps);
             }
 
             else if (componentsToAdd[i].action == ActionStates.TURN_LEFT || componentsToAdd[i].action == ActionStates.TURN_RIGHT)
             {
+                //Changing the direction
                 direction = ChangeDirection(direction, componentsToAdd[i].action);
             }
  
@@ -147,10 +122,84 @@ public partial class TestLevel : Node3D
 
     }
 
-    private Vector3 UpdateCurrentPosition() 
+    void SpawnPlatform(Lengths platformLength, Direction currentDirection, List<float> platSizes)
     {
-        return new Vector3();
+        float numberToAdd = 0;
+        switch (platformLength)
+        {
+            case Lengths.SHORT:
+                //Do packed scene thing here
+                //Translate it by currentPosition.
+                numberToAdd = platSizes[0];
+                //Add onto currentPosition.
+                break;
+            case Lengths.MEDIUM:
+                //Do packed scene thing here
+                //Translate it by currentPosition.
+                numberToAdd = platSizes[1];
+                //Add onto currentPosition.
+                break;
+            case Lengths.LONG:
+                //Do packed scene thing here
+                //Translate it by currentPosition.
+                numberToAdd = platSizes[2];
+                //Add onto currentPosition.
+                break;
+        }
+
+        switch (currentDirection)
+        {
+            case Direction.POSITIVE_X:
+                currentPosition += new Vector3(numberToAdd, 0, 0);
+                break;
+            case Direction.NEGATIVE_X:
+                currentPosition += new Vector3(-numberToAdd, 0, 0);
+                break;
+            case Direction.POSITIVE_Z:
+                currentPosition += new Vector3(0, 0, numberToAdd);
+                break;
+            case Direction.NEGATIVE_Z:
+                currentPosition += new Vector3(0, 0, -numberToAdd);
+                break;
+        }
+     
     }
+
+    void AddJumpSpace(Lengths jumpLength, Direction currentDirection, List<float> jumpSizes)
+    {
+        //TO DO: See if you could maybe combine this and the spawn platform functions? (to avoid repetition)
+        float numberToAdd = 0;
+
+        switch (jumpLength)
+        {
+            case Lengths.SHORT:
+                numberToAdd = jumpSizes[0];
+                break;
+            case Lengths.MEDIUM:
+                numberToAdd = jumpSizes[0];
+                break;
+            case Lengths.LONG:
+                numberToAdd = jumpSizes[0];
+                break;
+        }
+
+        switch (currentDirection) 
+        {
+            case Direction.POSITIVE_X:
+                currentPosition += new Vector3(numberToAdd, 0, 0);
+                break;
+            case Direction.NEGATIVE_X:
+                currentPosition += new Vector3(-numberToAdd, 0, 0);
+                break;
+            case Direction.POSITIVE_Z:
+                currentPosition += new Vector3(0, 0, numberToAdd);
+                break;
+            case Direction.NEGATIVE_Z:
+                currentPosition += new Vector3(0, 0, -numberToAdd);
+                break;
+        }
+    }
+
     private Direction ChangeDirection(Direction currentDirection, ActionStates currentActionState)
     {
         switch (currentDirection)
