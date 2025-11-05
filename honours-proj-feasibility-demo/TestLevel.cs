@@ -17,6 +17,9 @@ public partial class TestLevel : Node3D
     //Current position so that we can translate the platform when spawning it
     Vector3 currentPosition;
     bool levelSpawned = false;
+
+    //Number to add based on space of a platform or jump
+    float numberToAdd = 0;
     private struct LevelComponent
     {
         public ActionStates action;
@@ -37,7 +40,7 @@ public partial class TestLevel : Node3D
     }
     public override void _Ready()
     {
-        currentPosition = new Vector3(0, 0, 0);
+        currentPosition = new Vector3(10, 0, 5);
       
     }
 
@@ -103,7 +106,7 @@ public partial class TestLevel : Node3D
         //Index 0 - short, Index 1 - medium, index 2 - long
 
         //List<float> jumpGaps = new List<float> { 3.0f, 6.0f, 9.0f };
-        List<float> jumpGaps = new List<float> { 3.0f, 6.0f, 9.0f };
+        List<float> jumpGaps = new List<float> { 1.5f, 3.0f, 6.0f };
 
         //Float since the platform size could not be a whole number
         //Index 0 - short, Index 1 - medium, index 2 - long
@@ -115,6 +118,16 @@ public partial class TestLevel : Node3D
             {
                 //Spawns a platform
                 SpawnPlatform(componentsToAdd[i].lengthOfComponent, direction, platformSizes);
+
+                //To prevent array errors when checking if the next element is turning left or right
+                if (componentsToAdd.Count > (i + 2)) {
+                    if (componentsToAdd[i + 1].action == ActionStates.TURN_LEFT || componentsToAdd[i + 1].action == ActionStates.TURN_RIGHT)
+                    {
+                        //GD.Print("Direction changed!");
+                        direction = ChangeDirection(direction, componentsToAdd[i + 1].action);
+                    }
+                    AddCurrentPosition(direction);
+                }
             }
 
             else if (componentsToAdd[i].action == ActionStates.JUMP)
@@ -122,11 +135,11 @@ public partial class TestLevel : Node3D
                 AddJumpSpace(componentsToAdd[i].lengthOfComponent, direction, jumpGaps);
             }
 
-            else if (componentsToAdd[i].action == ActionStates.TURN_LEFT || componentsToAdd[i].action == ActionStates.TURN_RIGHT)
-            {
-                //Changing the direction
-                direction = ChangeDirection(direction, componentsToAdd[i].action);
-            }
+            //else if (componentsToAdd[i].action == ActionStates.TURN_LEFT || componentsToAdd[i].action == ActionStates.TURN_RIGHT)
+            //{
+            //    //Changing the direction
+            //    direction = ChangeDirection(direction, componentsToAdd[i].action);
+            //}
  
         }
 
@@ -134,7 +147,6 @@ public partial class TestLevel : Node3D
 
     void SpawnPlatform(Lengths platformLength, Direction currentDirection, List<float> platSizes)
     {
-        float numberToAdd = 0;
         var platform = ResourceLoader.Load<PackedScene>("");
 
         switch (platformLength)
@@ -161,7 +173,10 @@ public partial class TestLevel : Node3D
         newPlatform.Position = currentPosition;
         GD.Print(newPlatform.Position);
         GetTree().Root.AddChild(newPlatform);
+    }
 
+    void AddCurrentPosition(Direction currentDirection)
+    {
         switch (currentDirection)
         {
             case Direction.POSITIVE_X:
@@ -177,9 +192,6 @@ public partial class TestLevel : Node3D
                 currentPosition += new Vector3(0, 0, -numberToAdd);
                 break;
         }
-
-
-     
     }
 
     void AddJumpSpace(Lengths jumpLength, Direction currentDirection, List<float> jumpSizes)
