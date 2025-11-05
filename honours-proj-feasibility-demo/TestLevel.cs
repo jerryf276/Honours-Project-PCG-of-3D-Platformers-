@@ -158,7 +158,7 @@ public partial class TestLevel : Node3D
                 break;
             case Lengths.MEDIUM:
                 //Do packed scene thing here
-                platform = ResourceLoader.Load<PackedScene>("res://medium_platform.tscn");
+                platform = ResourceLoader.Load<PackedScene>("res://medium_platform2.tscn");
                 numberToAdd = platSizes[1];
                 break;
             case Lengths.LONG:
