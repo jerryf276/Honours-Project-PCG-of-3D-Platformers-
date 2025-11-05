@@ -263,26 +263,26 @@ public partial class TestLevel : Node3D
                 if (currentActionState == ActionStates.TURN_LEFT)
                 {
                     //Changes axis and flips sign
-                    currentDirection = Direction.NEGATIVE_X;
+                    currentDirection = Direction.POSITIVE_X;
                 }
 
                 else
                 {
                     //Changes axis
-                    currentDirection = Direction.POSITIVE_X;
+                    currentDirection = Direction.NEGATIVE_X;
                 }
                 break;
             case Direction.NEGATIVE_Z:
                 if (currentActionState == ActionStates.TURN_LEFT)
                 {
                     //Changes axis and flips sign
-                    currentDirection = Direction.POSITIVE_X;
+                    currentDirection = Direction.NEGATIVE_X;
                 }
 
                 else
                 {
                     //Changes axis
-                    currentDirection = Direction.NEGATIVE_X;
+                    currentDirection = Direction.POSITIVE_X;
                 }
                 break;
         }
