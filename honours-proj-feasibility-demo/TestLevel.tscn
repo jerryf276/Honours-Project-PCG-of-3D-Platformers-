@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dkab7dx5puo8n"]
+[gd_scene load_steps=5 format=3 uid="uid://dkab7dx5puo8n"]
 
 [ext_resource type="Script" uid="uid://dsvpgqtkelfai" path="res://TestLevel.cs" id="1_y1jsw"]
+[ext_resource type="PackedScene" uid="uid://dc7pypn0lqn8b" path="res://large_platform.tscn" id="2_1kog2"]
+[ext_resource type="PackedScene" uid="uid://cxes12brrfp3u" path="res://player.tscn" id="3_2xot7"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_y1jsw"]
 
@@ -8,8 +10,14 @@
 script = ExtResource("1_y1jsw")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.007071808, 0.70157224, -0.7125634, -0.017215246, 0.71239007, 0.7015725, 0.99982685, 0.017228194, 0.0070398226, -2.910247, 9.096527, -0.045366824)
+transform = Transform3D(-0.007071808, 0.70157224, -0.7125633, -0.017215246, 0.71239007, 0.7015726, 0.99982685, 0.017228339, 0.007039853, -2.910247, 15.704952, -4.119945)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, -2.7850893)
 mesh = SubResource("BoxMesh_y1jsw")
+
+[node name="large_platform" parent="." instance=ExtResource("2_1kog2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -17.580292)
+
+[node name="Player" parent="." instance=ExtResource("3_2xot7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -18.714)
