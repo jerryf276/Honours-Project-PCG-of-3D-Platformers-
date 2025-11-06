@@ -3,24 +3,29 @@ using System;
 
 public partial class Player : RigidBody3D
 {
+	private float mouseSensitivity = 0.001f;
+	private float twistInput = 0.0f;
+	private float pitchInput = 0.0f;
+	private float playerSpeed = 1200.0f;
+	//Change nodes to private and see if it still works?
+	public Node3D twistPivot;
+	public Node3D pitchPivot;
+    Vector3 input;
 
-	float mouseSensitivity = 0.001f;
-	float twistInput = 0.0f;
-	float pitchInput = 0.0f;
-	float playerSpeed = 1200.0f;
-	Node3D twistPivot;
-	Node3D pitchPivot;
-
-	public override void _Ready()
+    public override void _Ready()
 	{
 		Input.MouseMode = Input.MouseModeEnum.Captured;
 		twistPivot = GetNode<Node3D>("TwistPivot");
 		pitchPivot = GetNode<Node3D>("TwistPivot/PitchPivot");
-	}
+    //    fallGravity = 0;
+        input = Vector3.Zero;
+    }
 
 	public override void _Process(double delta)
 	{
-		Vector3 input = Vector3.Zero;
+		input.X = 0;
+		input.Z = 0;
+		//input = Vector3.Zero;
 		input.X = Input.GetAxis("move_left", "move_right");
 		input.Z = Input.GetAxis("move_forward", "move_backward");
 
@@ -39,7 +44,6 @@ public partial class Player : RigidBody3D
 
 		twistInput = 0.0f;
 		pitchInput = 0.0f;
-		//41:14 in reference youtube video
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
