@@ -24,7 +24,7 @@ public partial class Player : RigidBody3D
 		input.X = Input.GetAxis("move_left", "move_right");
 		input.Z = Input.GetAxis("move_forward", "move_backward");
 
-		ApplyCentralForce(input * playerSpeed * (float)delta);
+		ApplyCentralForce(twistPivot.Basis * input * playerSpeed * (float)delta);
 
 		if (Input.IsActionJustPressed("cancel"))
 		{
@@ -34,7 +34,7 @@ public partial class Player : RigidBody3D
 		twistPivot.RotateY(twistInput);
 		pitchPivot.RotateX(pitchInput);
 		var rotation = pitchPivot.Rotation;
-		rotation.X = (float)Mathf.Clamp(pitchPivot.Rotation.X, -0.5, 0.5);
+		rotation.X = (float)Mathf.Clamp(pitchPivot.Rotation.X, Mathf.DegToRad(-30), Mathf.DegToRad(30));
 		pitchPivot.Rotation = rotation;
 
 		twistInput = 0.0f;
