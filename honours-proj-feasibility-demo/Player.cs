@@ -13,6 +13,10 @@ public partial class Player : RigidBody3D
     Vector3 input;
 	RayCast3D rayCast;
 
+	//Used for jumping and falling
+	[Export] private float airGravity = 2.5f;
+	[Export] private float floorGravity = 0.0f;
+
 
     public override void _Ready()
 	{
@@ -26,9 +30,9 @@ public partial class Player : RigidBody3D
 
 	public override void _Process(double delta)
 	{
-		input.X = 0;
-		input.Z = 0;
-		//input = Vector3.Zero;
+	//	input.X = 0;
+		//input.Z = 0;
+		input = Vector3.Zero;
 		input.X = Input.GetAxis("move_left", "move_right");
 		input.Z = Input.GetAxis("move_forward", "move_backward");
 
@@ -46,16 +50,16 @@ public partial class Player : RigidBody3D
 		
 		if (!rayCast.IsColliding())
 		{
-			if (GravityScale != 2.5f)
+			if (GravityScale != airGravity)
 			{
-				GravityScale = 2.5f;
+				GravityScale = airGravity;
 			}
 		}
 		else
 		{
-			if (GravityScale != 0.0f)
+			if (GravityScale != floorGravity)
 			{
-				GravityScale = 0.0f;
+				GravityScale = floorGravity;
 			}
 		}
 
