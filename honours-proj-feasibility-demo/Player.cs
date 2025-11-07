@@ -11,6 +11,8 @@ public partial class Player : RigidBody3D
 	public Node3D twistPivot;
 	public Node3D pitchPivot;
     Vector3 input;
+	RayCast3D rayCast;
+
 
     public override void _Ready()
 	{
@@ -19,6 +21,7 @@ public partial class Player : RigidBody3D
 		pitchPivot = GetNode<Node3D>("TwistPivot/PitchPivot");
     //    fallGravity = 0;
         input = Vector3.Zero;
+		rayCast = GetNode<RayCast3D>("CollisionShape3D/RayCast3D");
     }
 
 	public override void _Process(double delta)
@@ -34,6 +37,26 @@ public partial class Player : RigidBody3D
 		if (Input.IsActionJustPressed("cancel"))
 		{
 			Input.MouseMode = Input.MouseModeEnum.Visible;
+		}
+
+		if (Input.IsActionJustPressed("jump") && rayCast.IsColliding())
+		{
+			ApplyCentralImpulse(new Vector3(0, 20, 0));
+		}
+		
+		if (!rayCast.IsColliding())
+		{
+			if (GravityScale != 2.5f)
+			{
+				GravityScale = 2.5f;
+			}
+		}
+		else
+		{
+			if (GravityScale != 0.0f)
+			{
+				GravityScale = 0.0f;
+			}
 		}
 
 		twistPivot.RotateY(twistInput);

@@ -21,6 +21,9 @@ mesh = SubResource("CapsuleMesh_4flbx")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_sh265")
 
+[node name="RayCast3D" type="RayCast3D" parent="CollisionShape3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+
 [node name="TwistPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
@@ -29,6 +32,3 @@ transform = Transform3D(1, 0, 0, 0, 0.9848077, 0.17364818, 0, -0.17364818, 0.984
 
 [node name="Camera3D" type="Camera3D" parent="TwistPivot/PitchPivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
-
-[node name="RayCast3D" type="RayCast3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
