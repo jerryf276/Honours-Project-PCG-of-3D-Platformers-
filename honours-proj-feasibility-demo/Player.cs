@@ -6,7 +6,7 @@ public partial class Player : RigidBody3D
 	private float mouseSensitivity = 0.001f;
 	private float twistInput = 0.0f;
 	private float pitchInput = 0.0f;
-	private float playerSpeed = 1200.0f;
+	private float playerSpeed = 1000.0f;
 	//Change nodes to private and see if it still works?
 	public Node3D twistPivot;
 	public Node3D pitchPivot;
@@ -46,6 +46,16 @@ public partial class Player : RigidBody3D
 		if (Input.IsActionJustPressed("jump") && rayCast.IsColliding())
 		{
 			ApplyCentralImpulse(new Vector3(0, 20, 0));
+		}
+
+		//if (Input.IsActionPressed(""))
+		if (Input.IsActionPressed("run") && playerSpeed != 2000.0f)
+		{
+			playerSpeed = 2000.0f;
+		}
+		else if (!Input.IsActionPressed("run") && playerSpeed != 1000.0f)
+		{
+			playerSpeed = 1000.0f;
 		}
 		
 		if (!rayCast.IsColliding())
