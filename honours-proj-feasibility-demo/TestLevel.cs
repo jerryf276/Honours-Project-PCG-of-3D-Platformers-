@@ -54,6 +54,7 @@ public partial class TestLevel : Node3D
 		if (!levelSpawned)
 		{
 			//Do logic in here if _Ready doesn't work (very likely btw)
+			//TO DO: Make actionsToAdd based on some kind of randomness, not completely since jumps have to be after a platform/direction change
 			List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
 
 			//int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long

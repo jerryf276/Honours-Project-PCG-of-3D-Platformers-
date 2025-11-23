@@ -45,7 +45,7 @@ public partial class Player : RigidBody3D
 
 		if (Input.IsActionJustPressed("jump") && rayCast.IsColliding())
 		{
-			ApplyCentralImpulse(new Vector3(0, 20, 0));
+			ApplyCentralImpulse(new Vector3(0, 30, 0));
 		}
 
 		//if (Input.IsActionPressed(""))
