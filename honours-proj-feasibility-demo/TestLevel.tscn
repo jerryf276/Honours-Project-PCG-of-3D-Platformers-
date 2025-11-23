@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dkab7dx5puo8n"]
+[gd_scene load_steps=8 format=3 uid="uid://dkab7dx5puo8n"]
 
 [ext_resource type="Script" uid="uid://dsvpgqtkelfai" path="res://TestLevel.cs" id="1_y1jsw"]
 [ext_resource type="PackedScene" uid="uid://dc7pypn0lqn8b" path="res://large_platform.tscn" id="2_1kog2"]
@@ -6,18 +6,31 @@
 
 [sub_resource type="BoxMesh" id="BoxMesh_y1jsw"]
 
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2xot7"]
+sky_top_color = Color(0, 0.45490196, 0.54901963, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_2xot7"]
+sky_material = SubResource("ProceduralSkyMaterial_2xot7")
+process_mode = 3
+
 [sub_resource type="Environment" id="Environment_2xot7"]
+background_mode = 2
+background_color = Color(0.27450982, 1, 1, 1)
+background_energy_multiplier = 1.72
+sky = SubResource("Sky_2xot7")
+sky_custom_fov = 71.6
 tonemap_mode = 2
 tonemap_exposure = 0.7
 tonemap_white = 1.04
-ssao_enabled = true
 ssil_enabled = true
 ssil_sharpness = 1.0
 sdfgi_enabled = true
-volumetric_fog_enabled = true
 volumetric_fog_emission = Color(0.2, 0.7137255, 0.95686275, 1)
 volumetric_fog_anisotropy = 0.9
-volumetric_fog_detail_spread = 2.1213214
+volumetric_fog_length = 54.04
+volumetric_fog_detail_spread = 0.5
+volumetric_fog_ambient_inject = 1.0
 
 [node name="TestLevel" type="Node3D"]
 script = ExtResource("1_y1jsw")
