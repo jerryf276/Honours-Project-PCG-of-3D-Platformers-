@@ -10,6 +10,7 @@ enum Lengths {SHORT, MEDIUM, LONG, NONE};
 enum Direction {POSITIVE_X, NEGATIVE_X, POSITIVE_Z, NEGATIVE_Z};
 
 
+//We might use this enum for the level grammar
 enum PlatformYPosition { ASCENDING, NEUTRAL, DESCENDING};
 //Player will either jump up, jump only forwards, or jump down.
 
@@ -53,7 +54,7 @@ public partial class TestLevel : Node3D
 		if (!levelSpawned)
 		{
 			//Do logic in here if _Ready doesn't work (very likely btw)
-			List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK};
+			List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
 
 			//int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
 			SortedDictionary<int, Lengths> actionSizes = new SortedDictionary<int, Lengths> { };
@@ -111,6 +112,9 @@ public partial class TestLevel : Node3D
 		//How long the jump is
 		//Index 0 - short, Index 1 - medium, index 2 - long
 
+
+		List<float> jumpHeight = new List<float> { 3.0f, 6.0f, 9.0f };
+
 		//List<float> jumpGaps = new List<float> { 3.0f, 6.0f, 9.0f };
 		List<float> jumpGaps = new List<float> { 1.5f, 3.0f, 6.0f };
 
@@ -138,7 +142,7 @@ public partial class TestLevel : Node3D
 
 			else if (componentsToAdd[i].action == ActionStates.JUMP)
 			{
-				AddJumpSpace(componentsToAdd[i].lengthOfComponent, direction, jumpGaps);
+				AddJumpSpace(componentsToAdd[i].lengthOfComponent, direction, jumpGaps, jumpHeight);
 			}
 
 			//else if (componentsToAdd[i].action == ActionStates.TURN_LEFT || componentsToAdd[i].action == ActionStates.TURN_RIGHT)
@@ -200,12 +204,29 @@ public partial class TestLevel : Node3D
 		}
 	}
 
-	void AddJumpSpace(Lengths jumpLength, Direction currentDirection, List<float> jumpSizes)
+	void AddJumpSpace(Lengths jumpLength, Direction currentDirection, List<float> jumpSizes, List<float> jumpHeight)
 	{
 		//TO DO: See if you could maybe combine this and the spawn platform functions? (to avoid repetition)
 		float numberToAdd = 0;
 
-		switch (jumpLength)
+		//for now we'll do a probability of 1/3 for deciding if the player ascends up, down, or does not.
+        uint rng = 1 + GD.Randi() % 3;
+
+		float yPosition = 0.0f;
+
+		switch (rng)
+		{
+			case 1:
+				yPosition = 2.0f;
+				break;
+			case 2:
+				yPosition = -2.0f;
+				break;
+			default:
+				break;
+		}
+
+        switch (jumpLength)
 		{
 			case Lengths.SHORT:
 				numberToAdd = jumpSizes[0];
@@ -221,16 +242,16 @@ public partial class TestLevel : Node3D
 		switch (currentDirection) 
 		{
 			case Direction.POSITIVE_X:
-				currentPosition += new Vector3(numberToAdd, 0, 0);
+				currentPosition += new Vector3(numberToAdd, yPosition, 0);
 				break;
 			case Direction.NEGATIVE_X:
-				currentPosition += new Vector3(-numberToAdd, 0, 0);
+				currentPosition += new Vector3(-numberToAdd, yPosition, 0);
 				break;
 			case Direction.POSITIVE_Z:
-				currentPosition += new Vector3(0, 0, numberToAdd);
+				currentPosition += new Vector3(0, yPosition, numberToAdd);
 				break;
 			case Direction.NEGATIVE_Z:
-				currentPosition += new Vector3(0, 0, -numberToAdd);
+				currentPosition += new Vector3(0, yPosition, -numberToAdd);
 				break;
 		}
 	}
