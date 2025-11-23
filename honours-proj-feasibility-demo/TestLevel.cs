@@ -23,6 +23,10 @@ public partial class TestLevel : Node3D
 
 	//Number to add based on space of a platform or jump
 	float numberToAdd = 0;
+
+
+	[Export] int sectionSize = 20;
+
 	private struct LevelComponent
 	{
 		public ActionStates action;
@@ -43,7 +47,7 @@ public partial class TestLevel : Node3D
 	}
 	public override void _Ready()
 	{
-		currentPosition = new Vector3(10, 0, 5);
+		currentPosition = new Vector3(0, 0, 0);
 	  
 	}
 
@@ -53,9 +57,34 @@ public partial class TestLevel : Node3D
 
 		if (!levelSpawned)
 		{
+			List<ActionStates> actionsToAdd = new List<ActionStates> { };
+
+            for (int i = 0; i < sectionSize; ++i)
+			{
+				//1 - true, 0 - false
+				uint directionChange = GD.Randi() % 2;
+				if (directionChange == 1) 
+					{
+					//0 - left, 1 - right
+						uint direction = GD.Randi() % 2;
+						if (direction == 0)
+						{
+							//actionsToAdd.AddRange(ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP);
+							actionsToAdd.AddRange(new List<ActionStates> {ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP});
+						}
+						else
+						{
+							actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP });
+						}
+					}
+				else
+				{
+                    actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
+                }
+            }
 			//Do logic in here if _Ready doesn't work (very likely btw)
 			//TO DO: Make actionsToAdd based on some kind of randomness, not completely since jumps have to be after a platform/direction change
-			List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
+			//List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
 
 			//int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
 			SortedDictionary<int, Lengths> actionSizes = new SortedDictionary<int, Lengths> { };

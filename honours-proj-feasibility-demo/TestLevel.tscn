@@ -34,6 +34,7 @@ volumetric_fog_ambient_inject = 1.0
 
 [node name="TestLevel" type="Node3D"]
 script = ExtResource("1_y1jsw")
+sectionSize = 50
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, -2.7850893)
