@@ -1,10 +1,23 @@
-[gd_scene load_steps=5 format=3 uid="uid://dkab7dx5puo8n"]
+[gd_scene load_steps=6 format=3 uid="uid://dkab7dx5puo8n"]
 
 [ext_resource type="Script" uid="uid://dsvpgqtkelfai" path="res://TestLevel.cs" id="1_y1jsw"]
 [ext_resource type="PackedScene" uid="uid://dc7pypn0lqn8b" path="res://large_platform.tscn" id="2_1kog2"]
 [ext_resource type="PackedScene" uid="uid://cxes12brrfp3u" path="res://player.tscn" id="3_2xot7"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_y1jsw"]
+
+[sub_resource type="Environment" id="Environment_2xot7"]
+tonemap_mode = 2
+tonemap_exposure = 0.7
+tonemap_white = 1.04
+ssao_enabled = true
+ssil_enabled = true
+ssil_sharpness = 1.0
+sdfgi_enabled = true
+volumetric_fog_enabled = true
+volumetric_fog_emission = Color(0.2, 0.7137255, 0.95686275, 1)
+volumetric_fog_anisotropy = 0.9
+volumetric_fog_detail_spread = 2.1213214
 
 [node name="TestLevel" type="Node3D"]
 script = ExtResource("1_y1jsw")
@@ -20,3 +33,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -17.580292)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -18.714)
 top_level = true
 linear_damp = 3.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.009075612, 0.9999589, 0, -0.9999589, -0.009075612, 0, 15.500971, -5.8425317)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_2xot7")

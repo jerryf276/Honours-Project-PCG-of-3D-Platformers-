@@ -10,6 +10,8 @@ enum Lengths {SHORT, MEDIUM, LONG, NONE};
 enum Direction {POSITIVE_X, NEGATIVE_X, POSITIVE_Z, NEGATIVE_Z};
 
 
+enum PlatformYPosition { ASCENDING, NEUTRAL, DESCENDING};
+//Player will either jump up, jump only forwards, or jump down.
 
 //short - small platform, medium - medium platform, long - large platform
 public partial class TestLevel : Node3D
@@ -102,6 +104,10 @@ public partial class TestLevel : Node3D
 		//Default direction is +ve x
 		Direction direction = Direction.POSITIVE_X;
 
+		//Default y position of platform will be neutral (in this case platform y position will be same as starting y position if first platform,
+		//or same y position as last platform generated
+		PlatformYPosition platformYPosition = PlatformYPosition.NEUTRAL;
+
 		//How long the jump is
 		//Index 0 - short, Index 1 - medium, index 2 - long
 
@@ -152,17 +158,17 @@ public partial class TestLevel : Node3D
 		switch (platformLength)
 		{
 			case Lengths.SHORT:
-				//Do packed scene thing here
+				//Loads short platform
 				platform = ResourceLoader.Load<PackedScene>("res://small_platform.tscn");
 				numberToAdd = platSizes[0];
 				break;
 			case Lengths.MEDIUM:
-				//Do packed scene thing here
+				//Loads medium platform
 				platform = ResourceLoader.Load<PackedScene>("res://medium_platform2.tscn");
 				numberToAdd = platSizes[1];
 				break;
 			case Lengths.LONG:
-				//Do packed scene thing here
+				//Loads large platform
 				platform = ResourceLoader.Load<PackedScene>("res://large_platform.tscn");
 				numberToAdd = platSizes[2];
 				break;
