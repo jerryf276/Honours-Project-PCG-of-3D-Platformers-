@@ -71,7 +71,7 @@ public partial class TestLevel : Node3D
 			{
 				
 				uint directionChange = 1 + GD.Randi() % 100;
-				//If random number is less than direction change percentage
+				//If random number is less than direction change percentage, the direction will change after platform has spawned
 				if (directionChange < directionChangeChance) 
 					{
 					//0 - change direction to left, 1 - change direction to right
@@ -88,6 +88,7 @@ public partial class TestLevel : Node3D
 					}
 				else
 				{
+					//Direction not changing
                     actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
                 }
             }
