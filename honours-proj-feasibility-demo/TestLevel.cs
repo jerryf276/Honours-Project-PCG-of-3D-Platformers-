@@ -5,8 +5,11 @@ using System.Runtime.CompilerServices;
 using static Godot.TextServer;
 
 enum ActionStates {WALK, TURN_LEFT, TURN_RIGHT, JUMP};
+
+//NONE is used for changing direction since a length doesn't exist for a direction change.
 enum Lengths {SHORT, MEDIUM, LONG, NONE};
 
+//which direction the platform will be facing
 enum Direction {POSITIVE_X, NEGATIVE_X, POSITIVE_Z, NEGATIVE_Z};
 
 
@@ -24,13 +27,18 @@ public partial class TestLevel : Node3D
 	//Number to add based on space of a platform or jump
 	float numberToAdd = 0;
 
+	//Chance of direction changing, we have made 50 the max 
+	[Export(PropertyHint.Range, "0, 50")] uint directionChangeChance;
 
+	//Size of section, which in this case is the size of the level for now.
+	//In the future we will make this an array of section sizes when we develop multiple level sections
 	[Export] int sectionSize = 20;
 
 	private struct LevelComponent
 	{
+		//Refer to ActionStates enum class
 		public ActionStates action;
-		//Will make it none by default as turning left or turning right would have no length
+		//Refer to Lengths enum class
 		public Lengths lengthOfComponent;
 		public LevelComponent() 
 		{
@@ -61,11 +69,12 @@ public partial class TestLevel : Node3D
 
             for (int i = 0; i < sectionSize; ++i)
 			{
-				//1 - true, 0 - false
-				uint directionChange = GD.Randi() % 2;
-				if (directionChange == 1) 
+				
+				uint directionChange = 1 + GD.Randi() % 100;
+				//If random number is less than direction change percentage
+				if (directionChange < directionChangeChance) 
 					{
-					//0 - left, 1 - right
+					//0 - change direction to left, 1 - change direction to right
 						uint direction = GD.Randi() % 2;
 						if (direction == 0)
 						{
@@ -82,15 +91,14 @@ public partial class TestLevel : Node3D
                     actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
                 }
             }
-			//Do logic in here if _Ready doesn't work (very likely btw)
-			//TO DO: Make actionsToAdd based on some kind of randomness, not completely since jumps have to be after a platform/direction change
+
+			//Left over from when actions were previously predefined
 			//List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
 
 			//int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
 			SortedDictionary<int, Lengths> actionSizes = new SortedDictionary<int, Lengths> { };
 
-			//Do we change the name of this variable to levelPart instead?
-			//A part of a level would have many components
+			//List of components of level that will be generated
 			List<LevelComponent> levelComponents = new List<LevelComponent> { };
 
 			//    levelStates.Add(ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.WALK);
@@ -125,6 +133,7 @@ public partial class TestLevel : Node3D
 				}
 
 			}
+			//Generates level once each component of the level has been defined
 			GenerateLevel(levelComponents);
 			levelSpawned = true;
 		}
@@ -139,14 +148,13 @@ public partial class TestLevel : Node3D
 		//or same y position as last platform generated
 		PlatformYPosition platformYPosition = PlatformYPosition.NEUTRAL;
 
-		//How long the jump is
-		//Index 0 - short, Index 1 - medium, index 2 - long
-
-
+	
+		//How high the jump will be
 		List<float> jumpHeight = new List<float> { 3.0f, 6.0f, 9.0f };
 
-		//List<float> jumpGaps = new List<float> { 3.0f, 6.0f, 9.0f };
-		List<float> jumpGaps = new List<float> { 1.5f, 3.0f, 6.0f };
+        //How long the jump is
+        //Index 0 - short, Index 1 - medium, index 2 - long	
+        List<float> jumpGaps = new List<float> { 1.5f, 3.0f, 6.0f };
 
 		//Float since the platform size could not be a whole number
 		//Index 0 - short, Index 1 - medium, index 2 - long
@@ -262,10 +270,10 @@ public partial class TestLevel : Node3D
 				numberToAdd = jumpSizes[0];
 				break;
 			case Lengths.MEDIUM:
-				numberToAdd = jumpSizes[0];
+				numberToAdd = jumpSizes[1];
 				break;
 			case Lengths.LONG:
-				numberToAdd = jumpSizes[0];
+				numberToAdd = jumpSizes[2];
 				break;
 		}
 
