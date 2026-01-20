@@ -34,6 +34,9 @@ volumetric_fog_ambient_inject = 1.0
 [node name="TestLevel" type="Node3D"]
 script = ExtResource("1_y1jsw")
 directionChangeChance = 20
+smallPlatformSpawnChance = 100
+mediumPlatformSpawnChance = 100
+largePlatformSpawnChance = 100
 sectionSize = 50
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]

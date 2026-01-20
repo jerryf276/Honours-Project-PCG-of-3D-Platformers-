@@ -28,11 +28,35 @@ public partial class TestLevel : Node3D
 	float numberToAdd = 0;
 
 	//Chance of direction changing, we have made 50 the max 
-	[Export(PropertyHint.Range, "0, 50")] uint directionChangeChance;
+	[Export(PropertyHint.Range, "0, 50")] private uint directionChangeChance;
+
+	//Default values will be 1.
+	[ExportGroup("Spawn Chances")]
+	//Chance of spawning small platform
+	[ExportSubgroup("Platform Spawn Chances")]
+	[Export(PropertyHint.Range, "1, 100")] private uint smallPlatformSpawnChance = 1;
+	//Chance of spawning medium platform
+	[Export(PropertyHint.Range, "1, 100")] private uint mediumPlatformSpawnChance = 1;
+	//Chance of spawning large platform
+	[Export(PropertyHint.Range, "1, 100")] private uint largePlatformSpawnChance = 1;
+
+	[ExportSubgroup("Jump Gap Spawn Chances")]
+	[Export(PropertyHint.Range, "1, 100")] private uint smallJumpGapSpawnChance = 1;
+	[Export(PropertyHint.Range, "1, 100")] private uint mediumJumpGapSpawnChance = 1;
+	[Export(PropertyHint.Range, "1, 100")] private uint largeJumpGapSpawnChance = 1;
+
+
+
+	//Value which combines the three platform spawn chances together
+	private uint combinedPlatformSpawnChance;
+
+	//Value which combines three jump gap spawn chances together
+	private uint combinedJumpGapSpawnChance;
 
 	//Size of section, which in this case is the size of the level for now.
 	//In the future we will make this an array of section sizes when we develop multiple level sections
-	[Export] int sectionSize = 20;
+	[ExportGroup("Sections")]
+	[Export] int sectionSize { get; set; }
 
 	private struct LevelComponent
 	{
@@ -56,18 +80,25 @@ public partial class TestLevel : Node3D
 	public override void _Ready()
 	{
 		currentPosition = new Vector3(0, 0, 0);
+
+		GD.Print("Number: " + smallJumpGapSpawnChance);
+
+		combinedPlatformSpawnChance = smallPlatformSpawnChance + mediumPlatformSpawnChance + largePlatformSpawnChance;
+
+		combinedJumpGapSpawnChance = smallJumpGapSpawnChance + mediumJumpGapSpawnChance + largeJumpGapSpawnChance;
 	  
 	}
 
 	public override void _Process(double delta)
 	{
+
 		//Ideally, each spawn we could change the actions.
 
 		if (!levelSpawned)
 		{
 			List<ActionStates> actionsToAdd = new List<ActionStates> { };
 
-            for (int i = 0; i < sectionSize; ++i)
+			for (int i = 0; i < sectionSize; ++i)
 			{
 				
 				uint directionChange = 1 + GD.Randi() % 100;
@@ -89,9 +120,9 @@ public partial class TestLevel : Node3D
 				else
 				{
 					//Direction not changing
-                    actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
-                }
-            }
+					actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
+				}
+			}
 
 			//Left over from when actions were previously predefined
 			//List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
@@ -105,36 +136,67 @@ public partial class TestLevel : Node3D
 			//    levelStates.Add(ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.WALK);
 			for (int i = 0; i < actionsToAdd.Count; ++i)
 			{
-				if (actionsToAdd[i] == ActionStates.WALK || actionsToAdd[i] == ActionStates.JUMP)
+				Lengths lengthToAdd;
+				if (actionsToAdd[i] == ActionStates.WALK)
 				{
-					//Probability of each length is 1/3
-					uint rng = 1 + GD.Randi() % 3;
+					//Chooses a number between 1 to the total number of each platform spawn chance probability
+					uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
+					GD.Print(rng);
 
-					switch (rng)
+					if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
 					{
-						case 1:
-							//Adds short platform or makes the jump length small
-							levelComponents.Add(new LevelComponent(actionsToAdd[i], Lengths.SHORT));
-							break;
-						case 2:
-							//Adds medium platform or makes the jump length medium
-							levelComponents.Add(new LevelComponent(actionsToAdd[i], Lengths.MEDIUM));
-							break;
-						case 3:
-							//Adds long platform or makes the jump length long
-							levelComponents.Add(new LevelComponent(actionsToAdd[i], Lengths.LONG));
-							break;
+						//Adds large platform
+						lengthToAdd = Lengths.LONG;
 					}
 
+					else if (rng > smallPlatformSpawnChance)
+					{
+						//Adds medium platform
+						lengthToAdd = Lengths.MEDIUM;
+					}
+
+					else
+					{
+						//Adds small platform
+						lengthToAdd = Lengths.SHORT;
+					}
 				}
+
+				else if (actionsToAdd[i] == ActionStates.JUMP)
+				{
+					//Chooses a number between 1 to the total number of each jump gap probability
+					uint rng = 1 + GD.Randi() % combinedJumpGapSpawnChance;
+
+					if (rng > smallJumpGapSpawnChance + mediumJumpGapSpawnChance)
+					{
+						//Adds large jump gap
+						lengthToAdd = Lengths.LONG;
+					}
+
+					else if (rng > smallJumpGapSpawnChance)
+					{
+						//Adds medium jump gap
+						lengthToAdd = Lengths.MEDIUM;
+					}
+
+					else
+					{
+						//Adds small jump gap
+						lengthToAdd = Lengths.SHORT;
+					}
+					
+				}
+
 				else
 				{
 					//Adds turning direction to the section of the level
-					levelComponents.Add(new LevelComponent(actionsToAdd[i], Lengths.NONE));
+					lengthToAdd = Lengths.NONE;
 				}
 
+				levelComponents.Add(new LevelComponent(actionsToAdd[i], lengthToAdd));
 			}
 			//Generates level once each component of the level has been defined
+
 			GenerateLevel(levelComponents);
 			levelSpawned = true;
 		}
@@ -153,9 +215,9 @@ public partial class TestLevel : Node3D
 		//How high the jump will be
 		List<float> jumpHeight = new List<float> { 3.0f, 6.0f, 9.0f };
 
-        //How long the jump is
-        //Index 0 - short, Index 1 - medium, index 2 - long	
-        List<float> jumpGaps = new List<float> { 1.5f, 3.0f, 6.0f };
+		//How long the jump is
+		//Index 0 - short, Index 1 - medium, index 2 - long	
+		List<float> jumpGaps = new List<float> { 1.5f, 3.0f, 6.0f };
 
 		//Float since the platform size could not be a whole number
 		//Index 0 - short, Index 1 - medium, index 2 - long
@@ -249,7 +311,7 @@ public partial class TestLevel : Node3D
 		float numberToAdd = 0;
 
 		//for now we'll do a probability of 1/3 for deciding if the player ascends up, down, or does not.
-        uint rng = 1 + GD.Randi() % 3;
+		uint rng = 1 + GD.Randi() % 3;
 
 		float yPosition = 0.0f;
 
@@ -265,7 +327,7 @@ public partial class TestLevel : Node3D
 				break;
 		}
 
-        switch (jumpLength)
+		switch (jumpLength)
 		{
 			case Lengths.SHORT:
 				numberToAdd = jumpSizes[0];
