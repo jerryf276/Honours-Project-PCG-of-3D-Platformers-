@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using static Godot.TextServer;
 
+
+enum PlatformTypes {FLAT, INCLINE, BRIDGE};
 enum ActionStates {WALK, TURN_LEFT, TURN_RIGHT, JUMP};
 
 //NONE is used for changing direction since a length doesn't exist for a direction change.
@@ -45,6 +47,12 @@ public partial class TestLevel : Node3D
 	[Export(PropertyHint.Range, "1, 100")] private uint mediumJumpGapSpawnChance = 1;
 	[Export(PropertyHint.Range, "1, 100")] private uint largeJumpGapSpawnChance = 1;
 
+	[ExportSubgroup("Platform Type Spawn Chances")]
+	[Export(PropertyHint.Range, "1, 100")] private uint flatPlatformTypeSpawnChance = 1;
+	[Export(PropertyHint.Range, "1, 100")] private uint inclinePlatformTypeSpawnChance = 1;
+	[Export(PropertyHint.Range, "1, 100")] private uint bridgePlatformTypeSpawnChance = 1;
+
+
 
 
 	//Value which combines the three platform spawn chances together
@@ -52,6 +60,8 @@ public partial class TestLevel : Node3D
 
 	//Value which combines three jump gap spawn chances together
 	private uint combinedJumpGapSpawnChance;
+
+	private uint combinedPlatformTypeChance;
 
 	//Size of section, which in this case is the size of the level for now.
 	//In the future we will make this an array of section sizes when we develop multiple level sections
