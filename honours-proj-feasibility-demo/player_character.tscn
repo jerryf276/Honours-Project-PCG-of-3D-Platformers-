@@ -10,6 +10,8 @@ radius = 0.35986328
 
 [node name="PlayerCharacter" type="CharacterBody3D"]
 script = ExtResource("1_5up26")
+rotationSpeed = 16.0
+jumpImpulse = 18.0
 
 [node name="GobotSkin" parent="." instance=ExtResource("1_02ohv")]
 

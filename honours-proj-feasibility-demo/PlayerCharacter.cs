@@ -10,12 +10,14 @@ public partial class PlayerCharacter : CharacterBody3D
     [Export] private float moveSpeed = 8.0f;
     [Export] private float acceleration = 20.0f;
     [Export] private float rotationSpeed = 12.0f;
+    [Export] private float jumpImpulse = 12.0f;
 
     private Vector2 cameraInputDirection = Vector2.Zero;
     private Vector3 lastMovementDirection = Vector3.Back;
     private Node3D cameraPivot;
     private Node3D camera;
     private Node3D gobotSkin;
+    private float gravity = -30.0f;
 
     public override void _Ready()
     {
@@ -70,7 +72,37 @@ public partial class PlayerCharacter : CharacterBody3D
         moveDirection.Y = 0.0f;
         moveDirection = moveDirection.Normalized();
 
-        Velocity = Velocity.MoveToward(moveDirection * moveSpeed, acceleration * (float)delta);
+        float yVelocity = Velocity.Y;
+        Vector3 playerVelocity = Velocity;
+        playerVelocity.Y = 0.0f;
+        Velocity = playerVelocity;
+        if (Input.IsActionPressed("run"))
+        {
+            Velocity = Velocity.MoveToward(moveDirection * (moveSpeed * 2), acceleration * (float)delta);
+        }
+        else
+        {
+            Velocity = Velocity.MoveToward(moveDirection * moveSpeed, acceleration * (float)delta);
+        }
+            //Velocity = Velocity.MoveToward(moveDirection * moveSpeed, acceleration * (float)delta);
+            playerVelocity = Velocity;
+        playerVelocity.Y = yVelocity + gravity * (float)delta;
+        Velocity = playerVelocity;
+
+        bool isStartingJump = false;
+
+        if (Input.IsActionJustPressed("jump") && IsOnFloor())
+        {
+            isStartingJump = true;
+        }
+
+        if (isStartingJump)
+        {
+            playerVelocity.Y += jumpImpulse;
+            Velocity = playerVelocity;
+        }
+        
+
         MoveAndSlide();
 
         if (moveDirection.Length() > 0.2f)
@@ -83,16 +115,28 @@ public partial class PlayerCharacter : CharacterBody3D
         gobotGlobalRotation.Y = Mathf.LerpAngle(gobotSkin.Rotation.Y, targetAngle, rotationSpeed * (float)delta);
         gobotSkin.GlobalRotation = gobotGlobalRotation;
 
-        float groundSpeed = Velocity.Length();
+        if (isStartingJump)
+        {
+            gobotSkin.Call("jump");
+        }
+        else if (!IsOnFloor() && Velocity.Y < 0.0f)
+        {
+            gobotSkin.Call("fall");
+        }
+        else if (IsOnFloor())
+        {
+            float groundSpeed = Velocity.Length();
 
-        if (groundSpeed > 0.0f)
-        {
-            gobotSkin.Call("run");
+            if (groundSpeed > 0.0f)
+            {
+                gobotSkin.Call("run");
+            }
+            else
+            {
+                gobotSkin.Call("idle");
+            }
         }
-        else
-        {
-            gobotSkin.Call("idle");
-        }
+
     }
 }
 
