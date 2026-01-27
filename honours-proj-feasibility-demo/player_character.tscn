@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://lnbv0urh2jg2"]
+[gd_scene load_steps=5 format=3 uid="uid://lnbv0urh2jg2"]
 
 [ext_resource type="PackedScene" uid="uid://cy36aygvs66pn" path="res://Models/gdquest_gobot/gobot_skin.tscn" id="1_02ohv"]
+[ext_resource type="Script" uid="uid://c0mmp2d86cpmn" path="res://PlayerCharacter.cs" id="1_5up26"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5up26"]
 radius = 0.35986328
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_5up26"]
+
 [node name="PlayerCharacter" type="CharacterBody3D"]
+script = ExtResource("1_5up26")
 
 [node name="GobotSkin" parent="." instance=ExtResource("1_02ohv")]
 
@@ -16,5 +20,9 @@ shape = SubResource("CapsuleShape3D_5up26")
 [node name="CameraPivot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.91095746, -0.41250035, 0, 0.41250035, 0.91095746, 0, 0.8619565, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(-1, 8.742278e-08, 0, 8.742278e-08, 1, -8.742278e-08, -7.642742e-15, -8.742278e-08, -1, 0, 0, -7.857823)
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
+shape = SubResource("SphereShape3D_5up26")
+spring_length = 5.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
