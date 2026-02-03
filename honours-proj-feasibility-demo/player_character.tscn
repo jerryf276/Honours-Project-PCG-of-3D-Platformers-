@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://lnbv0urh2jg2"]
+[gd_scene load_steps=6 format=3 uid="uid://lnbv0urh2jg2"]
 
 [ext_resource type="PackedScene" uid="uid://cy36aygvs66pn" path="res://Models/gdquest_gobot/gobot_skin.tscn" id="1_02ohv"]
 [ext_resource type="Script" uid="uid://c0mmp2d86cpmn" path="res://PlayerCharacter.cs" id="1_5up26"]
+[ext_resource type="Script" uid="uid://xkg6iv5cpovx" path="res://PlayerCollision.cs" id="3_4akcp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5up26"]
 radius = 0.35986328
@@ -28,3 +29,13 @@ shape = SubResource("SphereShape3D_5up26")
 spring_length = 5.0
 
 [node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+
+[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("player") groups=["player"]]
+script = ExtResource("3_4akcp")
+player = NodePath("..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9754784, 0)
+shape = SubResource("CapsuleShape3D_5up26")
+
+[connection signal="area_entered" from="Area3D" to="Area3D" method="OnAreaEntered"]

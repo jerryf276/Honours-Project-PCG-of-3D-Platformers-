@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dkab7dx5puo8n"]
+[gd_scene load_steps=8 format=3 uid="uid://dkab7dx5puo8n"]
 
 [ext_resource type="Script" uid="uid://dsvpgqtkelfai" path="res://TestLevel.cs" id="1_y1jsw"]
 [ext_resource type="PackedScene" uid="uid://lnbv0urh2jg2" path="res://player_character.tscn" id="2_1kog2"]
+[ext_resource type="PackedScene" uid="uid://ciw3uoy65rtaw" path="res://killzone.tscn" id="3_2xot7"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_y1jsw"]
 
@@ -50,5 +51,8 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_2xot7")
 
-[node name="PlayerCharacter" parent="." instance=ExtResource("2_1kog2")]
+[node name="PlayerCharacter" parent="." groups=["PlayerCharacter"] instance=ExtResource("2_1kog2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
+
+[node name="Killzone" parent="." instance=ExtResource("3_2xot7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -42.168587, 0)

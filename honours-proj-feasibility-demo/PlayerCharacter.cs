@@ -19,13 +19,25 @@ public partial class PlayerCharacter : CharacterBody3D
     private Node3D gobotSkin;
     private float gravity = -30.0f;
 
+    private Vector3 spawnPoint;
+
+    private int deathCount = 0;
+
     public override void _Ready()
     {
         cameraPivot = GetNode<Node3D>("CameraPivot");
         camera = GetNode<Camera3D>("CameraPivot/SpringArm3D/Camera3D");
         gobotSkin = GetNode<Node3D>("GobotSkin");
+
+        spawnPoint = Position;
     }
 
+    //private void OnAreaEntered(Area3D body)
+    //{
+    //    if (body.IsInGroup("killzone")) {
+    //        respawn();
+    //    }
+    //}
     public override void _Input(InputEvent inputEvent)
     {
         if (inputEvent.IsActionPressed("left_click"))
@@ -137,6 +149,18 @@ public partial class PlayerCharacter : CharacterBody3D
             }
         }
 
+        //respawn();
+    }
+
+    public void respawn()
+    {
+     //   if (Input.IsActionJustPressed("respawn"))
+     //   {
+            Velocity = Vector3.Zero;
+            GlobalPosition = spawnPoint;
+            deathCount += 1;
+            GD.Print("DEATHS: " + deathCount);
+     //   }
     }
 }
 
