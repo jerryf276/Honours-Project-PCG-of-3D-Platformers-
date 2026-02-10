@@ -1,0 +1,101 @@
+[gd_scene load_steps=9 format=4 uid="uid://cbyjp31apft0x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4u460"]
+resource_name = "Grass.002"
+cull_mode = 2
+albedo_color = Color(0.662251, 0.9237839, 0.43263555, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_u0hwd"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -1.25, 3, 1, 1),
+"format": 34896613377,
+"index_count": 42,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAAAEAAEABQAEAAAABQAGAAQABwAGAAUABwAIAAYACQAIAAcACQAKAAgACwAKAAkACwAMAAoADQAMAAsADAANAA4ADAAOAA8A"),
+"name": "Grass.002",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("iSUAAPPjAACJJf//8+MAAAAAAAD//wAAAAD/////AADhSP//RrMAAOFIAABGswAAw2v//2l/AADDawAAaX8AABqP///iTgAAGo8AAOJOAACOs///RCYAAI6zAABEJgAAS9n//1QKAABL2QAAVAoAAP//AAAAAAAA/////wAAAAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_g5qb8"]
+resource_name = "inclineGrassPlatform_Grass"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -1.25, 3, 1, 1),
+"attribute_data": PackedByteArray("///hxQAA4cX/////AAD//wAA253//9udAABte///bXsAAHxb//98WwAAoDz//6A8AAAxHv//MR7//wAAAAAAAA=="),
+"format": 34896613399,
+"index_count": 42,
+"index_data": PackedByteArray("AAABAAIAAgABAAMAAAAEAAEABQAEAAAABQAGAAQABwAGAAUABwAIAAYACQAIAAcACQAKAAgACwAKAAkACwAMAAoADQAMAAsADAANAA4ADAAOAA8A"),
+"material": SubResource("StandardMaterial3D_4u460"),
+"name": "Grass.002",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("iSUAAPPj9QqJJf//8+P1CgAAAAD//wUAAAD/////BQDhSP//RrMmDeFIAABGsyYNw2v//2l/+gzDawAAaX/6DBqP///iTnULGo8AAOJOdQuOs///RCbICI6zAABEJsgIS9n//1QK8QRL2QAAVArxBP//AAAAAAMA/////wAAAwCiRVy6okVcuvy/AkD8vwJAr0ZPua9GT7maRmS5mkZkueBFHrrgRR66kkRsu5JEbLujQlu9o0Jbvf2/AUD9vwFA")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_u0hwd")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ui7vi"]
+points = PackedVector3Array(-0.42806792, -0.52380955, -0.32145652, 2.523511, 0.52380955, -1.2261252, 2.523511, -0.52380955, -1.2261252, 1.523446, 0.52380955, -1.1307566, 0.00023311377, 0.52380955, -0.32145652, 1.523446, -0.52380955, -1.1307566, 0.00023311377, -0.52380955, -0.32145652, -0.52351105, 0.52380955, -0.27387476, 2.1900568, -0.52380955, -1.2738096, 2.1900568, 0.52380955, -1.2738096, -0.38064468, -0.52380955, -0.22619045, 1.1425682, 0.52380955, -0.98801136, -0.38064468, 0.52380955, -0.22619045, 1.1425682, -0.52380955, -0.98801136, -0.52351105, -0.52380955, -0.22619045, 1.9043238, 0.52380955, -1.2261252, -0.42806792, 0.52380955, -0.32145652, 1.9043238, -0.52380955, -1.2261252, -0.52351105, 0.52380955, -0.22619045, -0.52351105, -0.52380955, -0.27387476, 2.4383225, 0.49452028, -1.2445203, 2.4383225, -0.49452028, -1.2445203)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5moyr"]
+resource_name = "Hidden.010"
+cull_mode = 2
+albedo_color = Color(0.95743984, 0.94451874, 0.9295216, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ychfd"]
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -1.25, 3, 1, 2.25),
+"format": 34896613377,
+"index_count": 66,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAAAAIABQADAAAABQAGAAMABAAHAAAABwAFAAAACAAHAAQABgAFAAkACgAHAAgACQAFAAsACwAFAAwADAAFAA0ABQAOAA0ACgAPAAcABwAPAAUADwAOAAUADwAKABAADwARAA4ADwAQABIADwATABEADwASABMA"),
+"name": "Hidden.010",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 20,
+"vertex_data": PackedByteArray("AAAAAP//AACIJQAAUGUAAAAAAADGcQAA2EgAALNPAAAAAP//xnEAAP//AAD//wAAu2sAAKU4AAAAAP////8AAIgl//9QZQAAGo8AAA8jAADYSP//s08AAI6zAAACEQAAS9kAAJcEAAD//wAAAAAAAP////8AAAAA////////AAC7a///pTgAAEvZ//+XBAAAGo///w8jAACOs///AhEAAA==")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_5c33b"]
+resource_name = "inclineGrassPlatform_Hidden_010"
+_surfaces = [{
+"aabb": AABB(-0.5, -0.5, -1.25, 3, 1, 2.25),
+"attribute_data": PackedByteArray("AAD//6yadto2jv//SbAmtwAAAABRx0uU7NzlcPnucExk+7Mm+/8AAAAAAAD///////8AAAAA//+smnbaAAD//zaO//9JsCa3AAAAAFHHS5Ts3OVw+e5wTGT7syb7/wAAAAAAAP///////wAAAAD//wAAAAAAAP////8AAP////8="),
+"format": 34896613399,
+"index_count": 66,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAADAAAABAAFAAMABQAEAAYABgAEAAcABwAEAAgACAAEAAkACgALAAwACgANAAsADgAPABAAEQAPAA4AEQASAA8AEgARABMAEgATABQAEgAUABUAEgAVABYAEgAWABcAGAAZABoAGAAbABkAHAAdAB4AHgAdAB8A"),
+"material": SubResource("StandardMaterial3D_5moyr"),
+"name": "Hidden.010",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 32,
+"vertex_data": PackedByteArray("AAAAAP//VNWIJQAAUGVU1QAAAADGcVTV2EgAALNPUtX//wAA//9U1btrAAClOFLVGo8AAA8jVdWOswAAAhFU1UvZAACXBFTV//8AAAAAVNUAAP//xnGqKgAAAAD//6oqAAAAAMZxqioAAP////+qKogl//9QZaoqAAD/////qioAAP//xnGqKthI//+zT6wq////////qiq7a///pTisKhqP//8PI6kqjrP//wIRqipL2f//lwSqKv////8AAKoqAAD//////z///wAA////PwAAAAD///8//////////z////////+qKv////8AAKoq//8AAP//qir//wAAAACqKlRVVVVUVVVVVFVUVVNVVVVUVVVVUlVWVVZVVFVVVVRVVFVUVVRVVFVUVaqqVFWqqlRVqqpUVaqqVNWqKlTVqipU1aoqVdWsKlTVqipV1awqU9WoKlTVqipU1aoqVNWqKv9//3//f/9//3//f/9//3+qqlRVqqpUVaqqVFWqqlRV")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_ychfd")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_qyrk6"]
+points = PackedVector3Array(-0.52351105, 0.52380955, -0.27366978, 2.1900568, -0.52380955, -1.2735858, 1.9043238, -0.52380955, -1.2259388, 2.4542603, -0.5, 0.9597429, 2.4542603, 0.5, -1.2216479, -0.45426047, -0.5, 0.9597429, 2.4542603, 0.5, 0.9597429, -0.45426047, 0.5, 0.9597429, -0.52351105, -0.52380955, -0.27366978, 1.523446, 0.52380955, -1.1306448, 2.4542603, -0.5, -1.2216479, 1.1425682, -0.52380955, -0.98770374, 2.1900568, 0.52380955, -1.2735858, 1.1425682, 0.52380955, -0.98770374, -0.42806792, -0.52380955, -0.32131678, 1.523446, -0.52380955, -1.1306448, -0.42806792, 0.52380955, -0.32131678, 1.9043238, 0.52380955, -1.2259388)
+
+[node name="inclineGrassPlatform" type="Node3D"]
+
+[node name="Grass" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("ArrayMesh_g5qb8")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_ui7vi")
+
+[node name="Hidden" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+mesh = SubResource("ArrayMesh_5c33b")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_qyrk6")

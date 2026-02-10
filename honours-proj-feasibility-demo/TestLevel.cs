@@ -266,9 +266,12 @@ public partial class TestLevel : Node3D
 
 	}
 
-	void SpawnPlatform(Lengths platformLength, Direction currentDirection, List<float> platSizes)
+	private void SpawnPlatform(Lengths platformLength, Direction currentDirection, List<float> platSizes)
 	{
 		var platform = ResourceLoader.Load<PackedScene>("");
+
+		PlatformTypes platformTypeToSpawn = typeToChoose();
+
 
 		switch (platformLength)
 		{
@@ -296,7 +299,32 @@ public partial class TestLevel : Node3D
 		GetTree().Root.AddChild(newPlatform);
 	}
 
-	void AddCurrentPosition(Direction currentDirection)
+	private PlatformTypes typeToChoose()
+	{
+		PlatformTypes platformTypeToChoose;
+
+		uint combinedPlatformTypeChance = bridgePlatformTypeSpawnChance + flatPlatformTypeSpawnChance + inclinePlatformTypeSpawnChance;
+
+		uint rng = 1 + GD.Randi() % combinedPlatformTypeChance;
+
+		if (rng > flatPlatformTypeSpawnChance + inclinePlatformTypeSpawnChance)
+		{
+			platformTypeToChoose = PlatformTypes.BRIDGE;
+		}
+		else if (rng > flatPlatformTypeSpawnChance)
+		{
+			platformTypeToChoose = PlatformTypes.INCLINE;
+		}
+		else
+		{
+			platformTypeToChoose = PlatformTypes.FLAT;
+		}
+
+		return platformTypeToChoose;
+
+	}
+
+	private void AddCurrentPosition(Direction currentDirection)
 	{
 		switch (currentDirection)
 		{

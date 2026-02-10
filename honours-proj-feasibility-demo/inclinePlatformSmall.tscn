@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqvmsgqhond4f"]
+
+[ext_resource type="PackedScene" uid="uid://dc8xw8c6l64cy" path="res://glb/inclineGrassPlatform.glb" id="1_fwlmb"]
+[ext_resource type="PackedScene" uid="uid://crx22823mechj" path="res://glb/inclineGrassPlatformEdge.glb" id="2_l5kv1"]
+[ext_resource type="PackedScene" uid="uid://dyscvxouuk4wy" path="res://glb/inclineGrassPlatformEdgeMirrored.glb" id="3_q2ymd"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="inclineGrassPlatform" parent="." instance=ExtResource("1_fwlmb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.0849006)
+
+[node name="inclineGrassPlatformEdge" parent="." instance=ExtResource("2_l5kv1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.10491204)
+
+[node name="inclineGrassPlatformEdgeMirrored" parent="." instance=ExtResource("3_q2ymd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.8654454)
+
+[node name="inclineGrassPlatform2" parent="." instance=ExtResource("1_fwlmb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.0870762)
+
+[node name="inclineGrassPlatform3" parent="." instance=ExtResource("1_fwlmb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.092117)
+
+[node name="inclineGrassPlatform4" parent="." instance=ExtResource("1_fwlmb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.962771, 0.9938487, -3.0861015)
+
+[node name="inclineGrassPlatformEdge2" parent="." instance=ExtResource("2_l5kv1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.962771, 0.9938487, -0.10611272)
+
+[node name="inclineGrassPlatformEdgeMirrored2" parent="." instance=ExtResource("3_q2ymd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.962771, 0.9938487, -3.8666463)
+
+[node name="inclineGrassPlatform5" parent="." instance=ExtResource("1_fwlmb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.925542, 1.9876974, -3.0873022)
+
+[node name="inclineGrassPlatform6" parent="." instance=ExtResource("1_fwlmb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.962771, 0.9938487, -2.0882769)
+
+[node name="inclineGrassPlatformEdge3" parent="." instance=ExtResource("2_l5kv1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.925542, 1.9876974, -0.107313395)
+
+[node name="inclineGrassPlatform7" parent="." instance=ExtResource("1_fwlmb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.925542, 1.9876974, -1.0945183)
+
+[node name="inclineGrassPlatform8" parent="." instance=ExtResource("1_fwlmb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.925542, 1.9876974, -2.0894775)
+
+[node name="inclineGrassPlatformEdgeMirrored3" parent="." instance=ExtResource("3_q2ymd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.925542, 1.9876974, -3.867847)
+
+[node name="inclineGrassPlatform9" parent="." instance=ExtResource("1_fwlmb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.962771, 0.9938487, -1.0933176)
