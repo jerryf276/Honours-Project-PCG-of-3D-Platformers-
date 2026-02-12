@@ -23,6 +23,8 @@ public partial class PlayerCharacter : CharacterBody3D
 
     private int deathCount = 0;
 
+    private bool hasDied;
+
     public override void _Ready()
     {
         cameraPivot = GetNode<Node3D>("CameraPivot");
@@ -154,13 +156,28 @@ public partial class PlayerCharacter : CharacterBody3D
 
     public void respawn()
     {
-     //   if (Input.IsActionJustPressed("respawn"))
-     //   {
+        //   if (Input.IsActionJustPressed("respawn"))
+        //   {
+        if (hasDied == false)
+        {
             Velocity = Vector3.Zero;
             GlobalPosition = spawnPoint;
             deathCount += 1;
             GD.Print("DEATHS: " + deathCount);
+            hasDied = true;
+        }
+
+        else if (GlobalPosition == spawnPoint)
+        {
+            hasDied = false;
+        }
+
      //   }
+    }
+
+    public void setRespawnPosition()
+    {
+        spawnPoint = GlobalPosition;
     }
 }
 
