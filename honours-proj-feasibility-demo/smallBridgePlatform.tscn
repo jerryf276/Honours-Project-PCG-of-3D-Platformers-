@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://brqygx3u76ps1"]
+
+[ext_resource type="PackedScene" uid="uid://dnbbvwkhmdio7" path="res://Level parts/wideBridgePart.tscn" id="1_y6oii"]
+
+[node name="Node3D" type="StaticBody3D"]
+
+[node name="wideBridge" parent="." instance=ExtResource("1_y6oii")]
+
+[node name="wideBridge2" parent="." instance=ExtResource("1_y6oii")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="wideBridge3" parent="." instance=ExtResource("1_y6oii")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="wideBridge4" parent="." instance=ExtResource("1_y6oii")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="wideBridge5" parent="." instance=ExtResource("1_y6oii")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
