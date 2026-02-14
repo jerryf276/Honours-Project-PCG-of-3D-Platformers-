@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dsvpgqtkelfai" path="res://TestLevel.cs" id="1_y1jsw"]
 [ext_resource type="PackedScene" uid="uid://lnbv0urh2jg2" path="res://player_character.tscn" id="2_1kog2"]
 [ext_resource type="PackedScene" uid="uid://ciw3uoy65rtaw" path="res://killzone.tscn" id="3_2xot7"]
-[ext_resource type="PackedScene" uid="uid://b2ejpddxdar7" path="res://smallIncline.tscn" id="4_waekl"]
+[ext_resource type="PackedScene" uid="uid://cbbabslauwwaj" path="res://inclinePlatformLarge.tscn" id="4_waekl"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_y1jsw"]
 
@@ -59,4 +59,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -42.168587, 0)
 
 [node name="Node3D" parent="." instance=ExtResource("4_waekl")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.5816386)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.277805, 0, 0)
