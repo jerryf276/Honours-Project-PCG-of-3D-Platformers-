@@ -266,42 +266,49 @@ public partial class TestLevel : Node3D
 
 	}
 
+
 	private void SpawnPlatform(Lengths platformLength, Direction currentDirection, List<float> platSizes)
 	{
 		var platform = ResourceLoader.Load<PackedScene>("");
 
-		PlatformTypes platformTypeToSpawn = typeToChoose();
+		string platformTypeToSpawn = typeToChoose(platformLength);
 
 
 		switch (platformLength)
 		{
 			case Lengths.SHORT:
-				//Loads short platform
-				platform = ResourceLoader.Load<PackedScene>("res://small_platform.tscn");
-				numberToAdd = platSizes[0];
+                //Loads short platform
+                //	platform = ResourceLoader.Load<PackedScene>("res://small_platform.tscn");
+                platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
+                numberToAdd = platSizes[0];
 				break;
 			case Lengths.MEDIUM:
-				//Loads medium platform
-				platform = ResourceLoader.Load<PackedScene>("res://medium_platform2.tscn");
-				numberToAdd = platSizes[1];
+                //Loads medium platform
+                //	platform = ResourceLoader.Load<PackedScene>("res://medium_platform2.tscn");
+                platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
+                numberToAdd = platSizes[1];
 				break;
 			case Lengths.LONG:
-				//Loads large platform
-				platform = ResourceLoader.Load<PackedScene>("res://large_platform.tscn");
-				numberToAdd = platSizes[2];
+                //Loads large platform
+                //	platform = ResourceLoader.Load<PackedScene>("res://large_platform.tscn");
+                platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
+                numberToAdd = platSizes[2];
 				break;
 		}
 
 		Node3D newPlatform = platform.Instantiate<Node3D>();
-		//Translate it by currentPosition.
-		newPlatform.Position = currentPosition;
+
+		newPlatform.RotationDegrees = new Vector3(0, determineAngle(currentDirection), 0);
+
+        //Translate it by currentPosition.
+        newPlatform.Position = currentPosition;
 		GD.Print(newPlatform.Position);
 		GetTree().Root.AddChild(newPlatform);
 	}
 
-	private PlatformTypes typeToChoose()
+	private string typeToChoose(Lengths lenOfPlatform)
 	{
-		PlatformTypes platformTypeToChoose;
+		string platformTypeToChoose;
 
 		uint combinedPlatformTypeChance = bridgePlatformTypeSpawnChance + flatPlatformTypeSpawnChance + inclinePlatformTypeSpawnChance;
 
@@ -309,16 +316,62 @@ public partial class TestLevel : Node3D
 
 		if (rng > flatPlatformTypeSpawnChance + inclinePlatformTypeSpawnChance)
 		{
-			platformTypeToChoose = PlatformTypes.BRIDGE;
+			if (lenOfPlatform == Lengths.SHORT)
+			{
+                platformTypeToChoose = "res://smallBridgePlatform.tscn";
+            }
+
+			else if (lenOfPlatform == Lengths.MEDIUM)
+			{
+				platformTypeToChoose = "res://mediumBridgePlatform.tscn";
+
+            }
+
+			else
+			{
+				platformTypeToChoose = "res://largeBridgePlatform.tscn";
+
+            }
+				//platformTypeToChoose = "";
 		}
 		else if (rng > flatPlatformTypeSpawnChance)
 		{
-			platformTypeToChoose = PlatformTypes.INCLINE;
-		}
+            if (lenOfPlatform == Lengths.SHORT)
+            {
+                platformTypeToChoose = "res://inclinePlatformSmall.tscn";
+            }
+
+            else if (lenOfPlatform == Lengths.MEDIUM)
+            {
+                platformTypeToChoose = "res://inclinePlatformMedium.tscn";
+
+            }
+
+            else
+            {
+                platformTypeToChoose = "res://inclinePlatformLarge.tscn";
+
+            }
+        }
 		else
 		{
-			platformTypeToChoose = PlatformTypes.FLAT;
-		}
+            if (lenOfPlatform == Lengths.SHORT)
+            {
+                platformTypeToChoose = "res://small_platform.tscn";
+            }
+
+            else if (lenOfPlatform == Lengths.MEDIUM)
+            {
+                platformTypeToChoose = "res://medium_platform2.tscn";
+
+            }
+
+            else
+            {
+                platformTypeToChoose = "res://large_platform.tscn";
+
+            }
+        }
 
 		return platformTypeToChoose;
 
@@ -328,6 +381,7 @@ public partial class TestLevel : Node3D
 	{
 		switch (currentDirection)
 		{
+			//Make it so its not 0 when its an incline platform
 			case Direction.POSITIVE_X:
 				currentPosition += new Vector3(numberToAdd, 0, 0);
 				break;
@@ -337,9 +391,26 @@ public partial class TestLevel : Node3D
 			case Direction.POSITIVE_Z:
 				currentPosition += new Vector3(0, 0, numberToAdd);
 				break;
-			case Direction.NEGATIVE_Z:
-				currentPosition += new Vector3(0, 0, -numberToAdd);
+            case Direction.NEGATIVE_Z:
+                currentPosition += new Vector3(0, 0, -numberToAdd);
 				break;
+		}
+	}
+
+	private int determineAngle(Direction currentDirection)
+	{
+		switch (currentDirection)
+		{
+			case Direction.POSITIVE_X:
+				return 0;
+			case Direction.NEGATIVE_X:
+				return 180;
+			case Direction.POSITIVE_Z:
+				return 270;
+			case Direction.NEGATIVE_Z:
+				return 90;
+			default:
+				return 0;
 		}
 	}
 
