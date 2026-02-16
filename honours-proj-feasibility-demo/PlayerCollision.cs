@@ -16,10 +16,10 @@ public partial class PlayerCollision : Area3D
             player.respawn();
         }
 
-        if (area.IsInGroup("checkpoint"))
-        {
-            player.setRespawnPosition();
-        }
+        //if (area.IsInGroup("checkpoint"))
+        //{
+        //    player.setRespawnPosition();
+        //}
     }
 
 }

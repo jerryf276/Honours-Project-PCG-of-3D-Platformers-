@@ -175,9 +175,9 @@ public partial class PlayerCharacter : CharacterBody3D
      //   }
     }
 
-    public void setRespawnPosition()
+    public void setRespawnPosition(Vector3 pos)
     {
-        spawnPoint = GlobalPosition;
+        spawnPoint = pos;
     }
 }
 

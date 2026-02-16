@@ -28,7 +28,7 @@ public partial class TestLevel : Node3D
 
 	//Number to add based on space of a platform or jump
 	float numberToAdd = 0;
-
+	Vector3 translationVector;
 	//Chance of direction changing, we have made 50 the max 
 	[Export(PropertyHint.Range, "0, 50")] private uint directionChangeChance;
 
@@ -52,7 +52,8 @@ public partial class TestLevel : Node3D
 	[Export(PropertyHint.Range, "1, 100")] private uint inclinePlatformTypeSpawnChance = 1;
 	[Export(PropertyHint.Range, "1, 100")] private uint bridgePlatformTypeSpawnChance = 1;
 
-
+	[ExportGroup("Number of Sections")]
+	[Export(PropertyHint.Range, "1, 10")] private uint numberOfSections = 1;
 
 
 	//Value which combines the three platform spawn chances together
@@ -91,6 +92,8 @@ public partial class TestLevel : Node3D
 	{
 		currentPosition = new Vector3(0, 0, 0);
 
+		translationVector = new Vector3(0, 0, 0);
+
 		GD.Print("Number: " + smallJumpGapSpawnChance);
 
 		combinedPlatformSpawnChance = smallPlatformSpawnChance + mediumPlatformSpawnChance + largePlatformSpawnChance;
@@ -106,110 +109,116 @@ public partial class TestLevel : Node3D
 
 		if (!levelSpawned)
 		{
-			List<ActionStates> actionsToAdd = new List<ActionStates> { };
-
-			for (int i = 0; i < sectionSize; ++i)
+			for (int j = 0; j < numberOfSections; j++)
 			{
-				
-				uint directionChange = 1 + GD.Randi() % 100;
-				//If random number is less than direction change percentage, the direction will change after platform has spawned
-				if (directionChange < directionChangeChance) 
+				List<ActionStates> actionsToAdd = new List<ActionStates> { };
+
+				for (int i = 0; i < sectionSize; ++i)
+				{
+
+					uint directionChange = 1 + GD.Randi() % 100;
+					//If random number is less than direction change percentage, the direction will change after platform has spawned
+					if (directionChange < directionChangeChance)
 					{
-					//0 - change direction to left, 1 - change direction to right
+						//0 - change direction to left, 1 - change direction to right
 						uint direction = GD.Randi() % 2;
 						if (direction == 0)
 						{
 							//actionsToAdd.AddRange(ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP);
-							actionsToAdd.AddRange(new List<ActionStates> {ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP});
+							actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP });
 						}
 						else
 						{
 							actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP });
 						}
 					}
-				else
-				{
-					//Direction not changing
-					actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
-				}
-			}
-
-			//Left over from when actions were previously predefined
-			//List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
-
-			//int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
-			SortedDictionary<int, Lengths> actionSizes = new SortedDictionary<int, Lengths> { };
-
-			//List of components of level that will be generated
-			List<LevelComponent> levelComponents = new List<LevelComponent> { };
-
-			//    levelStates.Add(ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.WALK);
-			for (int i = 0; i < actionsToAdd.Count; ++i)
-			{
-				Lengths lengthToAdd;
-				if (actionsToAdd[i] == ActionStates.WALK)
-				{
-					//Chooses a number between 1 to the total number of each platform spawn chance probability
-					uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
-					GD.Print(rng);
-
-					if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
+					else
 					{
-						//Adds large platform
-						lengthToAdd = Lengths.LONG;
+						//Direction not changing
+						actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
+					}
+				}
+
+				//Left over from when actions were previously predefined
+				//List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
+
+				//int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
+				SortedDictionary<int, Lengths> actionSizes = new SortedDictionary<int, Lengths> { };
+
+				//List of components of level that will be generated
+				List<LevelComponent> levelComponents = new List<LevelComponent> { };
+
+				//    levelStates.Add(ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.WALK);
+				for (int i = 0; i < actionsToAdd.Count; ++i)
+				{
+					Lengths lengthToAdd;
+					if (actionsToAdd[i] == ActionStates.WALK)
+					{
+						//Chooses a number between 1 to the total number of each platform spawn chance probability
+						uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
+						GD.Print(rng);
+
+						if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
+						{
+							//Adds large platform
+							lengthToAdd = Lengths.LONG;
+						}
+
+						else if (rng > smallPlatformSpawnChance)
+						{
+							//Adds medium platform
+							lengthToAdd = Lengths.MEDIUM;
+						}
+
+						else
+						{
+							//Adds small platform
+							lengthToAdd = Lengths.SHORT;
+						}
 					}
 
-					else if (rng > smallPlatformSpawnChance)
+					else if (actionsToAdd[i] == ActionStates.JUMP)
 					{
-						//Adds medium platform
-						lengthToAdd = Lengths.MEDIUM;
+						translationVector.Y = 0;
+						//Chooses a number between 1 to the total number of each jump gap probability
+						uint rng = 1 + GD.Randi() % combinedJumpGapSpawnChance;
+
+						if (rng > smallJumpGapSpawnChance + mediumJumpGapSpawnChance)
+						{
+							//Adds large jump gap
+							lengthToAdd = Lengths.LONG;
+						}
+
+						else if (rng > smallJumpGapSpawnChance)
+						{
+							//Adds medium jump gap
+							lengthToAdd = Lengths.MEDIUM;
+						}
+
+						else
+						{
+							//Adds small jump gap
+							lengthToAdd = Lengths.SHORT;
+						}
+
 					}
 
 					else
 					{
-						//Adds small platform
-						lengthToAdd = Lengths.SHORT;
+						translationVector.Y = 0;
+						//Adds turning direction to the section of the level
+						lengthToAdd = Lengths.NONE;
 					}
+
+					levelComponents.Add(new LevelComponent(actionsToAdd[i], lengthToAdd));
 				}
+				//Generates level once each component of the level has been defined
 
-				else if (actionsToAdd[i] == ActionStates.JUMP)
-				{
-					//Chooses a number between 1 to the total number of each jump gap probability
-					uint rng = 1 + GD.Randi() % combinedJumpGapSpawnChance;
-
-					if (rng > smallJumpGapSpawnChance + mediumJumpGapSpawnChance)
-					{
-						//Adds large jump gap
-						lengthToAdd = Lengths.LONG;
-					}
-
-					else if (rng > smallJumpGapSpawnChance)
-					{
-						//Adds medium jump gap
-						lengthToAdd = Lengths.MEDIUM;
-					}
-
-					else
-					{
-						//Adds small jump gap
-						lengthToAdd = Lengths.SHORT;
-					}
-					
-				}
-
-				else
-				{
-					//Adds turning direction to the section of the level
-					lengthToAdd = Lengths.NONE;
-				}
-
-				levelComponents.Add(new LevelComponent(actionsToAdd[i], lengthToAdd));
+				GenerateLevel(levelComponents);
+				//levelSpawned = true;
 			}
-			//Generates level once each component of the level has been defined
-
-			GenerateLevel(levelComponents);
-			levelSpawned = true;
-		}
+            levelSpawned = true;
+        }
 	}
 
 	private void GenerateLevel(List<LevelComponent> componentsToAdd)
@@ -233,12 +242,20 @@ public partial class TestLevel : Node3D
 		//Index 0 - short, Index 1 - medium, index 2 - long
 		List<float> platformSizes = new List<float> { 6.0f, 9.0f, 12.0f };
 
-	  for (int i = 0; i < componentsToAdd.Count; ++i)
+	  for (int i = 0; i < componentsToAdd.Count; i++)
 		{
 			if (componentsToAdd[i].action == ActionStates.WALK)
 			{
 				//Spawns a platform
-				SpawnPlatform(componentsToAdd[i].lengthOfComponent, direction, platformSizes);
+				if (i >= componentsToAdd.Count - 1)
+				{
+                    SpawnPlatform(componentsToAdd[i].lengthOfComponent, direction, platformSizes, componentsToAdd[i].action);
+                }
+
+				else
+				{
+                    SpawnPlatform(componentsToAdd[i].lengthOfComponent, direction, platformSizes, componentsToAdd[i + 1].action);
+                }
 
 				//To prevent array errors when checking if the next element is turning left or right
 				if (componentsToAdd.Count > (i + 2)) {
@@ -264,39 +281,42 @@ public partial class TestLevel : Node3D
  
 		}
 
-	}
+		GenerateCheckpoint();
+        AddCurrentPosition(direction);
+
+    }
 
 
-	private void SpawnPlatform(Lengths platformLength, Direction currentDirection, List<float> platSizes)
+	private void SpawnPlatform(Lengths platformLength, Direction currentDirection, List<float> platSizes, ActionStates nextAction)
 	{
-		var platform = ResourceLoader.Load<PackedScene>("");
+		PackedScene platform;
 
-		string platformTypeToSpawn = typeToChoose(platformLength);
+		string platformTypeToSpawn = typeToChoose(platformLength, nextAction);
+        platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
 
+        //switch (platformLength)
+        //{
+        //	case Lengths.SHORT:
+        //              //Loads short platform
+        //              //	platform = ResourceLoader.Load<PackedScene>("res://small_platform.tscn");
+        //              platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
+        //              numberToAdd = platSizes[0];
+        //		break;
+        //	case Lengths.MEDIUM:
+        //              //Loads medium platform
+        //              //	platform = ResourceLoader.Load<PackedScene>("res://medium_platform2.tscn");
+        //              platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
+        //              numberToAdd = platSizes[1];
+        //		break;
+        //	case Lengths.LONG:
+        //              //Loads large platform
+        //              //	platform = ResourceLoader.Load<PackedScene>("res://large_platform.tscn");
+        //              platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
+        //              numberToAdd = platSizes[2];
+        //		break;
+        //}
 
-		switch (platformLength)
-		{
-			case Lengths.SHORT:
-                //Loads short platform
-                //	platform = ResourceLoader.Load<PackedScene>("res://small_platform.tscn");
-                platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
-                numberToAdd = platSizes[0];
-				break;
-			case Lengths.MEDIUM:
-                //Loads medium platform
-                //	platform = ResourceLoader.Load<PackedScene>("res://medium_platform2.tscn");
-                platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
-                numberToAdd = platSizes[1];
-				break;
-			case Lengths.LONG:
-                //Loads large platform
-                //	platform = ResourceLoader.Load<PackedScene>("res://large_platform.tscn");
-                platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
-                numberToAdd = platSizes[2];
-				break;
-		}
-
-		Node3D newPlatform = platform.Instantiate<Node3D>();
+        Node3D newPlatform = platform.Instantiate<Node3D>();
 
 		newPlatform.RotationDegrees = new Vector3(0, determineAngle(currentDirection), 0);
 
@@ -306,7 +326,7 @@ public partial class TestLevel : Node3D
 		GetTree().Root.AddChild(newPlatform);
 	}
 
-	private string typeToChoose(Lengths lenOfPlatform)
+	private string typeToChoose(Lengths lenOfPlatform, ActionStates nextRhythm)
 	{
 		string platformTypeToChoose;
 
@@ -319,37 +339,67 @@ public partial class TestLevel : Node3D
 			if (lenOfPlatform == Lengths.SHORT)
 			{
                 platformTypeToChoose = "res://smallBridgePlatform.tscn";
+				translationVector.Y = 0;
             }
 
 			else if (lenOfPlatform == Lengths.MEDIUM)
 			{
 				platformTypeToChoose = "res://mediumBridgePlatform.tscn";
-
+				numberToAdd = 10.0f;
+                translationVector.Y = 0;
             }
 
 			else
 			{
 				platformTypeToChoose = "res://largeBridgePlatform.tscn";
+				numberToAdd = 14.0f;
+                translationVector.Y = 0;
 
             }
-				//platformTypeToChoose = "";
-		}
+
+            if (nextRhythm == ActionStates.TURN_LEFT || nextRhythm == ActionStates.TURN_RIGHT)
+            {
+                numberToAdd = 6.0f;
+            }
+            //platformTypeToChoose = "";
+        }
 		else if (rng > flatPlatformTypeSpawnChance)
 		{
             if (lenOfPlatform == Lengths.SHORT)
             {
+				numberToAdd = 9.0f;
+                translationVector.Y = 2;
                 platformTypeToChoose = "res://inclinePlatformSmall.tscn";
+
+                if (nextRhythm == ActionStates.TURN_LEFT || nextRhythm == ActionStates.TURN_RIGHT)
+                {
+                    numberToAdd = 7.5f;
+                }
             }
 
             else if (lenOfPlatform == Lengths.MEDIUM)
             {
+				numberToAdd = 12.0f;
+                translationVector.Y = 3;
                 platformTypeToChoose = "res://inclinePlatformMedium.tscn";
+
+                if (nextRhythm == ActionStates.TURN_LEFT || nextRhythm == ActionStates.TURN_RIGHT)
+                {
+                    numberToAdd = 9.5f;
+                }
 
             }
 
             else
             {
+				numberToAdd = 18.0f;
+                translationVector.Y = 5;
                 platformTypeToChoose = "res://inclinePlatformLarge.tscn";
+
+                if (nextRhythm == ActionStates.TURN_LEFT || nextRhythm == ActionStates.TURN_RIGHT)
+                {
+                    numberToAdd = 11.5f;
+                }
 
             }
         }
@@ -357,17 +407,20 @@ public partial class TestLevel : Node3D
 		{
             if (lenOfPlatform == Lengths.SHORT)
             {
+				numberToAdd = 6.0f;
                 platformTypeToChoose = "res://small_platform.tscn";
             }
 
             else if (lenOfPlatform == Lengths.MEDIUM)
             {
+				numberToAdd = 9.0f;
                 platformTypeToChoose = "res://medium_platform2.tscn";
 
             }
 
             else
             {
+				numberToAdd = 12.0f;
                 platformTypeToChoose = "res://large_platform.tscn";
 
             }
@@ -383,21 +436,41 @@ public partial class TestLevel : Node3D
 		{
 			//Make it so its not 0 when its an incline platform
 			case Direction.POSITIVE_X:
-				currentPosition += new Vector3(numberToAdd, 0, 0);
+				currentPosition += new Vector3(numberToAdd, translationVector.Y, 0);
 				break;
 			case Direction.NEGATIVE_X:
-				currentPosition += new Vector3(-numberToAdd, 0, 0);
+				currentPosition += new Vector3(-numberToAdd, translationVector.Y, 0);
 				break;
 			case Direction.POSITIVE_Z:
-				currentPosition += new Vector3(0, 0, numberToAdd);
+				currentPosition += new Vector3(0, translationVector.Y, numberToAdd);
 				break;
             case Direction.NEGATIVE_Z:
-                currentPosition += new Vector3(0, 0, -numberToAdd);
+                currentPosition += new Vector3(0, translationVector.Y, -numberToAdd);
 				break;
 		}
 	}
 
-	private int determineAngle(Direction currentDirection)
+    private void AddCurrentPosition(Direction currentDirection, int inclineHeight)
+    {
+        switch (currentDirection)
+        {
+            //Make it so its not 0 when its an incline platform
+            case Direction.POSITIVE_X:
+                currentPosition += new Vector3(numberToAdd, 0, 0);
+                break;
+            case Direction.NEGATIVE_X:
+                currentPosition += new Vector3(-numberToAdd, 0, 0);
+                break;
+            case Direction.POSITIVE_Z:
+                currentPosition += new Vector3(0, 0, numberToAdd);
+                break;
+            case Direction.NEGATIVE_Z:
+                currentPosition += new Vector3(0, 0, -numberToAdd);
+                break;
+        }
+    }
+
+    private int determineAngle(Direction currentDirection)
 	{
 		switch (currentDirection)
 		{
@@ -422,15 +495,17 @@ public partial class TestLevel : Node3D
 		//for now we'll do a probability of 1/3 for deciding if the player ascends up, down, or does not.
 		uint rng = 1 + GD.Randi() % 3;
 
+
+		//Look into fixing this?
 		float yPosition = 0.0f;
 
 		switch (rng)
 		{
 			case 1:
-				yPosition = 2.0f;
+				yPosition = 1.5f;
 				break;
 			case 2:
-				yPosition = -2.0f;
+				yPosition = -1.5f;
 				break;
 			default:
 				break;
@@ -445,6 +520,7 @@ public partial class TestLevel : Node3D
 				numberToAdd = jumpSizes[1];
 				break;
 			case Lengths.LONG:
+				yPosition /= 2;
 				numberToAdd = jumpSizes[2];
 				break;
 		}
@@ -465,6 +541,28 @@ public partial class TestLevel : Node3D
 				break;
 		}
 	}
+
+	private void GenerateCheckpoint()
+	{
+        PackedScene platform;
+
+        platform = ResourceLoader.Load<PackedScene>("res://large_platform.tscn");
+
+		Node3D newPlatform = platform.Instantiate<Node3D>();
+        //Translate it by currentPosition.
+		newPlatform.Position = currentPosition;
+        GetTree().Root.AddChild(newPlatform);
+
+		PackedScene checkpointLoad;
+
+
+		checkpointLoad = ResourceLoader.Load<PackedScene>("res://Level parts/checkpoint.tscn");
+		Node3D checkpoint = checkpointLoad.Instantiate<Node3D>();
+		checkpoint.Position = new Vector3(currentPosition.X, currentPosition.Y + 3.0f, currentPosition.Z);
+        GetTree().Root.AddChild(checkpoint);
+        //checkpoint.Position.Y = currentPosition.Y + 1;
+
+    }
 
 	private Direction ChangeDirection(Direction currentDirection, ActionStates currentActionState)
 	{

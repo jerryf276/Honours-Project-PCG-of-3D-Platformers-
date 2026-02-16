@@ -38,7 +38,11 @@ directionChangeChance = 20
 smallPlatformSpawnChance = 100
 mediumPlatformSpawnChance = 100
 largePlatformSpawnChance = 100
-sectionSize = 50
+numberOfSections = 2
+sectionSize = 25
+
+[node name="PlayerCharacter" parent="." groups=["PlayerCharacter"] instance=ExtResource("2_1kog2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, -2.7850893)
@@ -50,9 +54,6 @@ shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_2xot7")
-
-[node name="PlayerCharacter" parent="." groups=["PlayerCharacter"] instance=ExtResource("2_1kog2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 
 [node name="Killzone" parent="." instance=ExtResource("3_2xot7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -42.168587, 0)
