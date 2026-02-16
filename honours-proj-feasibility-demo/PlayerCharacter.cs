@@ -25,6 +25,10 @@ public partial class PlayerCharacter : CharacterBody3D
 
     private bool hasDied;
 
+
+    //The last platform the player jumped on
+    private string previousPlatform;
+
     public override void _Ready()
     {
         cameraPivot = GetNode<Node3D>("CameraPivot");
@@ -32,6 +36,7 @@ public partial class PlayerCharacter : CharacterBody3D
         gobotSkin = GetNode<Node3D>("GobotSkin");
 
         spawnPoint = Position;
+        previousPlatform = "";
     }
 
     //private void OnAreaEntered(Area3D body)
@@ -160,6 +165,8 @@ public partial class PlayerCharacter : CharacterBody3D
         //   {
         if (hasDied == false)
         {
+            GD.Print("Died at: " + "X: " + GlobalPosition.X + " Z: " + GlobalPosition.Z);
+            GD.Print("Last platform jumped on before dying: " + previousPlatform);
             Velocity = Vector3.Zero;
             GlobalPosition = spawnPoint;
             deathCount += 1;
@@ -178,6 +185,11 @@ public partial class PlayerCharacter : CharacterBody3D
     public void setRespawnPosition(Vector3 pos)
     {
         spawnPoint = pos;
+    }
+
+    public void setPlatformJumpedOn(string platform)
+    {
+        previousPlatform = platform;
     }
 }
 

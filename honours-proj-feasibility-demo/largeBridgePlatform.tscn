@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://d3lvhwni8myjl"]
+[gd_scene load_steps=3 format=3 uid="uid://d3lvhwni8myjl"]
 
 [ext_resource type="PackedScene" uid="uid://dnbbvwkhmdio7" path="res://Level parts/wideBridgePart.tscn" id="1_gkmjr"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gkmjr"]
+size = Vector3(10.981995, 0.56933594, 2.931244)
 
 [node name="Node3D" type="StaticBody3D"]
 
@@ -35,3 +38,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
 
 [node name="wideBridge11" parent="." instance=ExtResource("1_gkmjr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+
+[node name="LargeBridge" type="Area3D" parent="." groups=["platform"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LargeBridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.023345947, -0.21533203, 0.47712708)
+shape = SubResource("BoxShape3D_gkmjr")

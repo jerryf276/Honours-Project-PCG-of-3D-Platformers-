@@ -16,6 +16,12 @@ public partial class PlayerCollision : Area3D
             player.respawn();
         }
 
+        if (area.IsInGroup("platform"))
+        {
+           // GD.Print("Player is on" + area.Name);
+            player.setPlatformJumpedOn(area.Name);
+        }
+
         //if (area.IsInGroup("checkpoint"))
         //{
         //    player.setRespawnPosition();

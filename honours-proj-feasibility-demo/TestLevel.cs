@@ -94,7 +94,7 @@ public partial class TestLevel : Node3D
 
 		translationVector = new Vector3(0, 0, 0);
 
-		GD.Print("Number: " + smallJumpGapSpawnChance);
+		//GD.Print("Number: " + smallJumpGapSpawnChance);
 
 		combinedPlatformSpawnChance = smallPlatformSpawnChance + mediumPlatformSpawnChance + largePlatformSpawnChance;
 
@@ -156,7 +156,7 @@ public partial class TestLevel : Node3D
 					{
 						//Chooses a number between 1 to the total number of each platform spawn chance probability
 						uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
-						GD.Print(rng);
+					//	GD.Print(rng);
 
 						if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
 						{
@@ -322,7 +322,7 @@ public partial class TestLevel : Node3D
 
         //Translate it by currentPosition.
         newPlatform.Position = currentPosition;
-		GD.Print(newPlatform.Position);
+		//GD.Print(newPlatform.Position);
 		GetTree().Root.AddChild(newPlatform);
 	}
 
