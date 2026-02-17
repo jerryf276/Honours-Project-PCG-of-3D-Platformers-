@@ -69,6 +69,8 @@ public partial class TestLevel : Node3D
 	[ExportGroup("Sections")]
 	[Export] int sectionSize { get; set; }
 
+	bool spawnSection = false;
+
 	private struct LevelComponent
 	{
 		//Refer to ActionStates enum class
@@ -563,6 +565,10 @@ public partial class TestLevel : Node3D
         //checkpoint.Position.Y = currentPosition.Y + 1;
 
     }
+	public void setCheckpointReached(bool checkpointReached)
+	{
+		spawnSection = checkpointReached;
+	}
 
 	private Direction ChangeDirection(Direction currentDirection, ActionStates currentActionState)
 	{

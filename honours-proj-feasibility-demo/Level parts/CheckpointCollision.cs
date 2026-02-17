@@ -29,6 +29,19 @@ public partial class CheckpointCollision : Area3D
                         GD.Print("Checkpoint!");
                         checkpointReached = true;
                     }
+
+                    TestLevel level = GetTree().Root.GetNode<TestLevel>(".") as TestLevel;
+
+                    if (level != null)
+                    {
+                        level.setCheckpointReached(checkpointReached);
+                    }
+
+                    //if (level == null)
+                    //{
+                    //    GD.Print("Level doesn't exist");
+                    //}
+
                 }
 
             }
