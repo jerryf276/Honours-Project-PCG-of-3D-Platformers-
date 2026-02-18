@@ -69,7 +69,9 @@ public partial class TestLevel : Node3D
 	[ExportGroup("Sections")]
 	[Export] int sectionSize { get; set; }
 
-	bool spawnSection = false;
+	bool spawnSection = true;
+
+	private uint sectionsSpawned = 0;
 
 	private struct LevelComponent
 	{
@@ -109,118 +111,230 @@ public partial class TestLevel : Node3D
 
 		//Ideally, each spawn we could change the actions.
 
-		if (!levelSpawned)
+		if (spawnSection && sectionsSpawned < sectionSize)
 		{
-			for (int j = 0; j < numberOfSections; j++)
-			{
-				List<ActionStates> actionsToAdd = new List<ActionStates> { };
+            List<ActionStates> actionsToAdd = new List<ActionStates> { };
+            for (int i = 0; i < sectionSize; ++i)
+            {
 
-				for (int i = 0; i < sectionSize; ++i)
-				{
+                uint directionChange = 1 + GD.Randi() % 100;
+                //If random number is less than direction change percentage, the direction will change after platform has spawned
+                if (directionChange < directionChangeChance)
+                {
+                    //0 - change direction to left, 1 - change direction to right
+                    uint direction = GD.Randi() % 2;
+                    if (direction == 0)
+                    {
+                        //actionsToAdd.AddRange(ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP);
+                        actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP });
+                    }
+                    else
+                    {
+                        actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP });
+                    }
+                }
+                else
+                {
+                    //Direction not changing
+                    actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
+                }
+            }
 
-					uint directionChange = 1 + GD.Randi() % 100;
-					//If random number is less than direction change percentage, the direction will change after platform has spawned
-					if (directionChange < directionChangeChance)
-					{
-						//0 - change direction to left, 1 - change direction to right
-						uint direction = GD.Randi() % 2;
-						if (direction == 0)
-						{
-							//actionsToAdd.AddRange(ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP);
-							actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP });
-						}
-						else
-						{
-							actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP });
-						}
-					}
-					else
-					{
-						//Direction not changing
-						actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
-					}
-				}
+            //Left over from when actions were previously predefined
+            //List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
 
-				//Left over from when actions were previously predefined
-				//List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
+            //int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
+            SortedDictionary<int, Lengths> actionSizes = new SortedDictionary<int, Lengths> { };
 
-				//int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
-				SortedDictionary<int, Lengths> actionSizes = new SortedDictionary<int, Lengths> { };
+            //List of components of level that will be generated
+            List<LevelComponent> levelComponents = new List<LevelComponent> { };
 
-				//List of components of level that will be generated
-				List<LevelComponent> levelComponents = new List<LevelComponent> { };
+            //    levelStates.Add(ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.WALK);
+            for (int i = 0; i < actionsToAdd.Count; ++i)
+            {
+                Lengths lengthToAdd;
+                if (actionsToAdd[i] == ActionStates.WALK)
+                {
+                    //Chooses a number between 1 to the total number of each platform spawn chance probability
+                    uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
+                    //	GD.Print(rng);
 
-				//    levelStates.Add(ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.WALK);
-				for (int i = 0; i < actionsToAdd.Count; ++i)
-				{
-					Lengths lengthToAdd;
-					if (actionsToAdd[i] == ActionStates.WALK)
-					{
-						//Chooses a number between 1 to the total number of each platform spawn chance probability
-						uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
-					//	GD.Print(rng);
+                    if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
+                    {
+                        //Adds large platform
+                        lengthToAdd = Lengths.LONG;
+                    }
 
-						if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
-						{
-							//Adds large platform
-							lengthToAdd = Lengths.LONG;
-						}
+                    else if (rng > smallPlatformSpawnChance)
+                    {
+                        //Adds medium platform
+                        lengthToAdd = Lengths.MEDIUM;
+                    }
 
-						else if (rng > smallPlatformSpawnChance)
-						{
-							//Adds medium platform
-							lengthToAdd = Lengths.MEDIUM;
-						}
+                    else
+                    {
+                        //Adds small platform
+                        lengthToAdd = Lengths.SHORT;
+                    }
+                }
 
-						else
-						{
-							//Adds small platform
-							lengthToAdd = Lengths.SHORT;
-						}
-					}
+                else if (actionsToAdd[i] == ActionStates.JUMP)
+                {
+                    translationVector.Y = 0;
+                    //Chooses a number between 1 to the total number of each jump gap probability
+                    uint rng = 1 + GD.Randi() % combinedJumpGapSpawnChance;
 
-					else if (actionsToAdd[i] == ActionStates.JUMP)
-					{
-						translationVector.Y = 0;
-						//Chooses a number between 1 to the total number of each jump gap probability
-						uint rng = 1 + GD.Randi() % combinedJumpGapSpawnChance;
+                    if (rng > smallJumpGapSpawnChance + mediumJumpGapSpawnChance)
+                    {
+                        //Adds large jump gap
+                        lengthToAdd = Lengths.LONG;
+                    }
 
-						if (rng > smallJumpGapSpawnChance + mediumJumpGapSpawnChance)
-						{
-							//Adds large jump gap
-							lengthToAdd = Lengths.LONG;
-						}
+                    else if (rng > smallJumpGapSpawnChance)
+                    {
+                        //Adds medium jump gap
+                        lengthToAdd = Lengths.MEDIUM;
+                    }
 
-						else if (rng > smallJumpGapSpawnChance)
-						{
-							//Adds medium jump gap
-							lengthToAdd = Lengths.MEDIUM;
-						}
+                    else
+                    {
+                        //Adds small jump gap
+                        lengthToAdd = Lengths.SHORT;
+                    }
 
-						else
-						{
-							//Adds small jump gap
-							lengthToAdd = Lengths.SHORT;
-						}
+                }
 
-					}
+                else
+                {
+                    translationVector.Y = 0;
+                    //Adds turning direction to the section of the level
+                    lengthToAdd = Lengths.NONE;
+                }
 
-					else
-					{
-						translationVector.Y = 0;
-						//Adds turning direction to the section of the level
-						lengthToAdd = Lengths.NONE;
-					}
+                levelComponents.Add(new LevelComponent(actionsToAdd[i], lengthToAdd));
+            }
+            //Generates level once each component of the level has been defined
 
-					levelComponents.Add(new LevelComponent(actionsToAdd[i], lengthToAdd));
-				}
-				//Generates level once each component of the level has been defined
+            GenerateLevel(levelComponents);
+            //levelSpawned = true;
 
-				GenerateLevel(levelComponents);
-				//levelSpawned = true;
-			}
-            levelSpawned = true;
-        }
+
+            spawnSection = false;
+		}
+
+
+		//if (!levelSpawned)
+		//{
+		//	for (int j = 0; j < numberOfSections; j++)
+		//	{
+		//		List<ActionStates> actionsToAdd = new List<ActionStates> { };
+
+		//		for (int i = 0; i < sectionSize; ++i)
+		//		{
+
+		//			uint directionChange = 1 + GD.Randi() % 100;
+		//			//If random number is less than direction change percentage, the direction will change after platform has spawned
+		//			if (directionChange < directionChangeChance)
+		//			{
+		//				//0 - change direction to left, 1 - change direction to right
+		//				uint direction = GD.Randi() % 2;
+		//				if (direction == 0)
+		//				{
+		//					//actionsToAdd.AddRange(ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP);
+		//					actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP });
+		//				}
+		//				else
+		//				{
+		//					actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP });
+		//				}
+		//			}
+		//			else
+		//			{
+		//				//Direction not changing
+		//				actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
+		//			}
+		//		}
+
+		//		//Left over from when actions were previously predefined
+		//		//List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
+
+		//		//int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
+		//		SortedDictionary<int, Lengths> actionSizes = new SortedDictionary<int, Lengths> { };
+
+		//		//List of components of level that will be generated
+		//		List<LevelComponent> levelComponents = new List<LevelComponent> { };
+
+		//		//    levelStates.Add(ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.WALK);
+		//		for (int i = 0; i < actionsToAdd.Count; ++i)
+		//		{
+		//			Lengths lengthToAdd;
+		//			if (actionsToAdd[i] == ActionStates.WALK)
+		//			{
+		//				//Chooses a number between 1 to the total number of each platform spawn chance probability
+		//				uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
+		//			//	GD.Print(rng);
+
+		//				if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
+		//				{
+		//					//Adds large platform
+		//					lengthToAdd = Lengths.LONG;
+		//				}
+
+		//				else if (rng > smallPlatformSpawnChance)
+		//				{
+		//					//Adds medium platform
+		//					lengthToAdd = Lengths.MEDIUM;
+		//				}
+
+		//				else
+		//				{
+		//					//Adds small platform
+		//					lengthToAdd = Lengths.SHORT;
+		//				}
+		//			}
+
+		//			else if (actionsToAdd[i] == ActionStates.JUMP)
+		//			{
+		//				translationVector.Y = 0;
+		//				//Chooses a number between 1 to the total number of each jump gap probability
+		//				uint rng = 1 + GD.Randi() % combinedJumpGapSpawnChance;
+
+		//				if (rng > smallJumpGapSpawnChance + mediumJumpGapSpawnChance)
+		//				{
+		//					//Adds large jump gap
+		//					lengthToAdd = Lengths.LONG;
+		//				}
+
+		//				else if (rng > smallJumpGapSpawnChance)
+		//				{
+		//					//Adds medium jump gap
+		//					lengthToAdd = Lengths.MEDIUM;
+		//				}
+
+		//				else
+		//				{
+		//					//Adds small jump gap
+		//					lengthToAdd = Lengths.SHORT;
+		//				}
+
+		//			}
+
+		//			else
+		//			{
+		//				translationVector.Y = 0;
+		//				//Adds turning direction to the section of the level
+		//				lengthToAdd = Lengths.NONE;
+		//			}
+
+		//			levelComponents.Add(new LevelComponent(actionsToAdd[i], lengthToAdd));
+		//		}
+		//		//Generates level once each component of the level has been defined
+
+		//		GenerateLevel(levelComponents);
+		//		//levelSpawned = true;
+		//	}
+  //          levelSpawned = true;
+  //      }
 	}
 
 	private void GenerateLevel(List<LevelComponent> componentsToAdd)
