@@ -111,7 +111,7 @@ public partial class TestLevel : Node3D
 
 		//Ideally, each spawn we could change the actions.
 
-		if (spawnSection && sectionsSpawned < sectionSize)
+		if (spawnSection && (sectionsSpawned < numberOfSections))
 		{
             List<ActionStates> actionsToAdd = new List<ActionStates> { };
             for (int i = 0; i < sectionSize; ++i)
@@ -220,6 +220,9 @@ public partial class TestLevel : Node3D
 
 
             spawnSection = false;
+			sectionsSpawned++;
+
+			//GD.Print(sectionSize);
 		}
 
 
