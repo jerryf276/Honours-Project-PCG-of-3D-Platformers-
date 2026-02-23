@@ -399,9 +399,9 @@ public partial class TestLevel : Node3D
 			//}
  
 		}
-
-		GenerateCheckpoint();
         AddCurrentPosition(direction);
+        GenerateCheckpoint();
+       // AddCurrentPosition(direction);
 
     }
 
