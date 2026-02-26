@@ -11,6 +11,12 @@ public partial class PlayerCharacter : CharacterBody3D
     [Export] private float acceleration = 20.0f;
     [Export] private float rotationSpeed = 12.0f;
     [Export] private float jumpImpulse = 12.0f;
+    [Export] private float attackedImpulse = 40.0f;
+    [ExportGroup("Timer cooldowns")]
+    [Export] Timer attackCooldown;
+
+
+    private int playerHealth = 3;
 
     private Vector2 cameraInputDirection = Vector2.Zero;
     private Vector3 lastMovementDirection = Vector3.Back;
@@ -24,7 +30,8 @@ public partial class PlayerCharacter : CharacterBody3D
     private int deathCount = 0;
 
     private bool hasDied;
-
+    private bool isAttacked;
+    private bool isOnSpike;
 
     //The last platform the player jumped on
     private string previousPlatform;
@@ -156,6 +163,18 @@ public partial class PlayerCharacter : CharacterBody3D
             }
         }
 
+        if (attackCooldown.TimeLeft <= 0) 
+        {
+            isAttacked = false;
+            if (isOnSpike)
+            {
+                attackedImpulse /= 2;
+                attackedBySpike();
+                attackedImpulse *= 2;
+            }
+        }
+
+       // GD.Print(attackCooldown.TimeLeft);
         //respawn();
     }
 
@@ -190,6 +209,31 @@ public partial class PlayerCharacter : CharacterBody3D
     public void setPlatformJumpedOn(string platform)
     {
         previousPlatform = platform;
+    }
+
+    public void attackedBySpike()
+    {
+        //  if (isAttacked == false)
+        //  {
+        GD.Print("Attacked!");
+            playerHealth -= 1;
+            Vector3 playerVelocity = Velocity;
+            playerVelocity.Y += attackedImpulse;
+            Velocity = playerVelocity;
+            isAttacked = true;
+            attackCooldown.Start();
+       // }
+       // if (attackCooldown.time)
+    }
+
+    public bool isCurrentlyAttacked()
+    {
+        return isAttacked;
+    }
+
+    public void setOnSpike(bool spike)
+    {
+        isOnSpike = spike;
     }
 }
 

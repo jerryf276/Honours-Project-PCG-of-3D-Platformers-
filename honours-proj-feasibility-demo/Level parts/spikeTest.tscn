@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://nftqb2h7f2oy"]
+
+[ext_resource type="PackedScene" uid="uid://fweqbtfm5wxc" path="res://Level parts/spikes.tscn" id="1_nauas"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_egp75"]
+size = Vector3(1.9241028, 0.29797363, 1.891571)
+
+[node name="spike" type="Node3D"]
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("1_nauas")]
+
+[node name="spikeArea" type="Area3D" parent="." groups=["spikes"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikeArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00920105, 1.2892702, 0.008743286)
+shape = SubResource("BoxShape3D_egp75")

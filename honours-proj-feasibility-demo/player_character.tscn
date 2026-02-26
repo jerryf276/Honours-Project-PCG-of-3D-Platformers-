@@ -39,3 +39,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9754784, 0)
 shape = SubResource("CapsuleShape3D_5up26")
 
 [connection signal="area_entered" from="Area3D" to="Area3D" method="OnAreaEntered"]
+[connection signal="area_exited" from="Area3D" to="Area3D" method="OnAreaExited"]

@@ -8,6 +8,7 @@ public partial class PlayerCollision : Area3D
     public override void _Ready()
     {
         AreaEntered += OnAreaEntered;
+        AreaExited += OnAreaExited;
     }
     private void OnAreaEntered(Area3D area)
     {
@@ -22,10 +23,35 @@ public partial class PlayerCollision : Area3D
             player.setPlatformJumpedOn(area.Name);
         }
 
+        if (area.IsInGroup("spikes"))
+        {
+           // if (player.IsOnFloor())
+          //  {
+                GD.Print("Health lost!");
+                player.setOnSpike(true);
+            if (!player.isCurrentlyAttacked())
+                {
+                    player.attackedBySpike();
+                
+                }
+             
+            
+          //  }
+        }
+
         //if (area.IsInGroup("checkpoint"))
         //{
         //    player.setRespawnPosition();
         //}
+    }
+
+    private void OnAreaExited(Area3D area)
+    {
+        if (area.IsInGroup("spikes"))
+        {
+            //set 
+            player.setOnSpike(false);
+        }
     }
 
 }
