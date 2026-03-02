@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://h1a5m4s1t5wv"]
+[gd_scene load_steps=5 format=3 uid="uid://h1a5m4s1t5wv"]
 
 [ext_resource type="PackedScene" uid="uid://cr73hyybcgtha" path="res://TestLevel.tscn" id="1_dhuwq"]
 [ext_resource type="PackedScene" uid="uid://bop0k7owkr1r8" path="res://scenes/hud.tscn" id="2_dahbk"]
 [ext_resource type="PackedScene" uid="uid://lnbv0urh2jg2" path="res://player_character.tscn" id="3_dahbk"]
+[ext_resource type="PackedScene" uid="uid://dx0gjm1l03jmn" path="res://Level parts/coin.tscn" id="4_xo2t0"]
 
 [node name="Game" type="Node"]
 
@@ -19,3 +20,6 @@ attackCooldown = NodePath("../Timer")
 process_callback = 0
 wait_time = 3.0
 one_shot = true
+
+[node name="coin" parent="." instance=ExtResource("4_xo2t0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6179442, 4.8870163)
