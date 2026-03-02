@@ -30,6 +30,7 @@ public partial class TestLevel : Node3D
 	float numberToAdd = 0;
 	Vector3 translationVector;
 	//Chance of direction changing, we have made 50 the max 
+	[Export] Timer gameTimer;
 	[Export(PropertyHint.Range, "0, 50")] private uint directionChangeChance;
 
 	//Default values will be 1.
@@ -54,6 +55,8 @@ public partial class TestLevel : Node3D
 
 	[ExportGroup("Number of Sections")]
 	[Export(PropertyHint.Range, "1, 10")] private uint numberOfSections = 1;
+
+	
 
 
 	//Value which combines the three platform spawn chances together
@@ -103,7 +106,10 @@ public partial class TestLevel : Node3D
 		combinedPlatformSpawnChance = smallPlatformSpawnChance + mediumPlatformSpawnChance + largePlatformSpawnChance;
 
 		combinedJumpGapSpawnChance = smallJumpGapSpawnChance + mediumJumpGapSpawnChance + largeJumpGapSpawnChance;
-	  
+
+		gameTimer.Start();
+
+		//gameTimer.Timeout += OnTimeOut;
 	}
 
 	public override void _Process(double delta)

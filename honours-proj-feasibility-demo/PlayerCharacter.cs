@@ -36,6 +36,9 @@ public partial class PlayerCharacter : CharacterBody3D
     //The last platform the player jumped on
     private string previousPlatform;
 
+    private int currentScore = 0;
+    private int coinCount = 0;
+
     public override void _Ready()
     {
         cameraPivot = GetNode<Node3D>("CameraPivot");
