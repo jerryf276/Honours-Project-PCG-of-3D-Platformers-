@@ -12,6 +12,7 @@ public partial class PlayerCharacter : CharacterBody3D
     [Export] private float rotationSpeed = 12.0f;
     [Export] private float jumpImpulse = 12.0f;
     [Export] private float attackedImpulse = 40.0f;
+    [Export] private float bounceImpulse = 35.0f;
     [ExportGroup("Timer cooldowns")]
     [Export] Timer attackCooldown;
 
@@ -236,6 +237,13 @@ public partial class PlayerCharacter : CharacterBody3D
 
        // }
        // if (attackCooldown.time)
+    }
+
+    public void bouncedOnSpring()
+    {
+        Vector3 playerVelocity = Velocity;
+        playerVelocity.Y += bounceImpulse;
+        Velocity = playerVelocity;
     }
 
     public bool isCurrentlyAttacked()

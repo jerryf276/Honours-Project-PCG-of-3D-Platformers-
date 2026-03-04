@@ -1,4 +1,6 @@
-[gd_scene load_steps=12 format=4 uid="uid://bgwuqpjrh55vi"]
+[gd_scene load_steps=13 format=4 uid="uid://bgwuqpjrh55vi"]
+
+[ext_resource type="Script" uid="uid://cqg3rsalrwxvs" path="res://Level parts/bouncer.cs" id="1_6dx5v"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y53b5"]
 resource_name = "Metal"
@@ -186,7 +188,9 @@ libraries = {
 transform = Transform3D(100, 0, 0, 0, -1.1920929e-05, 99.99999, 0, -99.99999, -1.1920929e-05, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_dwwoq")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("animationPlayer") groups=["bouncer"]]
+script = ExtResource("1_6dx5v")
+animationPlayer = NodePath("../AnimationPlayer")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 transform = Transform3D(2.022601, 0, 0, 0, 1, 0, 0, 0, 1.9904021, 0, 1.7904441, 0)
