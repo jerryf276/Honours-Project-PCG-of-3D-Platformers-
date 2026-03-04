@@ -1,4 +1,6 @@
-[gd_scene load_steps=8 format=4 uid="uid://dx0gjm1l03jmn"]
+[gd_scene load_steps=9 format=4 uid="uid://dx0gjm1l03jmn"]
+
+[ext_resource type="Script" uid="uid://c0opq7i1rvdcb" path="res://Level parts/coinBehaviour.cs" id="1_hakq7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u3kpn"]
 resource_name = "Gold"
@@ -77,7 +79,8 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0
 mesh = SubResource("ArrayMesh_dwr4f")
 skeleton = NodePath("")
 
-[node name="coin" type="Area3D" parent="."]
+[node name="coin" type="Area3D" parent="." groups=["coin"]]
+script = ExtResource("1_hakq7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="coin"]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)

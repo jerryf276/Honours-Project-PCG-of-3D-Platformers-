@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://cr73hyybcgtha"]
+[gd_scene load_steps=9 format=3 uid="uid://cr73hyybcgtha"]
 
 [ext_resource type="Script" uid="uid://dsvpgqtkelfai" path="res://TestLevel.cs" id="1_y1jsw"]
 [ext_resource type="PackedScene" uid="uid://ciw3uoy65rtaw" path="res://killzone.tscn" id="3_2xot7"]
+[ext_resource type="Script" uid="uid://dn74mg3ph68" path="res://GameTimer.cs" id="4_mvtj7"]
 [ext_resource type="PackedScene" uid="uid://nftqb2h7f2oy" path="res://Level parts/spikeTest.tscn" id="4_waekl"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_y1jsw"]
@@ -32,8 +33,9 @@ volumetric_fog_length = 54.04
 volumetric_fog_detail_spread = 0.5
 volumetric_fog_ambient_inject = 1.0
 
-[node name="TestLevel" type="Node3D"]
+[node name="TestLevel" type="Node3D" node_paths=PackedStringArray("gameTimer")]
 script = ExtResource("1_y1jsw")
+gameTimer = NodePath("GameTimer")
 directionChangeChance = 20
 smallPlatformSpawnChance = 100
 mediumPlatformSpawnChance = 100
@@ -57,3 +59,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -42.168587, 0)
 
 [node name="spike" parent="." instance=ExtResource("4_waekl")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1479042, -4.7374754)
+
+[node name="GameTimer" type="Timer" parent="."]
+script = ExtResource("4_mvtj7")

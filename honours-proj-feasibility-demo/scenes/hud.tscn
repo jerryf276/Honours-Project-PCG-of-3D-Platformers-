@@ -40,7 +40,7 @@ text = "Score: 0"
 [node name="TimeText" type="Label" parent="TopHud/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
-text = "Time: 00:00:00"
+text = "Time: 00:00"
 horizontal_alignment = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="TopHud/MarginContainer/VBoxContainer"]

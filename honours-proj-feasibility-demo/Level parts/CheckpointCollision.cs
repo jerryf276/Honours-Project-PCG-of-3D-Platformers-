@@ -27,6 +27,7 @@ public partial class CheckpointCollision : Area3D
                     {
                         player.setRespawnPosition(new Vector3(GlobalPosition.X, GlobalPosition.Y + 3, GlobalPosition.Z));
                         GD.Print("Checkpoint!");
+                        player.addScore(500);
                         checkpointReached = true;
                     }
 

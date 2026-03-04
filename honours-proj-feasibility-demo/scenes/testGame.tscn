@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://h1a5m4s1t5wv"]
+[gd_scene load_steps=6 format=3 uid="uid://h1a5m4s1t5wv"]
 
 [ext_resource type="PackedScene" uid="uid://cr73hyybcgtha" path="res://TestLevel.tscn" id="1_dhuwq"]
+[ext_resource type="Script" uid="uid://fccq2bvsp41w" path="res://scenes/GameManager.cs" id="1_qgp6h"]
 [ext_resource type="PackedScene" uid="uid://bop0k7owkr1r8" path="res://scenes/hud.tscn" id="2_dahbk"]
 [ext_resource type="PackedScene" uid="uid://lnbv0urh2jg2" path="res://player_character.tscn" id="3_dahbk"]
 [ext_resource type="PackedScene" uid="uid://dx0gjm1l03jmn" path="res://Level parts/coin.tscn" id="4_xo2t0"]
 
-[node name="Game" type="Node"]
+[node name="Game" type="Node" node_paths=PackedStringArray("inGameHUD")]
+script = ExtResource("1_qgp6h")
+inGameHUD = NodePath("HUD")
 
 [node name="TestLevel" parent="." instance=ExtResource("1_dhuwq")]
 

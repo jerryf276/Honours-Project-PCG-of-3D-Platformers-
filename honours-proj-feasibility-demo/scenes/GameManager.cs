@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using static System.Formats.Asn1.AsnWriter;
 
 public partial class GameManager : Node
 {
@@ -10,6 +11,7 @@ public partial class GameManager : Node
     Label healthText;
     Label timeText;
 
+    static GameManager instance;
 
     public override void _Ready()
     {
@@ -17,6 +19,8 @@ public partial class GameManager : Node
         coinText = inGameHUD.GetNode<Label>("TopHud/MarginContainer/VBoxContainer/HBoxContainer2/CoinsText");
         healthText = inGameHUD.GetNode<Label>("TopHud/MarginContainer/VBoxContainer/HBoxContainer2/HealthText");
         timeText = inGameHUD.GetNode<Label>("TopHud/MarginContainer/VBoxContainer/HBoxContainer/TimeText");
+
+        instance = this;
     }
 
     public override void _Process(double delta)
@@ -24,18 +28,23 @@ public partial class GameManager : Node
         
     }
     
-    private void updateScoreText(int score)
+    public static void updateScoreText(int score)
     {
-
+        instance.scoreText.Text = "Score: " + score;
     }
 
-    private void updateCoinText(int coinCount)
+    public static void updateCoinText(int coinCount)
     {
-
+        instance.coinText.Text = "Coins: " + coinCount;
     }
 
-    private void updateHealthText(int healthCount)
+    public static void updateHealthText(int healthCount)
     {
+        instance.healthText.Text = "Health: " + healthCount;
+    }
 
+    public static void updateTimeText(string text)
+    {
+        instance.timeText.Text = text;
     }
 }

@@ -220,11 +220,20 @@ public partial class PlayerCharacter : CharacterBody3D
         //  {
         GD.Print("Attacked!");
             playerHealth -= 1;
+            GameManager.updateHealthText(playerHealth);
             Vector3 playerVelocity = Velocity;
             playerVelocity.Y += attackedImpulse;
             Velocity = playerVelocity;
             isAttacked = true;
             attackCooldown.Start();
+
+        if (playerHealth <= 0) 
+        {
+            this.respawn();
+            playerHealth = 3;
+            GameManager.updateHealthText(playerHealth);
+        }
+
        // }
        // if (attackCooldown.time)
     }
@@ -237,6 +246,22 @@ public partial class PlayerCharacter : CharacterBody3D
     public void setOnSpike(bool spike)
     {
         isOnSpike = spike;
+    }
+
+    public void addScore(int scoreToAdd)
+    {
+        currentScore += scoreToAdd;
+        GameManager.updateScoreText(currentScore);
+    }
+
+    public void addCoinCount(int coinCountToAdd)
+    {
+        coinCount += coinCountToAdd;
+    }
+   
+    public int getCoinCount()
+    {
+        return coinCount;
     }
 }
 

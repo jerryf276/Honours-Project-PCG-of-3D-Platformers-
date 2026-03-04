@@ -15,12 +15,51 @@ public partial class GameTimer : Timer
     private void OnTimeOut()
     {
         seconds += 1;
-
+        string minuteText = "00";
+        string secondText = "00";
         if (seconds > 59)
         {
             minutes += 1;
             seconds = 0;
         }
 
+        if (minutes < 10)
+        {
+            if (minutes <= 0)
+            {
+                minuteText = "00";
+            }
+            else
+            {
+                minuteText = "0" + minutes;
+            }
+        }
+
+        else
+        {
+            minuteText = minutes.ToString();
+        }
+
+        if (seconds < 10) 
+        { 
+            if (seconds <=0) 
+            {
+                secondText = "00";
+            }
+
+            else
+            {
+                secondText = "0" + seconds;
+            }
+        }
+
+        else
+        {
+            secondText = seconds.ToString();
+        }
+
+        string textToPrint = "Time: " + minuteText + ":" + secondText;
+
+        GameManager.updateTimeText(textToPrint);
     }
 }
