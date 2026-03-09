@@ -34,4 +34,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6179442, 4.8870163)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1041155, 0, -6.203172)
 
 [node name="Health" parent="." instance=ExtResource("7_bb2vi")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3148372, 1.6106639, -1.9509232)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3320041, 2.9795527, 1.5808716)

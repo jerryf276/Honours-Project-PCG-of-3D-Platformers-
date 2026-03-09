@@ -15,6 +15,7 @@ public partial class PlayerCharacter : CharacterBody3D
     [Export] private float bounceImpulse = 35.0f;
     [ExportGroup("Timer cooldowns")]
     [Export] Timer attackCooldown;
+    [Export] Timer doubleJumpTimer;
 
 
     private int playerHealth = 3;
@@ -39,6 +40,8 @@ public partial class PlayerCharacter : CharacterBody3D
 
     private int currentScore = 0;
     private int coinCount = 0;
+
+    private int jumpCount = 0;
 
     public override void _Ready()
     {
@@ -121,9 +124,15 @@ public partial class PlayerCharacter : CharacterBody3D
 
         bool isStartingJump = false;
 
-        if (Input.IsActionJustPressed("jump") && IsOnFloor())
+        if (Input.IsActionJustPressed("jump") && jumpCount < 2)
         {
             isStartingJump = true;
+            jumpCount++;
+        }
+
+        else if (IsOnFloor())
+        {
+            jumpCount = 0;
         }
 
         if (isStartingJump)

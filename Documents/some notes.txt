@@ -1,0 +1,30 @@
+- There needs to be three straight platforms before a direction change (to prevent skipping)
+
+- Coins need to be placed on some platforms
+	- Perhaps make it so there is something in the editor which lets you change attributes (so 25% of platforms have coins for example)
+	- 
+
+
+
+Difficulty:
+
+- Easy
+	- Less small platforms
+	- Not as many spikes
+	- Not as many drops
+	- More health
+
+
+- Medium
+	- Equal small, medium, and large platforms roughly
+	- Normal jump lengths
+	- some drops
+	- some spikes
+	- some healing
+
+- Hard
+	- More small platforms
+	- Further jumps
+	- More drops
+	- More spikes
+	- Less healing
