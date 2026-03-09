@@ -5,17 +5,17 @@ using System.Runtime.CompilerServices;
 using static Godot.TextServer;
 
 
-enum PlatformTypes {FLAT, INCLINE, BRIDGE};
+public enum PlatformTypes {FLAT, INCLINE, BRIDGE};
 enum ActionStates {WALK, TURN_LEFT, TURN_RIGHT, JUMP};
 
 //NONE is used for changing direction since a length doesn't exist for a direction change.
-enum Lengths {SHORT, MEDIUM, LONG, NONE};
+public enum Lengths {SHORT, MEDIUM, LONG, NONE};
 
 //which direction the platform will be facing
 enum Direction {POSITIVE_X, NEGATIVE_X, POSITIVE_Z, NEGATIVE_Z};
 
 
-enum NewDirection { FORWARD, LEFT, RIGHT};
+public enum NewDirection { FORWARD, LEFT, RIGHT};
 
 
 //We might use this enum for the level grammar
@@ -34,6 +34,7 @@ public partial class TestLevel : Node3D
 	Vector3 translationVector;
 	//Chance of direction changing, we have made 50 the max 
 	[Export] Timer gameTimer;
+	[Export] ComponentSpawner compSpawner;
 	[Export(PropertyHint.Range, "0, 50")] private uint directionChangeChance;
 
 	//Default values will be 1.
@@ -331,6 +332,7 @@ public partial class TestLevel : Node3D
 		}
         AddCurrentPosition(newDirection);
         GenerateCheckpoint();
+		compSpawner.generateCoins();
        // AddCurrentPosition(direction);
 
     }
@@ -357,7 +359,15 @@ public partial class TestLevel : Node3D
 
 
 		//ONE COIN IS SPAWNED PER PLATFORM
-		spawnCoins(currentDirection, 1, 1, "", newPlatform.Position);
+
+		if (platformType == PlatformTypes.BRIDGE)
+		{
+			//if (compSpawner != null)
+			//{
+				compSpawner.addCoinPlatform(platformType, platformLength, newPlatform.Position, currentDirection);
+			//}
+		}
+		//spawnCoins(currentDirection, 1, 1, "", newPlatform.Position);
 	}
 
 	private PlatformTypes typeToChoose()
@@ -470,112 +480,6 @@ public partial class TestLevel : Node3D
 
         return "res://large_platform.tscn";
     }
-	private string typeToChoose(Lengths lenOfPlatform, ActionStates nextRhythm)
-	{
-		string platformTypeToChoose;
-
-		uint combinedPlatformTypeChance = bridgePlatformTypeSpawnChance + flatPlatformTypeSpawnChance + inclinePlatformTypeSpawnChance;
-
-		uint rng = 1 + GD.Randi() % combinedPlatformTypeChance;
-
-		if (rng > flatPlatformTypeSpawnChance + inclinePlatformTypeSpawnChance)
-		{
-			//Platform will be a bridge
-			if (lenOfPlatform == Lengths.SHORT)
-			{
-                platformTypeToChoose = "res://smallBridgePlatform.tscn";
-				translationVector.Y = 0;
-            }
-
-			else if (lenOfPlatform == Lengths.MEDIUM)
-			{
-				platformTypeToChoose = "res://mediumBridgePlatform.tscn";
-				numberToAdd = 10.0f;
-                translationVector.Y = 0;
-            }
-
-			else
-			{
-				platformTypeToChoose = "res://largeBridgePlatform.tscn";
-				numberToAdd = 14.0f;
-                translationVector.Y = 0;
-
-            }
-
-            if (nextRhythm == ActionStates.TURN_LEFT || nextRhythm == ActionStates.TURN_RIGHT)
-            {
-                numberToAdd = 6.0f;
-            }
-            //platformTypeToChoose = "";
-        }
-		else if (rng > flatPlatformTypeSpawnChance)
-		{
-			//Platform will be an incline
-            if (lenOfPlatform == Lengths.SHORT)
-            {
-				numberToAdd = 9.0f;
-                translationVector.Y = 2;
-                platformTypeToChoose = "res://inclinePlatformSmall.tscn";
-
-                if (nextRhythm == ActionStates.TURN_LEFT || nextRhythm == ActionStates.TURN_RIGHT)
-                {
-                    numberToAdd = 7.5f;
-                }
-            }
-
-            else if (lenOfPlatform == Lengths.MEDIUM)
-            {
-				numberToAdd = 12.0f;
-                translationVector.Y = 3;
-                platformTypeToChoose = "res://inclinePlatformMedium.tscn";
-
-                if (nextRhythm == ActionStates.TURN_LEFT || nextRhythm == ActionStates.TURN_RIGHT)
-                {
-                    numberToAdd = 9.5f;
-                }
-
-            }
-
-            else
-            {
-				numberToAdd = 18.0f;
-                translationVector.Y = 5;
-                platformTypeToChoose = "res://inclinePlatformLarge.tscn";
-
-                if (nextRhythm == ActionStates.TURN_LEFT || nextRhythm == ActionStates.TURN_RIGHT)
-                {
-                    numberToAdd = 11.5f;
-                }
-
-            }
-        }
-		else
-		{
-			//Platform will be a regular platform
-            if (lenOfPlatform == Lengths.SHORT)
-            {
-				numberToAdd = 6.0f;
-                platformTypeToChoose = "res://small_platform.tscn";
-            }
-
-            else if (lenOfPlatform == Lengths.MEDIUM)
-            {
-				numberToAdd = 9.0f;
-                platformTypeToChoose = "res://medium_platform2.tscn";
-
-            }
-
-            else
-            {
-				numberToAdd = 12.0f;
-                platformTypeToChoose = "res://large_platform.tscn";
-
-            }
-        }
-
-		return platformTypeToChoose;
-
-	}
 
 	private void AddCurrentPosition(NewDirection currentDirection)
 	{
@@ -741,6 +645,10 @@ public partial class TestLevel : Node3D
 	}
 
 
+	private void spawnBridgeCoins()
+	{
+
+	}
 	private void spawnCoins(NewDirection currentDirection, int platformLength, int platformWidth, string platformType, Vector3 platformPosition)
 	{
 		PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
