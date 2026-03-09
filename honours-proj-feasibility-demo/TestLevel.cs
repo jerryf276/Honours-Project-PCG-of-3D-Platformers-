@@ -340,7 +340,10 @@ public partial class TestLevel : Node3D
 	{
 		PackedScene platform;
 
-		string platformTypeToSpawn = typeToChoose(platformLength, nextAction);
+		PlatformTypes platformType = typeToChoose();
+
+		string platformTypeToSpawn = platformPath(platformLength, platformType, nextAction);
+		//string platformTypeToSpawn = typeToChoose(platformLength, nextAction);
         platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
 
         Node3D newPlatform = platform.Instantiate<Node3D>();
@@ -351,8 +354,122 @@ public partial class TestLevel : Node3D
         newPlatform.Position = currentPosition;
 		//GD.Print(newPlatform.Position);
 		GetTree().Root.AddChild(newPlatform);
+
+
+		//ONE COIN IS SPAWNED PER PLATFORM
+		spawnCoins(currentDirection, 1, 1, "", newPlatform.Position);
 	}
 
+	private PlatformTypes typeToChoose()
+	{
+        uint combinedPlatformTypeChance = bridgePlatformTypeSpawnChance + flatPlatformTypeSpawnChance + inclinePlatformTypeSpawnChance;
+        uint rng = 1 + GD.Randi() % combinedPlatformTypeChance;
+		if (rng > flatPlatformTypeSpawnChance + inclinePlatformTypeSpawnChance)
+		{
+			return PlatformTypes.BRIDGE;
+		}
+
+		else if (rng > flatPlatformTypeSpawnChance)
+		{
+			return PlatformTypes.INCLINE;
+		}
+
+		else
+		{
+			return PlatformTypes.FLAT;
+		}
+
+        }
+
+	private string platformPath(Lengths lenOfPlatform, PlatformTypes type, ActionStates nextAction)
+	{
+		if (type == PlatformTypes.BRIDGE)
+		{
+            translationVector.Y = 0;
+            if (lenOfPlatform == Lengths.SHORT)
+			{
+				numberToAdd = 6.0f;
+
+				return "res://smallBridgePlatform.tscn";
+            }
+
+			else if (lenOfPlatform == Lengths.MEDIUM)
+			{
+				numberToAdd = 10.0f;
+				return "res://mediumBridgePlatform.tscn";
+            }
+
+			else if (lenOfPlatform == Lengths.LONG)
+			{
+				numberToAdd = 14.0f;
+				return "res://largeBridgePlatform.tscn";
+            }
+		}
+
+		else if (type == PlatformTypes.INCLINE)
+		{
+			if (lenOfPlatform == Lengths.SHORT)
+			{
+                numberToAdd = 9.0f;
+                if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
+                {
+                    numberToAdd = 7.5f;
+                }
+                translationVector.Y = 2;
+                return "res://inclinePlatformSmall.tscn";
+            }
+
+			else if (lenOfPlatform == Lengths.MEDIUM)
+			{
+                numberToAdd = 12.0f;
+
+                if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
+                {
+                    numberToAdd = 9.5f;
+                }
+                translationVector.Y = 3;
+                return "res://inclinePlatformMedium.tscn";
+            }
+
+			else if (lenOfPlatform == Lengths.LONG)
+			{
+                numberToAdd = 18.0f;
+
+                if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
+                {
+                    numberToAdd = 11.5f;
+                }
+
+                translationVector.Y = 5;
+                return "res://inclinePlatformLarge.tscn";
+            }
+		}
+
+		else
+		{
+			translationVector.Y = 0;
+
+            if (lenOfPlatform == Lengths.SHORT)
+			{
+                numberToAdd = 6.0f;
+                return "res://small_platform.tscn";
+            }
+
+			else if (lenOfPlatform == Lengths.MEDIUM)
+			{
+                numberToAdd = 9.0f;
+                return "res://medium_platform2.tscn";
+            }
+
+			else
+			{
+                numberToAdd = 12.0f;
+                return "res://large_platform.tscn";
+            }
+		}
+
+        return "res://large_platform.tscn";
+    }
 	private string typeToChoose(Lengths lenOfPlatform, ActionStates nextRhythm)
 	{
 		string platformTypeToChoose;
@@ -475,19 +592,6 @@ public partial class TestLevel : Node3D
 			case NewDirection.RIGHT:
 				currentPosition += new Vector3(0, translationVector.Y, numberToAdd);
 				break;
-            //Make it so its not 0 when its an incline platform
-   //         case Direction.POSITIVE_X:
-			//	currentPosition += new Vector3(numberToAdd, translationVector.Y, 0);
-			//	break;
-			//case Direction.NEGATIVE_X:
-			//	currentPosition += new Vector3(-numberToAdd, translationVector.Y, 0);
-			//	break;
-			//case Direction.POSITIVE_Z:
-			//	currentPosition += new Vector3(0, translationVector.Y, numberToAdd);
-			//	break;
-   //         case Direction.NEGATIVE_Z:
-   //             currentPosition += new Vector3(0, translationVector.Y, -numberToAdd);
-			//	break;
 		}
 	}
 
@@ -636,64 +740,17 @@ public partial class TestLevel : Node3D
 		return currentDirection;
 	}
 
-	//private Direction ChangeDirection(Direction currentDirection, ActionStates currentActionState)
-	//{
-	//	switch (currentDirection)
-	//	{
-	//		case Direction.POSITIVE_X:
-	//			if (currentActionState == ActionStates.TURN_LEFT)
-	//			{
-	//				//Turning left flips sign and changes axis
-	//				currentDirection = Direction.NEGATIVE_Z;
-	//			}
 
-	//			else
-	//			{
-	//				//Turning right only changes axis
-	//				currentDirection = Direction.POSITIVE_Z;
-	//			}
-	//			break;
-	//		case Direction.NEGATIVE_X:
-	//			if (currentActionState == ActionStates.TURN_LEFT)
-	//			{
-	//				//Changes axis and flips sign
-	//				currentDirection = Direction.POSITIVE_Z;
-	//			}
+	private void spawnCoins(NewDirection currentDirection, int platformLength, int platformWidth, string platformType, Vector3 platformPosition)
+	{
+		PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+		Node3D coin = coinScene.Instantiate<Node3D>();
+		coin.Position = platformPosition;
+		Vector3 coinPosition = coin.Position;
+		coinPosition.Y += 1;
+		coin.Position = coinPosition;
+		GetTree().Root.AddChild(coin);
 
-	//			else
-	//			{
-	//				//Changes axis
-	//				currentDirection = Direction.NEGATIVE_Z;
-	//			}
-	//			break;
-	//		case Direction.POSITIVE_Z:
-	//			if (currentActionState == ActionStates.TURN_LEFT)
-	//			{
-	//				//Changes axis and flips sign
-	//				currentDirection = Direction.POSITIVE_X;
-	//			}
 
-	//			else
-	//			{
-	//				//Changes axis
-	//				currentDirection = Direction.NEGATIVE_X;
-	//			}
-	//			break;
-	//		case Direction.NEGATIVE_Z:
-	//			if (currentActionState == ActionStates.TURN_LEFT)
-	//			{
-	//				//Changes axis and flips sign
-	//				currentDirection = Direction.NEGATIVE_X;
-	//			}
-
-	//			else
-	//			{
-	//				//Changes axis
-	//				currentDirection = Direction.POSITIVE_X;
-	//			}
-	//			break;
-	//	}
-
-	//	return currentDirection;
-	//}
+    }
 }
