@@ -31,7 +31,7 @@ public partial class CheckpointCollision : Area3D
                         checkpointReached = true;
                     }
 
-                    TestLevel level = GetTree().Root.GetNode<TestLevel>("TestLevel") as TestLevel;
+                    TestLevel level = GetTree().Root.GetNode<TestLevel>("Game/TestLevel") as TestLevel;
 
                     if (level != null)
                     {

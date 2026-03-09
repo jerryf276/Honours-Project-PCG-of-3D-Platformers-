@@ -12,6 +12,7 @@ script = ExtResource("1_qgp6h")
 inGameHUD = NodePath("HUD")
 
 [node name="TestLevel" parent="." instance=ExtResource("1_dhuwq")]
+directionChangeChance = 40
 
 [node name="HUD" parent="." instance=ExtResource("2_dahbk")]
 mouse_filter = 2

@@ -15,6 +15,9 @@ enum Lengths {SHORT, MEDIUM, LONG, NONE};
 enum Direction {POSITIVE_X, NEGATIVE_X, POSITIVE_Z, NEGATIVE_Z};
 
 
+enum NewDirection { FORWARD, LEFT, RIGHT};
+
+
 //We might use this enum for the level grammar
 enum PlatformYPosition { ASCENDING, NEUTRAL, DESCENDING};
 //Player will either jump up, jump only forwards, or jump down.
@@ -76,6 +79,8 @@ public partial class TestLevel : Node3D
 
 	private uint sectionsSpawned = 0;
 
+	NewDirection currentDirection = NewDirection.FORWARD;
+
 	private struct LevelComponent
 	{
 		//Refer to ActionStates enum class
@@ -120,29 +125,64 @@ public partial class TestLevel : Node3D
 		if (spawnSection && (sectionsSpawned < numberOfSections))
 		{
             List<ActionStates> actionsToAdd = new List<ActionStates> { };
+
+			//Once three platforms are spawned, we will allow directions to be changed.
+			//When a direction changes, this number is reset back to 0.
+			int platformsSpawned = 0;
+
+
             for (int i = 0; i < sectionSize; ++i)
             {
 
-                uint directionChange = 1 + GD.Randi() % 100;
-                //If random number is less than direction change percentage, the direction will change after platform has spawned
-                if (directionChange < directionChangeChance)
-                {
-                    //0 - change direction to left, 1 - change direction to right
-                    uint direction = GD.Randi() % 2;
-                    if (direction == 0)
+				if (platformsSpawned < 3)
+				{
+                    actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
+					platformsSpawned++;
+                }
+
+				else
+				{
+                    uint directionChange = 1 + GD.Randi() % 100;
+
+                    if (directionChange < directionChangeChance)
                     {
-                        //actionsToAdd.AddRange(ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP);
-                        actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP });
+
+                        if (currentDirection == NewDirection.FORWARD)
+                        {
+                            uint direction = GD.Randi() % 2;
+                            if (direction == 0)
+                            {
+                                //actionsToAdd.AddRange(ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP);
+                                actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP });
+								currentDirection = NewDirection.LEFT;
+                            }
+                            else
+                            {
+                                actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP });
+								currentDirection = NewDirection.RIGHT;
+                            }
+                        }
+
+						else if (currentDirection == NewDirection.LEFT)
+						{
+                            actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP });
+							currentDirection = NewDirection.FORWARD;
+                        }
+
+						else if (currentDirection == NewDirection.RIGHT)
+						{
+                            actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP });
+							currentDirection = NewDirection.FORWARD;
+                        }
+
+
+							platformsSpawned = 0;
                     }
                     else
                     {
-                        actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP });
+                        //Direction not changing
+                        actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
                     }
-                }
-                else
-                {
-                    //Direction not changing
-                    actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
                 }
             }
 
@@ -231,125 +271,14 @@ public partial class TestLevel : Node3D
 			//GD.Print(sectionSize);
 		}
 
-
-		//if (!levelSpawned)
-		//{
-		//	for (int j = 0; j < numberOfSections; j++)
-		//	{
-		//		List<ActionStates> actionsToAdd = new List<ActionStates> { };
-
-		//		for (int i = 0; i < sectionSize; ++i)
-		//		{
-
-		//			uint directionChange = 1 + GD.Randi() % 100;
-		//			//If random number is less than direction change percentage, the direction will change after platform has spawned
-		//			if (directionChange < directionChangeChance)
-		//			{
-		//				//0 - change direction to left, 1 - change direction to right
-		//				uint direction = GD.Randi() % 2;
-		//				if (direction == 0)
-		//				{
-		//					//actionsToAdd.AddRange(ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP);
-		//					actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP });
-		//				}
-		//				else
-		//				{
-		//					actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP });
-		//				}
-		//			}
-		//			else
-		//			{
-		//				//Direction not changing
-		//				actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
-		//			}
-		//		}
-
-		//		//Left over from when actions were previously predefined
-		//		//List<ActionStates> actionsToAdd = new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK};
-
-		//		//int - index of jump or walk in actionsToAdd above, lengths - will be either short, medium or long
-		//		SortedDictionary<int, Lengths> actionSizes = new SortedDictionary<int, Lengths> { };
-
-		//		//List of components of level that will be generated
-		//		List<LevelComponent> levelComponents = new List<LevelComponent> { };
-
-		//		//    levelStates.Add(ActionStates.WALK, ActionStates.JUMP, ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.WALK);
-		//		for (int i = 0; i < actionsToAdd.Count; ++i)
-		//		{
-		//			Lengths lengthToAdd;
-		//			if (actionsToAdd[i] == ActionStates.WALK)
-		//			{
-		//				//Chooses a number between 1 to the total number of each platform spawn chance probability
-		//				uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
-		//			//	GD.Print(rng);
-
-		//				if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
-		//				{
-		//					//Adds large platform
-		//					lengthToAdd = Lengths.LONG;
-		//				}
-
-		//				else if (rng > smallPlatformSpawnChance)
-		//				{
-		//					//Adds medium platform
-		//					lengthToAdd = Lengths.MEDIUM;
-		//				}
-
-		//				else
-		//				{
-		//					//Adds small platform
-		//					lengthToAdd = Lengths.SHORT;
-		//				}
-		//			}
-
-		//			else if (actionsToAdd[i] == ActionStates.JUMP)
-		//			{
-		//				translationVector.Y = 0;
-		//				//Chooses a number between 1 to the total number of each jump gap probability
-		//				uint rng = 1 + GD.Randi() % combinedJumpGapSpawnChance;
-
-		//				if (rng > smallJumpGapSpawnChance + mediumJumpGapSpawnChance)
-		//				{
-		//					//Adds large jump gap
-		//					lengthToAdd = Lengths.LONG;
-		//				}
-
-		//				else if (rng > smallJumpGapSpawnChance)
-		//				{
-		//					//Adds medium jump gap
-		//					lengthToAdd = Lengths.MEDIUM;
-		//				}
-
-		//				else
-		//				{
-		//					//Adds small jump gap
-		//					lengthToAdd = Lengths.SHORT;
-		//				}
-
-		//			}
-
-		//			else
-		//			{
-		//				translationVector.Y = 0;
-		//				//Adds turning direction to the section of the level
-		//				lengthToAdd = Lengths.NONE;
-		//			}
-
-		//			levelComponents.Add(new LevelComponent(actionsToAdd[i], lengthToAdd));
-		//		}
-		//		//Generates level once each component of the level has been defined
-
-		//		GenerateLevel(levelComponents);
-		//		//levelSpawned = true;
-		//	}
-  //          levelSpawned = true;
-  //      }
 	}
 
 	private void GenerateLevel(List<LevelComponent> componentsToAdd)
 	{
 		//Default direction is +ve x
 		Direction direction = Direction.POSITIVE_X;
+
+		NewDirection newDirection = NewDirection.FORWARD;
 
 		//Default y position of platform will be neutral (in this case platform y position will be same as starting y position if first platform,
 		//or same y position as last platform generated
@@ -374,12 +303,12 @@ public partial class TestLevel : Node3D
 				//Spawns a platform
 				if (i >= componentsToAdd.Count - 1)
 				{
-                    SpawnPlatform(componentsToAdd[i].lengthOfComponent, direction, platformSizes, componentsToAdd[i].action);
+                    SpawnPlatform(componentsToAdd[i].lengthOfComponent, newDirection, platformSizes, componentsToAdd[i].action);
                 }
 
 				else
 				{
-                    SpawnPlatform(componentsToAdd[i].lengthOfComponent, direction, platformSizes, componentsToAdd[i + 1].action);
+                    SpawnPlatform(componentsToAdd[i].lengthOfComponent, newDirection, platformSizes, componentsToAdd[i + 1].action);
                 }
 
 				//To prevent array errors when checking if the next element is turning left or right
@@ -387,59 +316,32 @@ public partial class TestLevel : Node3D
 					if (componentsToAdd[i + 1].action == ActionStates.TURN_LEFT || componentsToAdd[i + 1].action == ActionStates.TURN_RIGHT)
 					{
 						//GD.Print("Direction changed!");
-						direction = ChangeDirection(direction, componentsToAdd[i + 1].action);
+						//direction = ChangeDirection(direction, componentsToAdd[i + 1].action);
+						newDirection = changeDirection(newDirection, componentsToAdd[i + 1].action);
 					}
-					AddCurrentPosition(direction);
+					AddCurrentPosition(newDirection);
 				}
 			}
 
 			else if (componentsToAdd[i].action == ActionStates.JUMP)
 			{
-				AddJumpSpace(componentsToAdd[i].lengthOfComponent, direction, jumpGaps, jumpHeight);
+				AddJumpSpace(componentsToAdd[i].lengthOfComponent, newDirection, jumpGaps, jumpHeight);
 			}
-
-			//else if (componentsToAdd[i].action == ActionStates.TURN_LEFT || componentsToAdd[i].action == ActionStates.TURN_RIGHT)
-			//{
-			//    //Changing the direction
-			//    direction = ChangeDirection(direction, componentsToAdd[i].action);
-			//}
  
 		}
-        AddCurrentPosition(direction);
+        AddCurrentPosition(newDirection);
         GenerateCheckpoint();
        // AddCurrentPosition(direction);
 
     }
 
 
-	private void SpawnPlatform(Lengths platformLength, Direction currentDirection, List<float> platSizes, ActionStates nextAction)
+	private void SpawnPlatform(Lengths platformLength, NewDirection currentDirection, List<float> platSizes, ActionStates nextAction)
 	{
 		PackedScene platform;
 
 		string platformTypeToSpawn = typeToChoose(platformLength, nextAction);
         platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
-
-        //switch (platformLength)
-        //{
-        //	case Lengths.SHORT:
-        //              //Loads short platform
-        //              //	platform = ResourceLoader.Load<PackedScene>("res://small_platform.tscn");
-        //              platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
-        //              numberToAdd = platSizes[0];
-        //		break;
-        //	case Lengths.MEDIUM:
-        //              //Loads medium platform
-        //              //	platform = ResourceLoader.Load<PackedScene>("res://medium_platform2.tscn");
-        //              platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
-        //              numberToAdd = platSizes[1];
-        //		break;
-        //	case Lengths.LONG:
-        //              //Loads large platform
-        //              //	platform = ResourceLoader.Load<PackedScene>("res://large_platform.tscn");
-        //              platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
-        //              numberToAdd = platSizes[2];
-        //		break;
-        //}
 
         Node3D newPlatform = platform.Instantiate<Node3D>();
 
@@ -461,6 +363,7 @@ public partial class TestLevel : Node3D
 
 		if (rng > flatPlatformTypeSpawnChance + inclinePlatformTypeSpawnChance)
 		{
+			//Platform will be a bridge
 			if (lenOfPlatform == Lengths.SHORT)
 			{
                 platformTypeToChoose = "res://smallBridgePlatform.tscn";
@@ -490,6 +393,7 @@ public partial class TestLevel : Node3D
         }
 		else if (rng > flatPlatformTypeSpawnChance)
 		{
+			//Platform will be an incline
             if (lenOfPlatform == Lengths.SHORT)
             {
 				numberToAdd = 9.0f;
@@ -530,6 +434,7 @@ public partial class TestLevel : Node3D
         }
 		else
 		{
+			//Platform will be a regular platform
             if (lenOfPlatform == Lengths.SHORT)
             {
 				numberToAdd = 6.0f;
@@ -555,23 +460,34 @@ public partial class TestLevel : Node3D
 
 	}
 
-	private void AddCurrentPosition(Direction currentDirection)
+	private void AddCurrentPosition(NewDirection currentDirection)
 	{
 		switch (currentDirection)
 		{
-			//Make it so its not 0 when its an incline platform
-			case Direction.POSITIVE_X:
-				currentPosition += new Vector3(numberToAdd, translationVector.Y, 0);
+			case NewDirection.FORWARD:
+                currentPosition += new Vector3(numberToAdd, translationVector.Y, 0);
+                break;
+
+			case NewDirection.LEFT:
+				currentPosition += new Vector3(0, translationVector.Y, -numberToAdd);
 				break;
-			case Direction.NEGATIVE_X:
-				currentPosition += new Vector3(-numberToAdd, translationVector.Y, 0);
-				break;
-			case Direction.POSITIVE_Z:
+
+			case NewDirection.RIGHT:
 				currentPosition += new Vector3(0, translationVector.Y, numberToAdd);
 				break;
-            case Direction.NEGATIVE_Z:
-                currentPosition += new Vector3(0, translationVector.Y, -numberToAdd);
-				break;
+            //Make it so its not 0 when its an incline platform
+   //         case Direction.POSITIVE_X:
+			//	currentPosition += new Vector3(numberToAdd, translationVector.Y, 0);
+			//	break;
+			//case Direction.NEGATIVE_X:
+			//	currentPosition += new Vector3(-numberToAdd, translationVector.Y, 0);
+			//	break;
+			//case Direction.POSITIVE_Z:
+			//	currentPosition += new Vector3(0, translationVector.Y, numberToAdd);
+			//	break;
+   //         case Direction.NEGATIVE_Z:
+   //             currentPosition += new Vector3(0, translationVector.Y, -numberToAdd);
+			//	break;
 		}
 	}
 
@@ -595,24 +511,28 @@ public partial class TestLevel : Node3D
         }
     }
 
-    private int determineAngle(Direction currentDirection)
+
+	private int determineAngle(NewDirection currentDirection)
 	{
+		int angle = 0;
 		switch (currentDirection)
 		{
-			case Direction.POSITIVE_X:
-				return 0;
-			case Direction.NEGATIVE_X:
-				return 180;
-			case Direction.POSITIVE_Z:
-				return 270;
-			case Direction.NEGATIVE_Z:
-				return 90;
-			default:
-				return 0;
+			case NewDirection.FORWARD:
+				angle = 0;
+				break;
+			case NewDirection.RIGHT:
+				angle = 270;
+				break;
+			case NewDirection.LEFT:
+				angle = 90;
+				break;
 		}
+
+		return angle;
+
 	}
 
-	void AddJumpSpace(Lengths jumpLength, Direction currentDirection, List<float> jumpSizes, List<float> jumpHeight)
+	void AddJumpSpace(Lengths jumpLength, NewDirection currentDirection, List<float> jumpSizes, List<float> jumpHeight)
 	{
 		//TO DO: See if you could maybe combine this and the spawn platform functions? (to avoid repetition)
 		float numberToAdd = 0;
@@ -652,18 +572,18 @@ public partial class TestLevel : Node3D
 
 		switch (currentDirection) 
 		{
-			case Direction.POSITIVE_X:
-				currentPosition += new Vector3(numberToAdd, yPosition, 0);
-				break;
-			case Direction.NEGATIVE_X:
-				currentPosition += new Vector3(-numberToAdd, yPosition, 0);
-				break;
-			case Direction.POSITIVE_Z:
-				currentPosition += new Vector3(0, yPosition, numberToAdd);
-				break;
-			case Direction.NEGATIVE_Z:
-				currentPosition += new Vector3(0, yPosition, -numberToAdd);
-				break;
+
+            case NewDirection.FORWARD:
+                currentPosition += new Vector3(numberToAdd, yPosition, 0);
+                break;
+
+            case NewDirection.LEFT:
+                currentPosition += new Vector3(0, yPosition, -numberToAdd);
+                break;
+
+            case NewDirection.RIGHT:
+                currentPosition += new Vector3(0, yPosition, numberToAdd);
+                break;
 		}
 	}
 
@@ -693,64 +613,87 @@ public partial class TestLevel : Node3D
 		spawnSection = checkpointReached;
 	}
 
-	private Direction ChangeDirection(Direction currentDirection, ActionStates currentActionState)
+	private NewDirection changeDirection(NewDirection currentDirection, ActionStates currentActionState)
 	{
-		switch (currentDirection)
+		if (currentDirection == NewDirection.FORWARD)
 		{
-			case Direction.POSITIVE_X:
-				if (currentActionState == ActionStates.TURN_LEFT)
-				{
-					//Turning left flips sign and changes axis
-					currentDirection = Direction.NEGATIVE_Z;
-				}
+			if (currentActionState == ActionStates.TURN_RIGHT)
+			{
+				currentDirection = NewDirection.RIGHT;
+			}
 
-				else
-				{
-					//Turning right only changes axis
-					currentDirection = Direction.POSITIVE_Z;
-				}
-				break;
-			case Direction.NEGATIVE_X:
-				if (currentActionState == ActionStates.TURN_LEFT)
-				{
-					//Changes axis and flips sign
-					currentDirection = Direction.POSITIVE_Z;
-				}
+			else
+			{
+				currentDirection = NewDirection.LEFT;
+			}
+		}
 
-				else
-				{
-					//Changes axis
-					currentDirection = Direction.NEGATIVE_Z;
-				}
-				break;
-			case Direction.POSITIVE_Z:
-				if (currentActionState == ActionStates.TURN_LEFT)
-				{
-					//Changes axis and flips sign
-					currentDirection = Direction.POSITIVE_X;
-				}
-
-				else
-				{
-					//Changes axis
-					currentDirection = Direction.NEGATIVE_X;
-				}
-				break;
-			case Direction.NEGATIVE_Z:
-				if (currentActionState == ActionStates.TURN_LEFT)
-				{
-					//Changes axis and flips sign
-					currentDirection = Direction.NEGATIVE_X;
-				}
-
-				else
-				{
-					//Changes axis
-					currentDirection = Direction.POSITIVE_X;
-				}
-				break;
+		else if (currentDirection == NewDirection.RIGHT || currentDirection == NewDirection.LEFT)
+		{
+			currentDirection = NewDirection.FORWARD;
 		}
 
 		return currentDirection;
 	}
+
+	//private Direction ChangeDirection(Direction currentDirection, ActionStates currentActionState)
+	//{
+	//	switch (currentDirection)
+	//	{
+	//		case Direction.POSITIVE_X:
+	//			if (currentActionState == ActionStates.TURN_LEFT)
+	//			{
+	//				//Turning left flips sign and changes axis
+	//				currentDirection = Direction.NEGATIVE_Z;
+	//			}
+
+	//			else
+	//			{
+	//				//Turning right only changes axis
+	//				currentDirection = Direction.POSITIVE_Z;
+	//			}
+	//			break;
+	//		case Direction.NEGATIVE_X:
+	//			if (currentActionState == ActionStates.TURN_LEFT)
+	//			{
+	//				//Changes axis and flips sign
+	//				currentDirection = Direction.POSITIVE_Z;
+	//			}
+
+	//			else
+	//			{
+	//				//Changes axis
+	//				currentDirection = Direction.NEGATIVE_Z;
+	//			}
+	//			break;
+	//		case Direction.POSITIVE_Z:
+	//			if (currentActionState == ActionStates.TURN_LEFT)
+	//			{
+	//				//Changes axis and flips sign
+	//				currentDirection = Direction.POSITIVE_X;
+	//			}
+
+	//			else
+	//			{
+	//				//Changes axis
+	//				currentDirection = Direction.NEGATIVE_X;
+	//			}
+	//			break;
+	//		case Direction.NEGATIVE_Z:
+	//			if (currentActionState == ActionStates.TURN_LEFT)
+	//			{
+	//				//Changes axis and flips sign
+	//				currentDirection = Direction.NEGATIVE_X;
+	//			}
+
+	//			else
+	//			{
+	//				//Changes axis
+	//				currentDirection = Direction.POSITIVE_X;
+	//			}
+	//			break;
+	//	}
+
+	//	return currentDirection;
+	//}
 }

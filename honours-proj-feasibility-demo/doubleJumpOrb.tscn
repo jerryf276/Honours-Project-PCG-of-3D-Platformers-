@@ -18,7 +18,7 @@ transform = Transform3D(0.8401882, 0, 0.5422949, 0, 1, 0, -0.5422949, 0, 0.84018
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_tmhvb")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Area3D" type="Area3D" parent="." groups=["doubleJump"]]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
 shape = SubResource("ConvexPolygonShape3D_clg1p")
