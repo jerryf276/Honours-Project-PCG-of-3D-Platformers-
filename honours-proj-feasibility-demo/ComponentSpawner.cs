@@ -68,7 +68,26 @@ public partial class ComponentSpawner : Node
         coin.Position = platform.position;
         Vector3 coinPosition = coin.Position;
         coinPosition.Y += 1;
-        coin.Position = coinPosition;
+
+        //Centering coins
+        if (platform.direction == NewDirection.LEFT)
+        {
+            
+
+            coinPosition.X += 0.5f;
+        }
+
+        else if (platform.direction == NewDirection.RIGHT)
+        {
+            coinPosition.X -= 0.5f;
+        }
+
+        else
+        {
+            coinPosition.Z += 0.5f;
+        }
+
+            coin.Position = coinPosition;
         GetTree().Root.AddChild(coin);
 
         int platformSize = 0;
@@ -99,11 +118,13 @@ public partial class ComponentSpawner : Node
                 tempPosition = coinToSpawn1.Position;
                 tempPosition.X += i + 1;
                 tempPosition.Y += 1;
+                tempPosition.Z += 0.5f;
                 coinToSpawn1.Position = tempPosition;
 
                 tempPosition = coinToSpawn2.Position;
                 tempPosition.X -= i + 1;
                 tempPosition.Y += 1;
+                tempPosition.Z += 0.5f;
                 coinToSpawn2.Position = tempPosition;
             }
 
@@ -113,11 +134,13 @@ public partial class ComponentSpawner : Node
                 tempPosition = coinToSpawn1.Position;
                 //Left will use negative Z
                 tempPosition.Z -= i + 1;
+                tempPosition.X += 0.5f;
                 tempPosition.Y += 1;
                 coinToSpawn1.Position = tempPosition;
 
                 tempPosition = coinToSpawn2.Position;
                 tempPosition.Z += i + 1;
+                tempPosition.X += 0.5f;
                 tempPosition.Y += 1;
                 coinToSpawn2.Position = tempPosition;
             }
@@ -127,11 +150,13 @@ public partial class ComponentSpawner : Node
                 //Straight line of coins
                 tempPosition = coinToSpawn1.Position;
                 tempPosition.Z += i + 1;
+                tempPosition.X -= 0.5f;
                 tempPosition.Y += 1;
                 coinToSpawn1.Position = tempPosition;
 
                 tempPosition = coinToSpawn2.Position;
                 tempPosition.Z -= i + 1;
+                tempPosition.X -= 0.5f;
                 tempPosition.Y += 1;
                 coinToSpawn2.Position = tempPosition;
             }
