@@ -333,6 +333,7 @@ public partial class TestLevel : Node3D
         AddCurrentPosition(newDirection);
         GenerateCheckpoint();
 		compSpawner.generateCoins();
+		compSpawner.generateSpikes();
        // AddCurrentPosition(direction);
 
     }
@@ -358,7 +359,7 @@ public partial class TestLevel : Node3D
 		GetTree().Root.AddChild(newPlatform);
 
 
-		//ONE COIN IS SPAWNED PER PLATFORM
+
 
 		if (platformType == PlatformTypes.BRIDGE)
 		{
@@ -366,6 +367,11 @@ public partial class TestLevel : Node3D
 			//{
 				compSpawner.addCoinPlatform(platformType, platformLength, newPlatform.Position, currentDirection);
 			//}
+		}
+
+		else if (platformType == PlatformTypes.FLAT)
+		{
+			compSpawner.addSpikePlatform(platformType, platformLength, newPlatform.Position, currentDirection);
 		}
 		//spawnCoins(currentDirection, 1, 1, "", newPlatform.Position);
 	}

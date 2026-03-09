@@ -167,14 +167,40 @@ public partial class ComponentSpawner : Node
 
     }
 
+    private void generateFlatSpikes(componentPlatform platform)
+    {
+        PackedScene spikes = ResourceLoader.Load<PackedScene>("res://Level parts/spikeTest.tscn");
+        Vector3 spikePosition = platform.position;
+
+        if (platform.size == Lengths.SHORT)
+        {
+            spikePosition.Y += 1.5f;
+        }
+        else if (platform.size == Lengths.MEDIUM)
+        {
+            spikePosition.Y += 1;
+        }
+        else
+        {
+            spikePosition.Y += 1.5f;
+
+        }
+            // spikePosition.Y += 1;
+            Node3D spikeToSpawn = spikes.Instantiate<Node3D>();
+        spikeToSpawn.Position = spikePosition;
+        GetTree().Root.AddChild(spikeToSpawn);
+    }
+
     public void generateSpikes()
 
     {
         for (int i = 0; i < spikePlatforms.Count; i++)
         {
+            
+
             if (spikePlatforms[i].type == PlatformTypes.BRIDGE)
             {
-
+           
             }
 
             else if (spikePlatforms[i].type == PlatformTypes.INCLINE)
@@ -184,8 +210,10 @@ public partial class ComponentSpawner : Node
 
             else
             {
-
+                generateFlatSpikes(spikePlatforms[i]);
             }
+
+        
         }
     }
 }

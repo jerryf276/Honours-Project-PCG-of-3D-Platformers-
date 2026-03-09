@@ -39,6 +39,7 @@ script = ExtResource("1_y1jsw")
 gameTimer = NodePath("GameTimer")
 compSpawner = NodePath("ComponentSpawner")
 directionChangeChance = 20
+smallPlatformSpawnChance = 100
 mediumPlatformSpawnChance = 100
 largePlatformSpawnChance = 100
 numberOfSections = 2
