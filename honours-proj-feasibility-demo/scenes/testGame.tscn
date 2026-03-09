@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://h1a5m4s1t5wv"]
+[gd_scene load_steps=8 format=3 uid="uid://h1a5m4s1t5wv"]
 
 [ext_resource type="PackedScene" uid="uid://cr73hyybcgtha" path="res://TestLevel.tscn" id="1_dhuwq"]
 [ext_resource type="Script" uid="uid://fccq2bvsp41w" path="res://scenes/GameManager.cs" id="1_qgp6h"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://lnbv0urh2jg2" path="res://player_character.tscn" id="3_dahbk"]
 [ext_resource type="PackedScene" uid="uid://dx0gjm1l03jmn" path="res://Level parts/coin.tscn" id="4_xo2t0"]
 [ext_resource type="PackedScene" uid="uid://bgwuqpjrh55vi" path="res://Level parts/bouncer.tscn" id="6_ougvc"]
+[ext_resource type="PackedScene" uid="uid://co6dy8m5ipd6v" path="res://healthOrb.tscn" id="7_bb2vi"]
 
 [node name="Game" type="Node" node_paths=PackedStringArray("inGameHUD")]
 script = ExtResource("1_qgp6h")
@@ -31,3 +32,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6179442, 4.8870163)
 
 [node name="Bouncer" parent="." instance=ExtResource("6_ougvc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1041155, 0, -6.203172)
+
+[node name="Health" parent="." instance=ExtResource("7_bb2vi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.3148372, 1.6106639, -1.9509232)

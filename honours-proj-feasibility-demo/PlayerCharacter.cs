@@ -271,5 +271,16 @@ public partial class PlayerCharacter : CharacterBody3D
     {
         return coinCount;
     }
+
+    public void healPlayer()
+    {
+        playerHealth += 1;
+    }
+
+    public int getHealth()
+    {
+        return playerHealth;
+    }
+
 }
 
