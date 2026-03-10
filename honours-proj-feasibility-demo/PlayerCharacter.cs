@@ -52,13 +52,6 @@ public partial class PlayerCharacter : CharacterBody3D
         spawnPoint = Position;
         previousPlatform = "";
     }
-
-    //private void OnAreaEntered(Area3D body)
-    //{
-    //    if (body.IsInGroup("killzone")) {
-    //        respawn();
-    //    }
-    //}
     public override void _Input(InputEvent inputEvent)
     {
         if (inputEvent.IsActionPressed("left_click"))
@@ -203,6 +196,7 @@ public partial class PlayerCharacter : CharacterBody3D
             GlobalPosition = spawnPoint;
             deathCount += 1;
             GD.Print("DEATHS: " + deathCount);
+            playerHealth = 3;
             hasDied = true;
         }
 
