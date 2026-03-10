@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://lnbv0urh2jg2"]
+[gd_scene format=3 uid="uid://lnbv0urh2jg2"]
 
 [ext_resource type="PackedScene" uid="uid://cy36aygvs66pn" path="res://Models/gdquest_gobot/gobot_skin.tscn" id="1_02ohv"]
 [ext_resource type="Script" uid="uid://c0mmp2d86cpmn" path="res://PlayerCharacter.cs" id="1_5up26"]
@@ -9,33 +9,33 @@ radius = 0.35986328
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5up26"]
 
-[node name="PlayerCharacter" type="CharacterBody3D"]
+[node name="PlayerCharacter" type="CharacterBody3D" unique_id=1536245473]
 script = ExtResource("1_5up26")
 rotationSpeed = 16.0
 jumpImpulse = 18.0
 attackedImpulse = 30.0
 
-[node name="GobotSkin" parent="." instance=ExtResource("1_02ohv")]
+[node name="GobotSkin" parent="." unique_id=178090948 instance=ExtResource("1_02ohv")]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=515247580]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9754784, 0)
 shape = SubResource("CapsuleShape3D_5up26")
 
-[node name="CameraPivot" type="Node3D" parent="."]
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1010635210]
 transform = Transform3D(1, 0, 0, 0, 0.91095746, -0.41250035, 0, 0.41250035, 0.91095746, 0, 0.8619565, 0)
 
-[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot"]
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot" unique_id=2084126444]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 shape = SubResource("SphereShape3D_5up26")
 spring_length = 5.0
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D"]
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D" unique_id=2008229330]
 
-[node name="Area3D" type="Area3D" parent="." node_paths=PackedStringArray("player") groups=["player"]]
+[node name="Area3D" type="Area3D" parent="." unique_id=278213624 node_paths=PackedStringArray("player") groups=["player"]]
 script = ExtResource("3_4akcp")
 player = NodePath("..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=198625358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9754784, 0)
 shape = SubResource("CapsuleShape3D_5up26")
 

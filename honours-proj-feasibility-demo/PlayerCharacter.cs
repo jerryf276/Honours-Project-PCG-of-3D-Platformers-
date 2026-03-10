@@ -51,6 +51,8 @@ public partial class PlayerCharacter : CharacterBody3D
 
         spawnPoint = Position;
         previousPlatform = "";
+
+        Input.MouseMode = Input.MouseModeEnum.Captured;
     }
     public override void _Input(InputEvent inputEvent)
     {
@@ -59,7 +61,7 @@ public partial class PlayerCharacter : CharacterBody3D
             Input.MouseMode = Input.MouseModeEnum.Captured;
         }
 
-        if (inputEvent.IsActionPressed("ui_cancel"))
+        if (inputEvent.IsActionPressed("cancel"))
         {
             Input.MouseMode = Input.MouseModeEnum.Visible;
         }

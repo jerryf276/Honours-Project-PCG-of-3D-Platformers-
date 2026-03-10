@@ -88,7 +88,7 @@ public partial class ComponentSpawner : Node
         }
 
             coin.Position = coinPosition;
-        GetTree().Root.AddChild(coin);
+        AddChild(coin);
 
         int platformSize = 0;
         switch (platform.size)
@@ -160,8 +160,8 @@ public partial class ComponentSpawner : Node
                 tempPosition.Y += 1;
                 coinToSpawn2.Position = tempPosition;
             }
-            GetTree().Root.AddChild(coinToSpawn1);
-            GetTree().Root.AddChild(coinToSpawn2);
+            AddChild(coinToSpawn1);
+            AddChild(coinToSpawn2);
            // coinToSpawn1.Position.X += 
         }
 
@@ -188,7 +188,7 @@ public partial class ComponentSpawner : Node
             // spikePosition.Y += 1;
             Node3D spikeToSpawn = spikes.Instantiate<Node3D>();
         spikeToSpawn.Position = spikePosition;
-        GetTree().Root.AddChild(spikeToSpawn);
+        AddChild(spikeToSpawn);
     }
 
     public void generateSpikes()

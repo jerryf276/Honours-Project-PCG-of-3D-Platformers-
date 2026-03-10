@@ -13,29 +13,34 @@ public partial class PauseMenu : Control
         resumeButton.Pressed += OnResumePressed;
         restartButton.Pressed += OnRestartPressed;
         quitButton.Pressed += OnQuitPressed;
+        Visible = false;
     }
 
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed("cancel") && !GetTree().Paused)
+        if (Input.IsActionJustPressed("pause") && !GetTree().Paused)
         {
             pause();
         }
 
-        else if (Input.IsActionJustPressed("cancel") && GetTree().Paused)
+        else if (Input.IsActionJustPressed("pause") && GetTree().Paused)
         {
             resume();
         }
     }
     private void resume()
     {
+        Input.MouseMode = Input.MouseModeEnum.Captured;
         GetTree().Paused = false;
+        Visible = false;
         animationPlayer.PlayBackwards("blur");
     }
 
     private void pause()
     {
-        GetTree().Paused = false;
+        Input.MouseMode = Input.MouseModeEnum.Visible;
+        GetTree().Paused = true;
+        Visible = true;
         animationPlayer.Play("blur");
     }
 
@@ -46,7 +51,10 @@ public partial class PauseMenu : Control
 
     private void OnRestartPressed()
     {
+        GameManager.restartLevel();
+        GetTree().Paused = false;
         GetTree().ReloadCurrentScene();
+       // GameManager.Restart();
     }
 
     private void OnQuitPressed()

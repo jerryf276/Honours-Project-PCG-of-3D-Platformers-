@@ -13,6 +13,10 @@ public partial class GameManager : Node
 
     static GameManager instance;
 
+    // [Export] Node3D level;
+    PackedScene levelToLoad;
+    Node3D level;
+
     public override void _Ready()
     {
         scoreText = inGameHUD.GetNode<Label>("TopHud/MarginContainer/VBoxContainer/HBoxContainer/ScoreText");
@@ -21,6 +25,10 @@ public partial class GameManager : Node
         timeText = inGameHUD.GetNode<Label>("TopHud/MarginContainer/VBoxContainer/HBoxContainer/TimeText");
 
         instance = this;
+
+        levelToLoad = ResourceLoader.Load<PackedScene>("res://TestLevel.tscn");
+        level = levelToLoad.Instantiate<Node3D>();
+        AddChild(level);
     }
 
     public override void _Process(double delta)
@@ -46,5 +54,20 @@ public partial class GameManager : Node
     public static void updateTimeText(string text)
     {
         instance.timeText.Text = text;
+    }
+
+
+    public static void restartLevel()
+    {
+        //instance.level.QueueFree()
+        //foreach (Node child in instance.level.GetChildren())
+        //{
+        //    child.QueueFree();
+        //}
+       // instance.GetTree().Root.QueueFree();
+        instance.level.QueueFree();
+        instance.level = instance.levelToLoad.Instantiate<Node3D>();
+        instance.AddChild(instance.level);
+
     }
 }

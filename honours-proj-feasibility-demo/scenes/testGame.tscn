@@ -1,37 +1,36 @@
-[gd_scene load_steps=8 format=3 uid="uid://h1a5m4s1t5wv"]
+[gd_scene format=3 uid="uid://cy3hg4dml7h5e"]
 
-[ext_resource type="PackedScene" uid="uid://cr73hyybcgtha" path="res://TestLevel.tscn" id="1_dhuwq"]
 [ext_resource type="Script" uid="uid://fccq2bvsp41w" path="res://scenes/GameManager.cs" id="1_qgp6h"]
 [ext_resource type="PackedScene" uid="uid://bop0k7owkr1r8" path="res://scenes/hud.tscn" id="2_dahbk"]
 [ext_resource type="PackedScene" uid="uid://lnbv0urh2jg2" path="res://player_character.tscn" id="3_dahbk"]
 [ext_resource type="PackedScene" uid="uid://dx0gjm1l03jmn" path="res://Level parts/coin.tscn" id="4_xo2t0"]
 [ext_resource type="PackedScene" uid="uid://bgwuqpjrh55vi" path="res://Level parts/bouncer.tscn" id="6_ougvc"]
 [ext_resource type="PackedScene" uid="uid://co6dy8m5ipd6v" path="res://healthOrb.tscn" id="7_bb2vi"]
+[ext_resource type="PackedScene" uid="uid://ex3den41l61a" path="res://pauseMenu.tscn" id="8_noedc"]
 
-[node name="Game" type="Node" node_paths=PackedStringArray("inGameHUD")]
+[node name="Game" type="Node" unique_id=775067986 node_paths=PackedStringArray("inGameHUD")]
 script = ExtResource("1_qgp6h")
 inGameHUD = NodePath("HUD")
 
-[node name="TestLevel" parent="." instance=ExtResource("1_dhuwq")]
-directionChangeChance = 40
-
-[node name="HUD" parent="." instance=ExtResource("2_dahbk")]
+[node name="HUD" parent="." unique_id=1883951451 instance=ExtResource("2_dahbk")]
 mouse_filter = 2
 
-[node name="PlayerCharacter" parent="." node_paths=PackedStringArray("attackCooldown") groups=["PlayerCharacter"] instance=ExtResource("3_dahbk")]
+[node name="PlayerCharacter" parent="." unique_id=523109933 node_paths=PackedStringArray("attackCooldown") groups=["PlayerCharacter"] instance=ExtResource("3_dahbk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 attackCooldown = NodePath("../Timer")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1554204523]
 process_callback = 0
 wait_time = 3.0
 one_shot = true
 
-[node name="coin" parent="." instance=ExtResource("4_xo2t0")]
+[node name="coin" parent="." unique_id=143913967 instance=ExtResource("4_xo2t0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6179442, 4.8870163)
 
-[node name="Bouncer" parent="." instance=ExtResource("6_ougvc")]
+[node name="Bouncer" parent="." unique_id=1964118321 instance=ExtResource("6_ougvc")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1041155, 0, -6.203172)
 
-[node name="Health" parent="." instance=ExtResource("7_bb2vi")]
+[node name="Health" parent="." unique_id=559962126 instance=ExtResource("7_bb2vi")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3320041, 2.9795527, 1.5808716)
+
+[node name="PauseMenu" parent="." unique_id=1558835371 instance=ExtResource("8_noedc")]

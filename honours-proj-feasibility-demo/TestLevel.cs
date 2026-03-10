@@ -356,7 +356,7 @@ public partial class TestLevel : Node3D
         //Translate it by currentPosition.
         newPlatform.Position = currentPosition;
 		//GD.Print(newPlatform.Position);
-		GetTree().Root.AddChild(newPlatform);
+		AddChild(newPlatform);
 
 
 
@@ -610,7 +610,7 @@ public partial class TestLevel : Node3D
 		Node3D newPlatform = platform.Instantiate<Node3D>();
         //Translate it by currentPosition.
 		newPlatform.Position = currentPosition;
-        GetTree().Root.AddChild(newPlatform);
+        AddChild(newPlatform);
 
 		PackedScene checkpointLoad;
 
@@ -618,7 +618,7 @@ public partial class TestLevel : Node3D
 		checkpointLoad = ResourceLoader.Load<PackedScene>("res://Level parts/checkpoint.tscn");
 		Node3D checkpoint = checkpointLoad.Instantiate<Node3D>();
 		checkpoint.Position = new Vector3(currentPosition.X, currentPosition.Y + 3.0f, currentPosition.Z);
-        GetTree().Root.AddChild(checkpoint);
+        AddChild(checkpoint);
         //checkpoint.Position.Y = currentPosition.Y + 1;
 
     }
