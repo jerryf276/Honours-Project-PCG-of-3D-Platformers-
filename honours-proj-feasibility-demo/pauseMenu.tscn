@@ -75,7 +75,7 @@ tracks/0/path = NodePath("ColorRect:material:shader_parameter/lod")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 2),
+"handle_modes": PackedInt32Array(0, 0),
 "points": PackedFloat32Array(0, -0.15, 0, 0.15, 0, 0.88600004, -0.050000004, -0.14766668, 0, 0),
 "times": PackedFloat32Array(0, 0.3)
 }
@@ -145,6 +145,20 @@ animationPlayer = NodePath("AnimationPlayer")
 resumeButton = NodePath("PanelContainer/VBoxContainer/ResumeButton")
 restartButton = NodePath("PanelContainer/VBoxContainer/RestartButton")
 quitButton = NodePath("PanelContainer/VBoxContainer/QuitButton")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1621270326]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -453.0
+offset_top = -300.0
+offset_right = 435.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=2073710359]
 material = SubResource("ShaderMaterial_hts4r")

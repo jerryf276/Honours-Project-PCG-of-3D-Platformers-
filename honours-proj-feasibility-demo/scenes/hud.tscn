@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bop0k7owkr1r8"]
 
-[node name="HUD" type="Control"]
+[node name="HUD" type="Control" unique_id=459265640]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -8,14 +8,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TopHud" type="Control" parent="."]
+[node name="TopHud" type="Control" parent="." unique_id=11455038]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 179.0
 grow_horizontal = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="TopHud"]
+[node name="MarginContainer" type="MarginContainer" parent="TopHud" unique_id=20836486]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -25,34 +25,34 @@ offset_right = -50.0
 offset_bottom = 113.0
 grow_horizontal = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TopHud/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="TopHud/MarginContainer" unique_id=492426563]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TopHud/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TopHud/MarginContainer/VBoxContainer" unique_id=1717265034]
 layout_mode = 2
 
-[node name="ScoreText" type="Label" parent="TopHud/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="ScoreText" type="Label" parent="TopHud/MarginContainer/VBoxContainer/HBoxContainer" unique_id=30801088]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 32
 text = "Score: 0"
 
-[node name="TimeText" type="Label" parent="TopHud/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="TimeText" type="Label" parent="TopHud/MarginContainer/VBoxContainer/HBoxContainer" unique_id=1306862935]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Time: 00:00"
 horizontal_alignment = 2
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="TopHud/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="TopHud/MarginContainer/VBoxContainer" unique_id=2019044311]
 layout_mode = 2
 
-[node name="CoinsText" type="Label" parent="TopHud/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="CoinsText" type="Label" parent="TopHud/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1100794476]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 32
 text = "Coins: 0"
 
-[node name="HealthText" type="Label" parent="TopHud/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="HealthText" type="Label" parent="TopHud/MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1912544770]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Health: 3"

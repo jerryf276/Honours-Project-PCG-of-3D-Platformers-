@@ -32,7 +32,7 @@ public partial class GoalCollision : Area3D
                 TestLevel level = GetTree().Root.GetNode<TestLevel>("Game/TestLevel") as TestLevel;
                 if (level != null)
                 {
-
+                    
                 }
             }
         }

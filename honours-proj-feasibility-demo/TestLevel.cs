@@ -622,7 +622,26 @@ public partial class TestLevel : Node3D
         //checkpoint.Position.Y = currentPosition.Y + 1;
 
     }
-	public void setCheckpointReached(bool checkpointReached)
+
+	private void GenerateGoal()
+	{
+		PackedScene platform;
+        platform = ResourceLoader.Load<PackedScene>("res://large_platform.tscn");
+
+
+        Node3D goal = platform.Instantiate<Node3D>();
+        //Translate it by currentPosition.
+        goal.Position = currentPosition;
+        AddChild(goal);
+
+		PackedScene goalLoad;
+
+		goalLoad = ResourceLoader.Load<PackedScene>("res://Level parts/goal.tscn");
+		goal.Position = new Vector3(currentPosition.X, currentPosition.Y + 3.0f, currentPosition.Z);
+		AddChild(goal);
+
+    }
+    public void setCheckpointReached(bool checkpointReached)
 	{
 		spawnSection = checkpointReached;
 	}
