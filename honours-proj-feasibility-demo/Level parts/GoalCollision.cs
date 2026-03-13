@@ -32,7 +32,11 @@ public partial class GoalCollision : Area3D
                 TestLevel level = GetTree().Root.GetNode<TestLevel>("Game/TestLevel") as TestLevel;
                 if (level != null)
                 {
-                    
+                    // GD.Print("Level complete!");
+
+                    //temp ofc, comment out after
+                    GameManager.restartLevel();
+                    GetTree().ReloadCurrentScene();
                 }
             }
         }
