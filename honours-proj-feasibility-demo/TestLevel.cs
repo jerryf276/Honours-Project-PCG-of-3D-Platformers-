@@ -331,7 +331,16 @@ public partial class TestLevel : Node3D
  
 		}
         AddCurrentPosition(newDirection);
-        GenerateCheckpoint();
+
+		if (sectionsSpawned == numberOfSections - 1)
+		{
+			GenerateGoal();
+		}
+		else
+		{
+            GenerateCheckpoint();
+        }
+			//GenerateCheckpoint();
 		compSpawner.generateCoins();
 		compSpawner.generateSpikes();
        // AddCurrentPosition(direction);
@@ -625,18 +634,21 @@ public partial class TestLevel : Node3D
 
 	private void GenerateGoal()
 	{
-		PackedScene platform;
+
+        PackedScene platform;
+
         platform = ResourceLoader.Load<PackedScene>("res://large_platform.tscn");
 
-
-        Node3D goal = platform.Instantiate<Node3D>();
+        Node3D newPlatform = platform.Instantiate<Node3D>();
         //Translate it by currentPosition.
-        goal.Position = currentPosition;
-        AddChild(goal);
+        newPlatform.Position = currentPosition;
+        AddChild(newPlatform);
+
 
 		PackedScene goalLoad;
 
 		goalLoad = ResourceLoader.Load<PackedScene>("res://Level parts/goal.tscn");
+		Node3D goal = goalLoad.Instantiate<Node3D>();
 		goal.Position = new Vector3(currentPosition.X, currentPosition.Y + 3.0f, currentPosition.Z);
 		AddChild(goal);
 
