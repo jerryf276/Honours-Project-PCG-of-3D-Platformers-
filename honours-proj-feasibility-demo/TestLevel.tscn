@@ -42,8 +42,12 @@ directionChangeChance = 20
 smallPlatformSpawnChance = 100
 mediumPlatformSpawnChance = 100
 largePlatformSpawnChance = 100
+extraLargePlatformSpawnChance = 100
+flatPlatformTypeSpawnChance = 50
+inclinePlatformTypeSpawnChance = 25
+bridgePlatformTypeSpawnChance = 40
 bounceSpawnRate = 10
-numberOfSections = 2
+numberOfSections = 5
 sectionSize = 25
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=187246892]

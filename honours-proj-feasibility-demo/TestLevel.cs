@@ -9,7 +9,7 @@ public enum PlatformTypes {FLAT, INCLINE, BRIDGE};
 enum ActionStates {WALK, TURN_LEFT, TURN_RIGHT, JUMP, BOUNCE};
 
 //NONE is used for changing direction since a length doesn't exist for a direction change.
-public enum Lengths {SHORT, MEDIUM, LONG, NONE};
+public enum Lengths {SHORT, MEDIUM, LONG, LONGEST, NONE};
 
 //which direction the platform will be facing
 enum Direction {POSITIVE_X, NEGATIVE_X, POSITIVE_Z, NEGATIVE_Z};
@@ -46,13 +46,15 @@ public partial class TestLevel : Node3D
 	[Export(PropertyHint.Range, "1, 100")] private uint mediumPlatformSpawnChance = 1;
 	//Chance of spawning large platform
 	[Export(PropertyHint.Range, "1, 100")] private uint largePlatformSpawnChance = 1;
+    //Chance of spawning extra large platform
+    [Export(PropertyHint.Range, "1, 100")] private uint extraLargePlatformSpawnChance = 1;
 
-	[ExportSubgroup("Jump Gap Spawn Chances")]
+    [ExportSubgroup("Jump Gap Spawn Chances")]
 	[Export(PropertyHint.Range, "1, 100")] private uint smallJumpGapSpawnChance = 1;
 	[Export(PropertyHint.Range, "1, 100")] private uint mediumJumpGapSpawnChance = 1;
 	[Export(PropertyHint.Range, "1, 100")] private uint largeJumpGapSpawnChance = 1;
 
-	[ExportSubgroup("Platform Type Spawn Chances")]
+    [ExportSubgroup("Platform Type Spawn Chances")]
 	[Export(PropertyHint.Range, "1, 100")] private uint flatPlatformTypeSpawnChance = 1;
 	[Export(PropertyHint.Range, "1, 100")] private uint inclinePlatformTypeSpawnChance = 1;
 	[Export(PropertyHint.Range, "1, 100")] private uint bridgePlatformTypeSpawnChance = 1;
@@ -112,7 +114,7 @@ public partial class TestLevel : Node3D
 
 		//GD.Print("Number: " + smallJumpGapSpawnChance);
 
-		combinedPlatformSpawnChance = smallPlatformSpawnChance + mediumPlatformSpawnChance + largePlatformSpawnChance;
+		combinedPlatformSpawnChance = smallPlatformSpawnChance + mediumPlatformSpawnChance + largePlatformSpawnChance + extraLargePlatformSpawnChance;
 
 		combinedJumpGapSpawnChance = smallJumpGapSpawnChance + mediumJumpGapSpawnChance + largeJumpGapSpawnChance;
 
@@ -140,16 +142,24 @@ public partial class TestLevel : Node3D
 
 				if (platformsSpawned < 3)
 				{
-					if (bouncerDecider())
+					if (i != 0)
 					{
-                        actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.BOUNCE });
+						if (bouncerDecider())
+						{
+							actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.BOUNCE });
 
+						}
+
+                        else
+                        {
+                            actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
+                        }
                     }
 
 					else
 					{
-                        actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
-                    }
+						actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
+					}
 						//actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
 					platformsSpawned++;
                 }
@@ -213,32 +223,33 @@ public partial class TestLevel : Node3D
             for (int i = 0; i < actionsToAdd.Count; ++i)
             {
                 Lengths lengthToAdd;
-                if (actionsToAdd[i] == ActionStates.WALK)
-                {
-                    //Chooses a number between 1 to the total number of each platform spawn chance probability
-                    uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
-                    //	GD.Print(rng);
+				//json
+                //if (actionsToAdd[i] == ActionStates.WALK)
+                //{
+                //    //Chooses a number between 1 to the total number of each platform spawn chance probability
+                //    uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
+                //    //	GD.Print(rng);
 
-                    if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
-                    {
-                        //Adds large platform
-                        lengthToAdd = Lengths.LONG;
-                    }
+                //    if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
+                //    {
+                //        //Adds large platform
+                //        lengthToAdd = Lengths.LONG;
+                //    }
 
-                    else if (rng > smallPlatformSpawnChance)
-                    {
-                        //Adds medium platform
-                        lengthToAdd = Lengths.MEDIUM;
-                    }
+                //    else if (rng > smallPlatformSpawnChance)
+                //    {
+                //        //Adds medium platform
+                //        lengthToAdd = Lengths.MEDIUM;
+                //    }
 
-                    else
-                    {
-                        //Adds small platform
-                        lengthToAdd = Lengths.SHORT;
-                    }
-                }
+                //    else
+                //    {
+                //        //Adds small platform
+                //        lengthToAdd = Lengths.SHORT;
+                //    }
+                //}
 
-                else if (actionsToAdd[i] == ActionStates.JUMP)
+                if (actionsToAdd[i] == ActionStates.JUMP)
                 {
                     translationVector.Y = 0;
                     //Chooses a number between 1 to the total number of each jump gap probability
@@ -388,6 +399,7 @@ public partial class TestLevel : Node3D
             platformType = typeToChoose();
         }
 
+		platformLength = determinePlatformLength(platformType);
 		string platformTypeToSpawn = platformPath(platformLength, platformType, nextAction);
 		//string platformTypeToSpawn = typeToChoose(platformLength, nextAction);
         platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
@@ -414,7 +426,14 @@ public partial class TestLevel : Node3D
 
 		else if (platformType == PlatformTypes.FLAT)
 		{
-			compSpawner.addSpikePlatform(platformType, platformLength, newPlatform.Position, currentDirection);
+			//uint rng = 1 + GD.Randi() % 2;
+			//if (rng == 1)
+			//{
+			if (platformLength == Lengths.SHORT && currentPosition != new Vector3(0, 0, 0))
+			{
+				compSpawner.addSpikePlatform(platformType, platformLength, newPlatform.Position, currentDirection);
+			}
+            //}
 		}
 		//spawnCoins(currentDirection, 1, 1, "", newPlatform.Position);
 	}
@@ -440,92 +459,196 @@ public partial class TestLevel : Node3D
 
         }
 
-	private string platformPath(Lengths lenOfPlatform, PlatformTypes type, ActionStates nextAction)
+	private Lengths determinePlatformLength(PlatformTypes type)
 	{
-		if (type == PlatformTypes.BRIDGE)
+       
+        Lengths lenOfPlatform;
+		if (type == PlatformTypes.FLAT)
 		{
-            translationVector.Y = 0;
-            if (lenOfPlatform == Lengths.SHORT)
+            uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
+            if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance + largePlatformSpawnChance)
 			{
-				numberToAdd = 6.0f;
-
-				return "res://smallBridgePlatform.tscn";
-            }
-
-			else if (lenOfPlatform == Lengths.MEDIUM)
+				lenOfPlatform = Lengths.LONGEST;
+			}
+			else if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
 			{
-				numberToAdd = 10.0f;
-				return "res://mediumBridgePlatform.tscn";
-            }
+				//Adds large platform
+				lenOfPlatform = Lengths.LONG;
+			}
 
-			else if (lenOfPlatform == Lengths.LONG)
+			else if (rng > smallPlatformSpawnChance)
 			{
-				numberToAdd = 14.0f;
-				return "res://largeBridgePlatform.tscn";
-            }
-		}
+				//Adds medium platform
+				lenOfPlatform = Lengths.MEDIUM;
+			}
 
-		else if (type == PlatformTypes.INCLINE)
-		{
-			if (lenOfPlatform == Lengths.SHORT)
+			else
 			{
-                numberToAdd = 9.0f;
-                if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
-                {
-                    numberToAdd = 7.5f;
-                }
-                translationVector.Y = 2;
-                return "res://inclinePlatformSmall.tscn";
-            }
+				//Adds small platform
+				lenOfPlatform = Lengths.SHORT;
+			}
 
-			else if (lenOfPlatform == Lengths.MEDIUM)
-			{
-                numberToAdd = 12.0f;
-
-                if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
-                {
-                    numberToAdd = 9.5f;
-                }
-                translationVector.Y = 3;
-                return "res://inclinePlatformMedium.tscn";
-            }
-
-			else if (lenOfPlatform == Lengths.LONG)
-			{
-                numberToAdd = 18.0f;
-
-                if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
-                {
-                    numberToAdd = 11.5f;
-                }
-
-                translationVector.Y = 5;
-                return "res://inclinePlatformLarge.tscn";
-            }
 		}
 
 		else
 		{
-			translationVector.Y = 0;
+            uint rng = 1 + GD.Randi() % (combinedPlatformSpawnChance - extraLargePlatformSpawnChance);
+            // Lengths lenOfPlatform;
+
+            if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
+            {
+                //Adds large platform
+                lenOfPlatform = Lengths.LONG;
+            }
+
+            else if (rng > smallPlatformSpawnChance)
+            {
+                //Adds medium platform
+                lenOfPlatform = Lengths.MEDIUM;
+            }
+
+            else
+            {
+                //Adds small platform
+                lenOfPlatform = Lengths.SHORT;
+            }
+        }
+
+		return lenOfPlatform;
+    }
+	private string platformPath(Lengths lenOfPlatform, PlatformTypes type, ActionStates nextAction)
+	{
+        //uint combinedChanceValues = smallPlatformSpawnChance + mediumPlatformSpawnChance + largePlatformSpawnChance + extraLargeJumpGapSpawnChance;
+      //  Lengths lenOfPlatform;
+        if (type == PlatformTypes.FLAT)
+		{
 
             if (lenOfPlatform == Lengths.SHORT)
-			{
+            {
                 numberToAdd = 6.0f;
                 return "res://small_platform.tscn";
             }
 
-			else if (lenOfPlatform == Lengths.MEDIUM)
-			{
+            else if (lenOfPlatform == Lengths.MEDIUM)
+            {
                 numberToAdd = 9.0f;
                 return "res://medium_platform2.tscn";
             }
 
-			else
-			{
+            else if (lenOfPlatform == Lengths.LONGEST)
+            {
+                numberToAdd = 18.0f;
+                return "res://extraLargePlatform.tscn";
+
+            }
+
+            else
+            {
                 numberToAdd = 12.0f;
                 return "res://large_platform.tscn";
             }
-		}
+        }
+
+		else
+		{
+
+
+            if (type == PlatformTypes.BRIDGE)
+            {
+                translationVector.Y = 0;
+                if (lenOfPlatform == Lengths.SHORT)
+                {
+                    numberToAdd = 6.0f;
+
+                    return "res://smallBridgePlatform.tscn";
+                }
+
+                else if (lenOfPlatform == Lengths.MEDIUM)
+                {
+                    numberToAdd = 10.0f;
+                    return "res://mediumBridgePlatform.tscn";
+                }
+
+                else if (lenOfPlatform == Lengths.LONG)
+                {
+                    numberToAdd = 14.0f;
+                    return "res://largeBridgePlatform.tscn";
+                }
+            }
+
+            else if (type == PlatformTypes.INCLINE)
+            {
+                if (lenOfPlatform == Lengths.SHORT)
+                {
+                    numberToAdd = 9.0f;
+                    if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
+                    {
+                        numberToAdd = 7.5f;
+                    }
+                    translationVector.Y = 2;
+                    return "res://inclinePlatformSmall.tscn";
+                }
+
+                else if (lenOfPlatform == Lengths.MEDIUM)
+                {
+                    numberToAdd = 12.0f;
+
+                    if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
+                    {
+                        numberToAdd = 9.5f;
+                    }
+                    translationVector.Y = 3;
+                    return "res://inclinePlatformMedium.tscn";
+                }
+
+                else if (lenOfPlatform == Lengths.LONG)
+                {
+                    numberToAdd = 18.0f;
+
+                    if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
+                    {
+                        numberToAdd = 11.5f;
+                    }
+
+                    translationVector.Y = 5;
+                    return "res://inclinePlatformLarge.tscn";
+                }
+            }
+
+        }
+			
+
+       
+
+		//else
+		//{
+		//	translationVector.Y = 0;
+
+  //          if (lenOfPlatform == Lengths.SHORT)
+		//	{
+  //              numberToAdd = 6.0f;
+  //              return "res://small_platform.tscn";
+  //          }
+
+		//	else if (lenOfPlatform == Lengths.MEDIUM)
+		//	{
+  //              numberToAdd = 9.0f;
+  //              return "res://medium_platform2.tscn";
+  //          }
+
+		//	else if (lenOfPlatform == Lengths.LONGEST)
+		//	{
+		//		numberToAdd = 18.0f;
+		//		return "res://extraLargePlatform.tscn";
+
+  //          }
+
+		//	else
+		//	{
+		//		numberToAdd = 12.0f;
+		//		return "res://large_platform.tscn";
+		//	}
+		//}
 
         return "res://large_platform.tscn";
     }
@@ -738,7 +861,7 @@ public partial class TestLevel : Node3D
 		PackedScene bouncerScene = ResourceLoader.Load<PackedScene>("res://Level parts/bouncer.tscn");
 
 		Node3D bouncer = bouncerScene.Instantiate<Node3D>();
-		bouncer.Position = new Vector3(currentPosition.X, currentPosition.Y + 3, currentPosition.Z);
+		bouncer.Position = new Vector3(currentPosition.X, currentPosition.Y + 2, currentPosition.Z);
 		AddChild(bouncer);
 		currentPosition += new Vector3(0, 20, 0);
 	}

@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Runtime.CompilerServices;
 
 public partial class PlayerCharacter : CharacterBody3D
 {
@@ -42,6 +43,8 @@ public partial class PlayerCharacter : CharacterBody3D
     private int coinCount = 0;
 
     private int jumpCount = 0;
+
+    private bool runMode = false;
 
     public override void _Ready()
     {
@@ -104,7 +107,27 @@ public partial class PlayerCharacter : CharacterBody3D
         Vector3 playerVelocity = Velocity;
         playerVelocity.Y = 0.0f;
         Velocity = playerVelocity;
-        if (Input.IsActionPressed("run"))
+
+
+
+   
+
+        if (IsOnFloor())
+        {
+            if (Input.IsActionPressed("run"))
+            {
+                //Velocity = Velocity.MoveToward(moveDirection * (moveSpeed * 2), acceleration * (float)delta);
+                runMode = true;
+            }
+            else
+            {
+                //Velocity = Velocity.MoveToward(moveDirection * moveSpeed, acceleration * (float)delta);
+                runMode = false;
+            }
+        }
+
+
+        if (runMode)
         {
             Velocity = Velocity.MoveToward(moveDirection * (moveSpeed * 2), acceleration * (float)delta);
         }
@@ -112,8 +135,9 @@ public partial class PlayerCharacter : CharacterBody3D
         {
             Velocity = Velocity.MoveToward(moveDirection * moveSpeed, acceleration * (float)delta);
         }
-            //Velocity = Velocity.MoveToward(moveDirection * moveSpeed, acceleration * (float)delta);
-            playerVelocity = Velocity;
+        
+        //Velocity = Velocity.MoveToward(moveDirection * moveSpeed, acceleration * (float)delta);
+        playerVelocity = Velocity;
         playerVelocity.Y = yVelocity + gravity * (float)delta;
         Velocity = playerVelocity;
 
@@ -132,8 +156,19 @@ public partial class PlayerCharacter : CharacterBody3D
 
         if (isStartingJump)
         {
-            playerVelocity.Y += jumpImpulse;
-            Velocity = playerVelocity;
+            if (jumpCount == 1)
+            {
+                playerVelocity.Y += jumpImpulse;
+                Velocity = playerVelocity;
+            }
+
+            else
+            {
+                playerVelocity.Y += jumpImpulse / 2;
+                Velocity = playerVelocity;
+            }
+            //    playerVelocity.Y += jumpImpulse;
+            //Velocity = playerVelocity;
         }
         
 
@@ -192,17 +227,34 @@ public partial class PlayerCharacter : CharacterBody3D
         //   {
         if (hasDied == false)
         {
-            GD.Print("Died at: " + "X: " + GlobalPosition.X + " Z: " + GlobalPosition.Z);
-            GD.Print("Last platform jumped on before dying: " + previousPlatform);
+            if (playerHealth == 0)
+            {
+                GD.Print("Died due to spikes");
+            }
+            else
+            {
+                GD.Print("Died at: " + "X: " + GlobalPosition.X + " Z: " + GlobalPosition.Z);
+                GD.Print("Last platform jumped on before dying: " + previousPlatform);
+            }
+            //    GD.Print("Died at: " + "X: " + GlobalPosition.X + " Z: " + GlobalPosition.Z);
+            //GD.Print("Last platform jumped on before dying: " + previousPlatform);
             Velocity = Vector3.Zero;
             GlobalPosition = spawnPoint;
             deathCount += 1;
             GD.Print("DEATHS: " + deathCount);
             playerHealth = 3;
             hasDied = true;
+            currentScore -= 5000;
+
+            if (currentScore < 0)
+            {
+                currentScore = 0;
+            }
+
+            GameManager.updateScoreText(currentScore);
         }
 
-        else if (GlobalPosition == spawnPoint)
+        if (GlobalPosition == spawnPoint)
         {
             hasDied = false;
         }

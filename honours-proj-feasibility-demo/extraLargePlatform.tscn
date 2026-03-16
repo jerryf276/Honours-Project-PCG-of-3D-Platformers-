@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://wgj62nxwcenc"]
+
+[ext_resource type="PackedScene" uid="uid://cwh86qiadegpl" path="res://glb/large_grass_block.tscn" id="1_85w3l"]
+
+[node name="extraLargePlatform" type="Node3D" unique_id=1512188846]
+
+[node name="largeGrassBlock" parent="." unique_id=1479622075 instance=ExtResource("1_85w3l")]
+
+[node name="largeGrassBlock2" parent="." unique_id=429995325 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+
+[node name="largeGrassBlock3" parent="." unique_id=769149936 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+
+[node name="largeGrassBlock4" parent="." unique_id=640657272 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
+
+[node name="largeGrassBlock5" parent="." unique_id=22961561 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3)
+
+[node name="largeGrassBlock6" parent="." unique_id=264836952 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
+
+[node name="largeGrassBlock7" parent="." unique_id=233142535 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="largeGrassBlock8" parent="." unique_id=1893411119 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 3)
+
+[node name="largeGrassBlock9" parent="." unique_id=1472324689 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
+
+[node name="largeGrassBlock10" parent="." unique_id=1453491397 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 3)
+
+[node name="largeGrassBlock11" parent="." unique_id=2090736518 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
+
+[node name="largeGrassBlock12" parent="." unique_id=1481144376 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 6)
+
+[node name="largeGrassBlock13" parent="." unique_id=2120173346 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 6)
+
+[node name="largeGrassBlock14" parent="." unique_id=1976427782 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 6)
+
+[node name="largeGrassBlock15" parent="." unique_id=1567411394 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 6)
+
+[node name="largeGrassBlock16" parent="." unique_id=1614142386 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 3)
+
+[node name="largeGrassBlock17" parent="." unique_id=212989685 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 3)
+
+[node name="largeGrassBlock18" parent="." unique_id=339864813 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 0)
+
+[node name="largeGrassBlock19" parent="." unique_id=1559675152 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -3)
+
+[node name="largeGrassBlock20" parent="." unique_id=898898461 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -6)
+
+[node name="largeGrassBlock21" parent="." unique_id=1969873043 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -6)
+
+[node name="largeGrassBlock22" parent="." unique_id=1918495743 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6)
+
+[node name="largeGrassBlock23" parent="." unique_id=944441251 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -6)
+
+[node name="largeGrassBlock24" parent="." unique_id=729251822 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -6)
+
+[node name="largeGrassBlock25" parent="." unique_id=383594111 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -3)
+
+[node name="largeGrassBlock26" parent="." unique_id=1031062180 instance=ExtResource("1_85w3l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
