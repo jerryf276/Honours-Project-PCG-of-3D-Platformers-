@@ -191,7 +191,7 @@ process_mode = 3
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
-text = "Restart"
+text = "Regenerate"
 
 [node name="QuitButton" type="Button" parent="PanelContainer/VBoxContainer" unique_id=392084853]
 process_mode = 3
