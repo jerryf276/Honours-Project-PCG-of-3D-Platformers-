@@ -7,10 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://bgwuqpjrh55vi" path="res://Level parts/bouncer.tscn" id="6_ougvc"]
 [ext_resource type="PackedScene" uid="uid://co6dy8m5ipd6v" path="res://healthOrb.tscn" id="7_bb2vi"]
 [ext_resource type="PackedScene" uid="uid://ex3den41l61a" path="res://pauseMenu.tscn" id="8_noedc"]
+[ext_resource type="PackedScene" uid="uid://ccmc15xu0xhkd" path="res://scenes/EndScreen.tscn" id="8_vsxqg"]
 
-[node name="Game" type="Node" unique_id=775067986 node_paths=PackedStringArray("inGameHUD")]
+[node name="Game" type="Node" unique_id=775067986 node_paths=PackedStringArray("inGameHUD", "EndScreen")]
 script = ExtResource("1_qgp6h")
 inGameHUD = NodePath("HUD")
+EndScreen = NodePath("EndScreen")
 
 [node name="HUD" parent="." unique_id=1883951451 instance=ExtResource("2_dahbk")]
 mouse_filter = 2
@@ -34,3 +36,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.1041155, 0, -6.203172)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3320041, 2.9795527, 1.5808716)
 
 [node name="PauseMenu" parent="." unique_id=1558835371 instance=ExtResource("8_noedc")]
+
+[node name="EndScreen" parent="." unique_id=461822167 instance=ExtResource("8_vsxqg")]

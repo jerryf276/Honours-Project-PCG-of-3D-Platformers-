@@ -6,7 +6,7 @@ using static Godot.TextServer;
 
 
 public enum PlatformTypes {FLAT, INCLINE, BRIDGE};
-enum ActionStates {WALK, TURN_LEFT, TURN_RIGHT, JUMP};
+enum ActionStates {WALK, TURN_LEFT, TURN_RIGHT, JUMP, BOUNCE};
 
 //NONE is used for changing direction since a length doesn't exist for a direction change.
 public enum Lengths {SHORT, MEDIUM, LONG, NONE};
@@ -57,7 +57,10 @@ public partial class TestLevel : Node3D
 	[Export(PropertyHint.Range, "1, 100")] private uint inclinePlatformTypeSpawnChance = 1;
 	[Export(PropertyHint.Range, "1, 100")] private uint bridgePlatformTypeSpawnChance = 1;
 
-	[ExportGroup("Number of Sections")]
+	[ExportSubgroup("Bouncer Spawn Rate")]
+	[Export(PropertyHint.Range, "5, 20")] private uint bounceSpawnRate = 5;
+
+    [ExportGroup("Number of Sections")]
 	[Export(PropertyHint.Range, "1, 10")] private uint numberOfSections = 1;
 
 	
@@ -137,7 +140,17 @@ public partial class TestLevel : Node3D
 
 				if (platformsSpawned < 3)
 				{
-                    actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
+					if (bouncerDecider())
+					{
+                        actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.BOUNCE });
+
+                    }
+
+					else
+					{
+                        actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
+                    }
+						//actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
 					platformsSpawned++;
                 }
 
@@ -251,12 +264,15 @@ public partial class TestLevel : Node3D
 
                 }
 
-                else
-                {
-                    translationVector.Y = 0;
-                    //Adds turning direction to the section of the level
-                    lengthToAdd = Lengths.NONE;
-                }
+			
+
+
+				else
+				{
+					translationVector.Y = 0;
+					//Adds turning direction to the section of the level
+					lengthToAdd = Lengths.NONE;
+				}
 
                 levelComponents.Add(new LevelComponent(actionsToAdd[i], lengthToAdd));
             }
@@ -320,7 +336,13 @@ public partial class TestLevel : Node3D
 						//direction = ChangeDirection(direction, componentsToAdd[i + 1].action);
 						newDirection = changeDirection(newDirection, componentsToAdd[i + 1].action);
 					}
-					AddCurrentPosition(newDirection);
+
+                    else if (componentsToAdd[i + 1].action == ActionStates.BOUNCE)
+                    {
+                        spawnBouncer();
+                    }
+
+                    AddCurrentPosition(newDirection);
 				}
 			}
 
@@ -328,6 +350,11 @@ public partial class TestLevel : Node3D
 			{
 				AddJumpSpace(componentsToAdd[i].lengthOfComponent, newDirection, jumpGaps, jumpHeight);
 			}
+
+			//else if (componentsToAdd[i].action == ActionStates.BOUNCE)
+			//{
+			//	spawnBouncer();
+			//}
  
 		}
         AddCurrentPosition(newDirection);
@@ -351,8 +378,15 @@ public partial class TestLevel : Node3D
 	private void SpawnPlatform(Lengths platformLength, NewDirection currentDirection, List<float> platSizes, ActionStates nextAction)
 	{
 		PackedScene platform;
+		PlatformTypes platformType;
 
-		PlatformTypes platformType = typeToChoose();
+        if (nextAction == ActionStates.BOUNCE) { 
+			platformType = PlatformTypes.FLAT;
+		}
+		else
+		{
+            platformType = typeToChoose();
+        }
 
 		string platformTypeToSpawn = platformPath(platformLength, platformType, nextAction);
 		//string platformTypeToSpawn = typeToChoose(platformLength, nextAction);
@@ -698,4 +732,26 @@ public partial class TestLevel : Node3D
 
 
     }
+
+	private void spawnBouncer()
+	{
+		PackedScene bouncerScene = ResourceLoader.Load<PackedScene>("res://Level parts/bouncer.tscn");
+
+		Node3D bouncer = bouncerScene.Instantiate<Node3D>();
+		bouncer.Position = new Vector3(currentPosition.X, currentPosition.Y + 3, currentPosition.Z);
+		AddChild(bouncer);
+		currentPosition += new Vector3(0, 20, 0);
+	}
+
+	private bool bouncerDecider()
+	{
+		uint rng = 1 + GD.Randi() % 100;
+
+		if (rng <= bounceSpawnRate)
+		{
+			return true;
+		}
+
+		return false;
+	}
 }

@@ -35,8 +35,9 @@ public partial class GoalCollision : Area3D
                     // GD.Print("Level complete!");
 
                     //temp ofc, comment out after
-                    GameManager.restartLevel();
-                    GetTree().ReloadCurrentScene();
+                    //GameManager.restartLevel();
+                    //GetTree().ReloadCurrentScene();
+                    GameManager.displayEndScreen();
                 }
             }
         }

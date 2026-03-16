@@ -14,6 +14,7 @@ script = ExtResource("1_5up26")
 rotationSpeed = 16.0
 jumpImpulse = 18.0
 attackedImpulse = 30.0
+bounceImpulse = 42.0
 
 [node name="GobotSkin" parent="." unique_id=178090948 instance=ExtResource("1_02ohv")]
 

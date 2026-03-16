@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bovvclosen066" path="res://scenes/EndScreen.cs" id="1_qfurf"]
 
-[node name="EndScreen" type="Control" unique_id=461822167 node_paths=PackedStringArray("restartButton", "quitButton")]
+[node name="EndScreen" type="Control" unique_id=461822167 node_paths=PackedStringArray("restartButton", "quitButton", "scoreText", "timeText", "rankText", "deathText")]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,6 +13,10 @@ grow_vertical = 2
 script = ExtResource("1_qfurf")
 restartButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/PlayAgain")
 quitButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Quit")
+scoreText = NodePath("MarginContainer/VBoxContainer/ScoreText")
+timeText = NodePath("MarginContainer/VBoxContainer/TimeText")
+rankText = NodePath("MarginContainer/VBoxContainer/RankText")
+deathText = NodePath("MarginContainer/VBoxContainer/deathText")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1369918132]
 layout_mode = 1
@@ -21,9 +26,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -453.0
-offset_top = -300.0
-offset_right = 435.0
-offset_bottom = 250.0
+offset_top = -303.0
+offset_right = 548.0
+offset_bottom = 317.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -52,6 +57,12 @@ theme_override_font_sizes/font_size = 64
 text = "Time: XX:XX"
 horizontal_alignment = 1
 
+[node name="deathText" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1157600133]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Deaths: NULL"
+horizontal_alignment = 1
+
 [node name="RankText" type="Label" parent="MarginContainer/VBoxContainer" unique_id=661018517]
 layout_mode = 2
 size_flags_vertical = 0
@@ -59,9 +70,6 @@ size_flags_stretch_ratio = 0.0
 theme_override_font_sizes/font_size = 64
 text = "Rank: XX"
 horizontal_alignment = 1
-
-[node name="padding" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1157600133]
-layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=768044799]
 layout_mode = 2

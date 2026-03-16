@@ -5,6 +5,7 @@ using static System.Formats.Asn1.AsnWriter;
 public partial class GameManager : Node
 {
     [Export] Control inGameHUD;
+    [Export] EndScreen EndScreen;
 
     Label scoreText;
     Label coinText;
@@ -69,6 +70,13 @@ public partial class GameManager : Node
         instance.level = instance.levelToLoad.Instantiate<Node3D>();
         instance.AddChild(instance.level);
 
+    }
+
+    public static void displayEndScreen()
+    {
+        //instance.EndScreen
+        // instance.EndScreen.
+        instance.EndScreen.LevelFinished();
     }
 
 }

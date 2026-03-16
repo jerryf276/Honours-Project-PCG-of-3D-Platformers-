@@ -287,5 +287,15 @@ public partial class PlayerCharacter : CharacterBody3D
         return playerHealth;
     }
 
+    public int getScore()
+    {
+        return currentScore;
+    }
+
+    public int getDeathCount()
+    {
+        return deathCount;
+    }
+
 }
 
