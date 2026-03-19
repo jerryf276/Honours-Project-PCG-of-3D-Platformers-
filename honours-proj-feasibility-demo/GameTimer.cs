@@ -62,4 +62,33 @@ public partial class GameTimer : Timer
 
         GameManager.updateTimeText(textToPrint);
     }
+
+    private string displaySeconds()
+    {
+        if (seconds < 10)
+        {
+            return "0" + seconds;
+        }
+        else
+        {
+            return seconds.ToString();
+        }
+    }
+
+    private string displayMinutes()
+    {
+        if (minutes < 10)
+        {
+            return "0" + minutes;
+        }
+        else
+        {
+            return minutes.ToString();
+        }
+    }
+
+    public string displayCurrentTime()
+    {
+        return displayMinutes() + ":" + displaySeconds();
+    }
 }

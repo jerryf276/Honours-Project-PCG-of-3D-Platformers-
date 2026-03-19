@@ -1,13 +1,23 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class JsonWriter : Node
 {
     //List<string> data = new List<string>();
     Godot.Collections.Array data = new Godot.Collections.Array();
 
+    Godot.Collections.Array levelData = new Godot.Collections.Array();
+
     bool jsonDone = false;
+
+    GameTimer gameTimer;
+
+    public override void _Ready()
+    {
+        gameTimer = GetNode<GameTimer>("../TestLevel/GameTimer");
+    }
 
     public override void _Process(double delta)
     {
@@ -15,6 +25,8 @@ public partial class JsonWriter : Node
         {
             addData("Hello! ");
             addData("Died at: blah blah blah blah");
+            addToJson();
+            addData("Died at: blah blah blah blahhhhhhh");
             addToJson();
             jsonDone = true;
         }
@@ -27,10 +39,57 @@ public partial class JsonWriter : Node
         data.Add(dataToAdd);
     }
 
+    public void addLevelData(string dataToAdd)
+    {
+        if (gameTimer == null) 
+        {
+            gameTimer = GetNode<GameTimer>("../TestLevel/GameTimer");
+        }
+
+        //dataToAdd = dataToAdd + " [Current time: " + gameTimer.displayCurrentTime() + "]";
+
+        string stringToDisplay = "[Current time: " + gameTimer.displayCurrentTime() + "] " + dataToAdd;
+        if (levelData == null)
+        {
+            levelData = new Godot.Collections.Array();
+        }
+
+      //  levelData.Add(dataToAdd);
+        levelData.Add(stringToDisplay);
+        outputDataToJson();
+    }
+
+    private void outputDataToJson()
+    {
+        using var jsonLine = FileAccess.Open("user://leveldata.json", FileAccess.ModeFlags.Write);
+
+        //if (levelData == null)
+        //{
+        //    GD.PrintErr("Data is null! Cannot write JSON.");
+        //    return;
+        //}
+        //if (jsonLine == null) 
+        //{
+        //    GD.PrintErr(")
+        //}
+
+        foreach (string item in levelData)
+        {
+            var jsonString = Json.Stringify(item);
+            jsonLine.StoreLine(jsonString);
+        }
+
+    }
+
+    public void addDeath()
+    {
+       
+    }
+
     public void addToJson()
     {
 
-        using var saveFile = FileAccess.Open("user://savegame.json", FileAccess.ModeFlags.Write);
+        using var saveFile = FileAccess.Open("user://savegame.json", FileAccess.ModeFlags.ReadWrite);
         foreach (string item in data)
         {
             var jsonString = Json.Stringify(item);
@@ -47,4 +106,6 @@ public partial class JsonWriter : Node
         //using var file = FileAccess.Open("user:://output.json", FileAccess.ModeFlags.Write);
         //file.StoreString(jsonToWrite);
     }
+
+  
 }

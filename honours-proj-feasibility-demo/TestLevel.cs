@@ -797,9 +797,9 @@ public partial class TestLevel : Node3D
         platform = ResourceLoader.Load<PackedScene>("res://large_platform.tscn");
 
         Node3D newPlatform = platform.Instantiate<Node3D>();
-        //Translate it by currentPosition.
-        newPlatform.Position = currentPosition;
-        AddChild(newPlatform);
+		//Translate it by currentPosition.
+		newPlatform.Position = currentPosition;
+		AddChild(newPlatform);
 
 
 		PackedScene goalLoad;
@@ -807,7 +807,18 @@ public partial class TestLevel : Node3D
 		goalLoad = ResourceLoader.Load<PackedScene>("res://Level parts/goal.tscn");
 		Node3D goal = goalLoad.Instantiate<Node3D>();
 		goal.Position = new Vector3(currentPosition.X, currentPosition.Y + 3.0f, currentPosition.Z);
-		AddChild(goal);
+
+        if (currentDirection == NewDirection.FORWARD)
+        {
+			goal.RotateY(Mathf.Pi / 2);
+
+        }
+
+        //else if (currentDirection == NewDirection.RIGHT)
+        //{
+        //    goal.RotateY(Mathf.Pi / -2);
+        //}
+        AddChild(goal);
 
     }
     public void setCheckpointReached(bool checkpointReached)

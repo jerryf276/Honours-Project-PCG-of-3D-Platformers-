@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://co6dy8m5ipd6v" path="res://healthOrb.tscn" id="7_bb2vi"]
 [ext_resource type="PackedScene" uid="uid://ex3den41l61a" path="res://pauseMenu.tscn" id="8_noedc"]
 [ext_resource type="PackedScene" uid="uid://ccmc15xu0xhkd" path="res://scenes/EndScreen.tscn" id="8_vsxqg"]
+[ext_resource type="PackedScene" uid="uid://dexw7sg8nemdj" path="res://json_writer.tscn" id="9_vsxqg"]
 
 [node name="Game" type="Node" unique_id=775067986 node_paths=PackedStringArray("inGameHUD", "EndScreen")]
 script = ExtResource("1_qgp6h")
@@ -38,3 +39,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3320041, 2.9795527, 1.58087
 [node name="PauseMenu" parent="." unique_id=1558835371 instance=ExtResource("8_noedc")]
 
 [node name="EndScreen" parent="." unique_id=461822167 instance=ExtResource("8_vsxqg")]
+
+[node name="JsonWriter" parent="." unique_id=1840773759 instance=ExtResource("9_vsxqg")]

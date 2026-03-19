@@ -46,6 +46,8 @@ public partial class PlayerCharacter : CharacterBody3D
 
     private bool runMode = false;
 
+    private JsonWriter jsonWriter;
+
     public override void _Ready()
     {
         cameraPivot = GetNode<Node3D>("CameraPivot");
@@ -56,6 +58,8 @@ public partial class PlayerCharacter : CharacterBody3D
         previousPlatform = "";
 
         Input.MouseMode = Input.MouseModeEnum.Captured;
+
+        jsonWriter = GetNode<JsonWriter>("../JsonWriter");
     }
     public override void _Input(InputEvent inputEvent)
     {
@@ -227,24 +231,39 @@ public partial class PlayerCharacter : CharacterBody3D
         //   {
         if (hasDied == false)
         {
+            string informationToAdd = "";
             if (playerHealth == 0)
             {
                 GD.Print("Died due to spikes");
+
+                informationToAdd = "Player died due to spikes!";
+                jsonWriter.addLevelData(informationToAdd);
             }
-            else
+            else if (GlobalPosition.X != spawnPoint.X || GlobalPosition.Z != spawnPoint.Z)
             {
                 GD.Print("Died at: " + "X: " + GlobalPosition.X + " Z: " + GlobalPosition.Z);
                 GD.Print("Last platform jumped on before dying: " + previousPlatform);
+
+                informationToAdd = "Died at: " + "X: " + GlobalPosition.X + "Z: " + GlobalPosition.Z;
+                jsonWriter.addLevelData(informationToAdd);
+
+                informationToAdd = "Last platform jumped on before dying: " + previousPlatform;
+                jsonWriter.addLevelData(informationToAdd);
             }
             //    GD.Print("Died at: " + "X: " + GlobalPosition.X + " Z: " + GlobalPosition.Z);
             //GD.Print("Last platform jumped on before dying: " + previousPlatform);
+
+            if (playerHealth == 0 || (GlobalPosition.X != spawnPoint.X || GlobalPosition.Z != spawnPoint.Z))
+            {
+                deathCount += 1;
+               // GD.Print("DEATHS: " + deathCount);
+                jsonWriter.addLevelData("Player's current death count: " + deathCount);
+                playerHealth = 3;
+                currentScore -= 5000;
+            }
             Velocity = Vector3.Zero;
             GlobalPosition = spawnPoint;
-            deathCount += 1;
-            GD.Print("DEATHS: " + deathCount);
-            playerHealth = 3;
             hasDied = true;
-            currentScore -= 5000;
 
             if (currentScore < 0)
             {
@@ -276,7 +295,8 @@ public partial class PlayerCharacter : CharacterBody3D
     {
         //  if (isAttacked == false)
         //  {
-        GD.Print("Attacked!");
+            GD.Print("Attacked!");
+            jsonWriter.addLevelData("Player lost 1 health!");
             playerHealth -= 1;
             GameManager.updateHealthText(playerHealth);
             Vector3 playerVelocity = Velocity;
@@ -332,6 +352,8 @@ public partial class PlayerCharacter : CharacterBody3D
     public void healPlayer()
     {
         playerHealth += 1;
+        jsonWriter.addLevelData("Player restored 1 health!");
+        //playerHealth += 1;
     }
 
     public int getHealth()

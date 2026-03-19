@@ -38,11 +38,6 @@ public partial class CheckpointCollision : Area3D
                         level.setCheckpointReached(checkpointReached);
                     }
 
-                    //if (level == null)
-                    //{
-                    //    GD.Print("Level doesn't exist");
-                    //}
-
                 }
 
             }
