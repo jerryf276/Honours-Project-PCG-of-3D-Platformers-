@@ -47,6 +47,18 @@ public partial class EndScreen : Control
         Visible = true;
         scoreText.Text = "Score: " + player.getScore();
         deathText.Text = "Deaths: " + player.getDeathCount();
+
+        JsonWriter jsonWriter = GetNode<JsonWriter>("../JsonWriter");
+
+        jsonWriter.addLevelData("Level complete!");
+        jsonWriter.addLevelData("---POST LEVEL STATS---");
+        jsonWriter.addLevelData("SCORE: " +  player.getScore());
+        jsonWriter.addLevelData("DEATHS: " + player.getDeathCount());
+        jsonWriter.addLevelData("TIME: " + "00:00");
+        jsonWriter.addLevelData("TIME BONUS: " + "XXXXX");
+        jsonWriter.addLevelData("COIN BONUS: " + "XXXX");
+        jsonWriter.addLevelData("FINAL SCORE: " + player.getScore());
+        jsonWriter.addLevelData("RANK: " + "D");
        // animationPlayer.Play("blur");
     }
 
