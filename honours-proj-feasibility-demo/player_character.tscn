@@ -11,6 +11,8 @@ radius = 0.35986328
 
 [node name="PlayerCharacter" type="CharacterBody3D" unique_id=1536245473]
 script = ExtResource("1_5up26")
+moveSpeed = 9.0
+acceleration = 100.0
 rotationSpeed = 16.0
 jumpImpulse = 18.0
 attackedImpulse = 30.0
