@@ -787,6 +787,10 @@ public partial class TestLevel : Node3D
 		Node3D checkpoint = checkpointLoad.Instantiate<Node3D>();
 		checkpoint.Position = new Vector3(currentPosition.X, currentPosition.Y + 3.0f, currentPosition.Z);
         AddChild(checkpoint);
+
+		numberToAdd = 12.0f;
+		translationVector.Y = 0;
+		AddCurrentPosition(currentDirection);
         //checkpoint.Position.Y = currentPosition.Y + 1;
 
     }
