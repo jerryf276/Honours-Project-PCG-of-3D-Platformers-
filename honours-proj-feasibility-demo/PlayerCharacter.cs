@@ -351,8 +351,13 @@ public partial class PlayerCharacter : CharacterBody3D
 
     public void healPlayer()
     {
-        playerHealth += 1;
-        jsonWriter.addLevelData("Player restored 1 health!");
+        if (playerHealth < 3)
+        {
+            playerHealth += 1;
+            jsonWriter.addLevelData("Player restored 1 health!");
+        }
+        //playerHealth += 1;
+        //jsonWriter.addLevelData("Player restored 1 health!");
         //playerHealth += 1;
     }
 

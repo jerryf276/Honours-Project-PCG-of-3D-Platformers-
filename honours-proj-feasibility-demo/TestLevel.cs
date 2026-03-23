@@ -87,6 +87,14 @@ public partial class TestLevel : Node3D
 
 	NewDirection currentDirection = NewDirection.FORWARD;
 
+	//Counting the number of spikes
+	//If there is 3 spike areas, we will spawn a health pack 
+	int spikeAreaCount = 0;
+
+
+	//This will be used to spawn a health pack when there is 3 spikes 
+	bool spawnHealthPack = false;
+
 	private struct LevelComponent
 	{
 		//Refer to ActionStates enum class
@@ -127,7 +135,6 @@ public partial class TestLevel : Node3D
 	{
 
 		//Ideally, each spawn we could change the actions.
-
 		if (spawnSection && (sectionsSpawned < numberOfSections))
 		{
             List<ActionStates> actionsToAdd = new List<ActionStates> { };
@@ -135,7 +142,7 @@ public partial class TestLevel : Node3D
 			//Once three platforms are spawned, we will allow directions to be changed.
 			//When a direction changes, this number is reset back to 0.
 			int platformsSpawned = 0;
-
+            spikeAreaCount = 0;
 
             for (int i = 0; i < sectionSize; ++i)
             {
@@ -223,32 +230,7 @@ public partial class TestLevel : Node3D
             for (int i = 0; i < actionsToAdd.Count; ++i)
             {
                 Lengths lengthToAdd;
-				//json
-                //if (actionsToAdd[i] == ActionStates.WALK)
-                //{
-                //    //Chooses a number between 1 to the total number of each platform spawn chance probability
-                //    uint rng = 1 + GD.Randi() % combinedPlatformSpawnChance;
-                //    //	GD.Print(rng);
-
-                //    if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
-                //    {
-                //        //Adds large platform
-                //        lengthToAdd = Lengths.LONG;
-                //    }
-
-                //    else if (rng > smallPlatformSpawnChance)
-                //    {
-                //        //Adds medium platform
-                //        lengthToAdd = Lengths.MEDIUM;
-                //    }
-
-                //    else
-                //    {
-                //        //Adds small platform
-                //        lengthToAdd = Lengths.SHORT;
-                //    }
-                //}
-
+	
                 if (actionsToAdd[i] == ActionStates.JUMP)
                 {
                     translationVector.Y = 0;
@@ -294,6 +276,7 @@ public partial class TestLevel : Node3D
 
 
             spawnSection = false;
+			spawnHealthPack = false;
 			sectionsSpawned++;
 
 			//GD.Print(sectionSize);
@@ -413,6 +396,17 @@ public partial class TestLevel : Node3D
 		//GD.Print(newPlatform.Position);
 		AddChild(newPlatform);
 
+		if (spawnHealthPack == true)
+		{
+			PackedScene healthPackScene = ResourceLoader.Load<PackedScene>("res://healthOrb.tscn");
+
+			Node3D healthOrb = healthPackScene.Instantiate<Node3D>();
+			healthOrb.Position = new Vector3(currentPosition.X, currentPosition.Y + 2, currentPosition.Z);
+			AddChild(healthOrb);
+			spawnHealthPack = false;
+			spikeAreaCount = 0;
+		}
+
 
 
 
@@ -432,8 +426,16 @@ public partial class TestLevel : Node3D
 			if (platformLength == Lengths.SHORT && currentPosition != new Vector3(0, 0, 0))
 			{
 				compSpawner.addSpikePlatform(platformType, platformLength, newPlatform.Position, currentDirection);
+				spikeAreaCount++;
 			}
             //}
+		}
+
+		if (spikeAreaCount == 3)
+		{
+			//PackedScene healthPackScene = ResourceLoader.Load<PackedScene>("");
+			//A health pack will be spawned at the next platform
+			spawnHealthPack = true;
 		}
 		//spawnCoins(currentDirection, 1, 1, "", newPlatform.Position);
 	}
