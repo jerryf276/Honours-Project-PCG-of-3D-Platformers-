@@ -59,6 +59,8 @@ public partial class ComponentSpawner : Node
 
         }
 
+        coinPlatforms.Clear();
+
     }
 
     private void generateBridgeCoins(componentPlatform platform)
