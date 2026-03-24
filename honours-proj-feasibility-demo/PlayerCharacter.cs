@@ -320,6 +320,7 @@ public partial class PlayerCharacter : CharacterBody3D
 	public void bouncedOnSpring()
 	{
 		Vector3 playerVelocity = Velocity;
+		playerVelocity.Y = 0;
 		playerVelocity.Y += bounceImpulse;
 		Velocity = playerVelocity;
 	}
