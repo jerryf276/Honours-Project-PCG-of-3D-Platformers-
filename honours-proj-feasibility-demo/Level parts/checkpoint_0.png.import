@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dl7qsq5xgqlng"
 path.s3tc="res://.godot/imported/checkpoint_0.png-6f82a5c479de3697f71cf1b9d84dee29.s3tc.ctex"
+path.etc2="res://.godot/imported/checkpoint_0.png-6f82a5c479de3697f71cf1b9d84dee29.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://Level parts/checkpoint_0.png"
-dest_files=["res://.godot/imported/checkpoint_0.png-6f82a5c479de3697f71cf1b9d84dee29.s3tc.ctex"]
+dest_files=["res://.godot/imported/checkpoint_0.png-6f82a5c479de3697f71cf1b9d84dee29.s3tc.ctex", "res://.godot/imported/checkpoint_0.png-6f82a5c479de3697f71cf1b9d84dee29.etc2.ctex"]
 
 [params]
 
