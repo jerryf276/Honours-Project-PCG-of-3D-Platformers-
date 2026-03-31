@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://dvvqdhcgvjdcu"]
 
-[node name="LevelModifier" type="Control" unique_id=521948923]
+[ext_resource type="Script" uid="uid://h7orjgplh878" path="res://scenes/LevelModifier.cs" id="1_fntvc"]
+
+[node name="LevelModifier" type="Control" unique_id=521948923 node_paths=PackedStringArray("smallPlatformSlider", "mediumPlatformSlider", "largePlatformSlider", "extraLargePlatformSlider", "smallJumpGapSlider", "mediumJumpGapSlider", "largeJumpGapSlider", "coinSlider", "spikeSlider", "bouncePadSlider", "numberOfSections", "sizePerSection")]
 layout_mode = 3
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -8,6 +10,19 @@ offset_right = -1280.0
 offset_bottom = -720.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_fntvc")
+smallPlatformSlider = NodePath("PlatformSizeSliders/SmallPlatformSlider")
+mediumPlatformSlider = NodePath("PlatformSizeSliders/MediumPlatformSlider")
+largePlatformSlider = NodePath("PlatformSizeSliders/LargePlatformSlider")
+extraLargePlatformSlider = NodePath("PlatformSizeSliders/ExtraLargePlatformSlider")
+smallJumpGapSlider = NodePath("JumpGapsSlider/SmallGapSlider")
+mediumJumpGapSlider = NodePath("JumpGapsSlider/MediumGapSlider")
+largeJumpGapSlider = NodePath("JumpGapsSlider/LargeGapSlider")
+coinSlider = NodePath("LevelComponentsSlider/CoinSlider")
+spikeSlider = NodePath("LevelComponentsSlider/SpikesSlider")
+bouncePadSlider = NodePath("LevelComponentsSlider/BouncePadSlider")
+numberOfSections = NodePath("SectionNumbers/VBoxContainer2/NumberOfSections")
+sizePerSection = NodePath("SectionNumbers/VBoxContainer2/SizePerSection")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1646966661]
 layout_mode = 1

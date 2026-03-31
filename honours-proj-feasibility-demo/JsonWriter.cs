@@ -61,7 +61,7 @@ public partial class JsonWriter : Node
 
 	private void outputDataToJson()
 	{
-		using var jsonLine = FileAccess.Open("res://testFile.json", FileAccess.ModeFlags.Write);
+		using var jsonLine = FileAccess.Open("res://LevelResults.json", FileAccess.ModeFlags.Write);
 
 		GD.Print("Written to json!");
 
