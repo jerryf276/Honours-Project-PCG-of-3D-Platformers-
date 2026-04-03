@@ -2,7 +2,7 @@ using Godot;
 using System;
 using static System.Formats.Asn1.AsnWriter;
 
-public partial class GameManager : Node
+public partial class GameManagerOld : Node
 {
     [Export] Control inGameHUD;
     [Export] EndScreen EndScreen;
@@ -12,7 +12,7 @@ public partial class GameManager : Node
     Label healthText;
     Label timeText;
 
-    static GameManager instance;
+    static GameManagerOld instance;
 
     // [Export] Node3D level;
     PackedScene levelToLoad;
@@ -70,6 +70,13 @@ public partial class GameManager : Node
         instance.level = instance.levelToLoad.Instantiate<Node3D>();
         instance.AddChild(instance.level);
 
+    }
+
+    public static void startLevel()
+    {
+        instance.levelToLoad = ResourceLoader.Load<PackedScene>("res://TestLevel.tscn");
+        instance.level = instance.levelToLoad.Instantiate<Node3D>();
+        instance.AddChild(instance.level);
     }
 
     public static void displayEndScreen()

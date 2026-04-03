@@ -9,7 +9,7 @@ radius = 0.35986328
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_5up26"]
 
-[node name="PlayerCharacter" type="CharacterBody3D" unique_id=1536245473]
+[node name="PlayerCharacter" type="CharacterBody3D" unique_id=1536245473 node_paths=PackedStringArray("attackCooldown")]
 script = ExtResource("1_5up26")
 moveSpeed = 9.0
 acceleration = 100.0
@@ -17,6 +17,7 @@ rotationSpeed = 16.0
 jumpImpulse = 18.0
 attackedImpulse = 30.0
 bounceImpulse = 40.0
+attackCooldown = NodePath("Timer")
 
 [node name="GobotSkin" parent="." unique_id=178090948 instance=ExtResource("1_02ohv")]
 
@@ -41,6 +42,9 @@ player = NodePath("..")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=198625358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9754784, 0)
 shape = SubResource("CapsuleShape3D_5up26")
+
+[node name="Timer" type="Timer" parent="." unique_id=353952671]
+wait_time = 3.0
 
 [connection signal="area_entered" from="Area3D" to="Area3D" method="OnAreaEntered"]
 [connection signal="area_exited" from="Area3D" to="Area3D" method="OnAreaExited"]

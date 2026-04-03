@@ -41,7 +41,7 @@ public partial class EndScreen : Control
     public void LevelFinished()
     {
         PlayerCharacter player;
-        player = GetTree().Root.GetNode<PlayerCharacter>("Game/PlayerCharacter") as PlayerCharacter;
+        player = GetTree().Root.GetNode<PlayerCharacter>("FinalGame/PlayerCharacter") as PlayerCharacter;
         Input.MouseMode = Input.MouseModeEnum.Visible;
         GetTree().Paused = true;
         Visible = true;

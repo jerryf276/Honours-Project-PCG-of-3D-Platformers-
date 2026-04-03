@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://cbanuhki17fh5"]
+
+[ext_resource type="Script" uid="uid://du52ilmkmbdbd" path="res://GameManager.cs" id="1_i78no"]
+[ext_resource type="PackedScene" uid="uid://dvvqdhcgvjdcu" path="res://scenes/levelModifier.tscn" id="2_i78no"]
+
+[node name="FinalGame" type="Node" unique_id=1576676398]
+script = ExtResource("1_i78no")
+
+[node name="LevelModifier" parent="." unique_id=521948923 instance=ExtResource("2_i78no")]

@@ -35,35 +35,35 @@ public partial class TestLevel : Node3D
 	//Chance of direction changing, we have made 50 the max 
 	[Export] Timer gameTimer;
 	[Export] ComponentSpawner compSpawner;
-	[Export(PropertyHint.Range, "0, 50")] private uint directionChangeChance;
+	/*[Export(PropertyHint.Range, "0, 50")]*/ private uint directionChangeChance;
 
 	//Default values will be 1.
-	[ExportGroup("Spawn Chances")]
+	//[ExportGroup("Spawn Chances")]
 	//Chance of spawning small platform
-	[ExportSubgroup("Platform Spawn Chances")]
-	[Export(PropertyHint.Range, "1, 100")] private uint smallPlatformSpawnChance = 1;
+	//[ExportSubgroup("Platform Spawn Chances")]
+	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint smallPlatformSpawnChance = 1;
 	//Chance of spawning medium platform
-	[Export(PropertyHint.Range, "1, 100")] private uint mediumPlatformSpawnChance = 1;
+	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint mediumPlatformSpawnChance = 1;
 	//Chance of spawning large platform
-	[Export(PropertyHint.Range, "1, 100")] private uint largePlatformSpawnChance = 1;
+	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint largePlatformSpawnChance = 1;
     //Chance of spawning extra large platform
-    [Export(PropertyHint.Range, "1, 100")] private uint extraLargePlatformSpawnChance = 1;
+    /*[Export(PropertyHint.Range, "1, 100")]*/ private uint extraLargePlatformSpawnChance = 1;
 
-    [ExportSubgroup("Jump Gap Spawn Chances")]
-	[Export(PropertyHint.Range, "1, 100")] private uint smallJumpGapSpawnChance = 1;
-	[Export(PropertyHint.Range, "1, 100")] private uint mediumJumpGapSpawnChance = 1;
-	[Export(PropertyHint.Range, "1, 100")] private uint largeJumpGapSpawnChance = 1;
+    //[ExportSubgroup("Jump Gap Spawn Chances")]
+	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint smallJumpGapSpawnChance = 1;
+	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint mediumJumpGapSpawnChance = 1;
+	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint largeJumpGapSpawnChance = 1;
 
-    [ExportSubgroup("Platform Type Spawn Chances")]
-	[Export(PropertyHint.Range, "1, 100")] private uint flatPlatformTypeSpawnChance = 1;
-	[Export(PropertyHint.Range, "1, 100")] private uint inclinePlatformTypeSpawnChance = 1;
-	[Export(PropertyHint.Range, "1, 100")] private uint bridgePlatformTypeSpawnChance = 1;
+    //[ExportSubgroup("Platform Type Spawn Chances")]
+	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint flatPlatformTypeSpawnChance = 1;
+	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint inclinePlatformTypeSpawnChance = 1;
+/*	[Export(PropertyHint.Range, "1, 100")]*/ private uint bridgePlatformTypeSpawnChance = 1;
 
-	[ExportSubgroup("Bouncer Spawn Rate")]
-	[Export(PropertyHint.Range, "5, 20")] private uint bounceSpawnRate = 5;
+	//[ExportSubgroup("Bouncer Spawn Rate")]
+	/*[Export(PropertyHint.Range, "5, 20")]*/ private uint bounceSpawnRate = 5;
 
-    [ExportGroup("Number of Sections")]
-	[Export(PropertyHint.Range, "1, 10")] private uint numberOfSections = 1;
+    //[ExportGroup("Number of Sections")]
+	/*[Export(PropertyHint.Range, "1, 10")]*/ private uint numberOfSections = 1;
 
 	
 
@@ -78,10 +78,10 @@ public partial class TestLevel : Node3D
 
 	//Size of section, which in this case is the size of the level for now.
 	//In the future we will make this an array of section sizes when we develop multiple level sections
-	[ExportGroup("Sections")]
-	[Export] int sectionSize { get; set; }
+	//[ExportGroup("Sections")]
+/*	[Export]*/ int sectionSize { get; set; }
 
-	bool spawnSection = true;
+	bool spawnSection = false;
 
 	private uint sectionsSpawned = 0;
 
@@ -893,5 +893,44 @@ public partial class TestLevel : Node3D
 		}
 
 		return false;
+	}
+
+	public void setPlatformSpawnChances(uint smallPlatform, uint mediumPlatform, uint largePlatform, uint extraLargePlatform)
+	{
+		smallPlatformSpawnChance = smallPlatform;
+		mediumPlatformSpawnChance = mediumPlatform;
+		largePlatformSpawnChance = largePlatform;
+		extraLargePlatformSpawnChance = extraLargePlatform;
+	}
+
+	public void setJumpGapChances(uint smallJumpGap, uint mediumJumpGap, uint largeJumpGap)
+	{
+		smallJumpGapSpawnChance = smallJumpGap;
+		mediumJumpGapSpawnChance = mediumJumpGap;
+		largeJumpGapSpawnChance = largeJumpGap;
+	}
+
+	public void setPlatformTypeSpawnChances(uint flatPlatformType, uint inclinePlatformType, uint bridgePlatformType)
+	{
+		flatPlatformTypeSpawnChance = flatPlatformType;
+		inclinePlatformTypeSpawnChance = inclinePlatformType;
+		bridgePlatformTypeSpawnChance = bridgePlatformType;
+	}
+
+	public void settingSections(uint sizeOfSection, uint sectionNumber)
+	{
+		numberOfSections = sectionNumber;
+		sectionSize = (int)sizeOfSection;
+	}
+
+	public void setComponentSpawnRate(uint bouncer)
+	{
+		bounceSpawnRate = bouncer;
+
+	}
+
+	public void setSpawnSection(bool sectionSpawn)
+	{
+		spawnSection = sectionSpawn;
 	}
 }

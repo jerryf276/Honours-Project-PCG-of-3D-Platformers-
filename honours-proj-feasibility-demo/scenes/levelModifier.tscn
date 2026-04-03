@@ -2,8 +2,10 @@
 
 [ext_resource type="Script" uid="uid://h7orjgplh878" path="res://scenes/LevelModifier.cs" id="1_fntvc"]
 
-[node name="LevelModifier" type="Control" unique_id=521948923 node_paths=PackedStringArray("smallPlatformSlider", "mediumPlatformSlider", "largePlatformSlider", "extraLargePlatformSlider", "smallJumpGapSlider", "mediumJumpGapSlider", "largeJumpGapSlider", "coinSlider", "spikeSlider", "bouncePadSlider", "numberOfSections", "sizePerSection")]
+[node name="LevelModifier" type="Control" unique_id=521948923 node_paths=PackedStringArray("smallPlatformSlider", "mediumPlatformSlider", "largePlatformSlider", "extraLargePlatformSlider", "smallJumpGapSlider", "mediumJumpGapSlider", "largeJumpGapSlider", "flatPlatformTypeSlider", "inclinePlatformTypeSlider", "bridgePlaformTypeSlider", "coinSlider", "spikeSlider", "bouncePadSlider", "numberOfSections", "sizePerSection", "leftButton", "rightButton", "startButton", "pageOne", "pageTwo")]
+process_mode = 3
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -1280.0
@@ -11,18 +13,26 @@ offset_bottom = -720.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_fntvc")
-smallPlatformSlider = NodePath("PlatformSizeSliders/SmallPlatformSlider")
-mediumPlatformSlider = NodePath("PlatformSizeSliders/MediumPlatformSlider")
-largePlatformSlider = NodePath("PlatformSizeSliders/LargePlatformSlider")
-extraLargePlatformSlider = NodePath("PlatformSizeSliders/ExtraLargePlatformSlider")
-smallJumpGapSlider = NodePath("JumpGapsSlider/SmallGapSlider")
-mediumJumpGapSlider = NodePath("JumpGapsSlider/MediumGapSlider")
-largeJumpGapSlider = NodePath("JumpGapsSlider/LargeGapSlider")
-coinSlider = NodePath("LevelComponentsSlider/CoinSlider")
-spikeSlider = NodePath("LevelComponentsSlider/SpikesSlider")
-bouncePadSlider = NodePath("LevelComponentsSlider/BouncePadSlider")
-numberOfSections = NodePath("SectionNumbers/VBoxContainer2/NumberOfSections")
-sizePerSection = NodePath("SectionNumbers/VBoxContainer2/SizePerSection")
+smallPlatformSlider = NodePath("PageOne/PlatformSizeSliders/SmallPlatformSlider")
+mediumPlatformSlider = NodePath("PageOne/PlatformSizeSliders/MediumPlatformSlider")
+largePlatformSlider = NodePath("PageOne/PlatformSizeSliders/LargePlatformSlider")
+extraLargePlatformSlider = NodePath("PageOne/PlatformSizeSliders/ExtraLargePlatformSlider")
+smallJumpGapSlider = NodePath("PageOne/JumpGapsSlider/SmallGapSlider")
+mediumJumpGapSlider = NodePath("PageOne/JumpGapsSlider/MediumGapSlider")
+largeJumpGapSlider = NodePath("PageOne/JumpGapsSlider/LargeGapSlider")
+flatPlatformTypeSlider = NodePath("PageTwo/PlatformSizeSliders/FlatPlatformSlider")
+inclinePlatformTypeSlider = NodePath("PageTwo/PlatformSizeSliders/InclinePlatformSlider")
+bridgePlaformTypeSlider = NodePath("PageTwo/PlatformSizeSliders/BridgePlatformSlider")
+coinSlider = NodePath("PageOne/LevelComponentsSlider/CoinSlider")
+spikeSlider = NodePath("PageOne/LevelComponentsSlider/SpikesSlider")
+bouncePadSlider = NodePath("PageOne/LevelComponentsSlider/BouncePadSlider")
+numberOfSections = NodePath("PageOne/SectionNumbers/VBoxContainer2/NumberOfSections")
+sizePerSection = NodePath("PageOne/SectionNumbers/VBoxContainer2/SizePerSection")
+leftButton = NodePath("LeftButton")
+rightButton = NodePath("RightButton")
+startButton = NodePath("StartButton")
+pageOne = NodePath("PageOne")
+pageTwo = NodePath("PageTwo")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1646966661]
 layout_mode = 1
@@ -43,6 +53,25 @@ metadata/_edit_use_anchors_ = true
 layout_mode = 2
 color = Color(0.29411766, 0.5568628, 0.7529412, 1)
 
+[node name="TitleContainer" type="MarginContainer" parent="." unique_id=409084208]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 1.0
+offset_right = 1277.0
+offset_bottom = 106.0
+grow_horizontal = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TitleContainer" unique_id=456583698]
+layout_mode = 2
+
+[node name="LevelAttributesText" type="Label" parent="TitleContainer/VBoxContainer" unique_id=295680407]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Level Attributes"
+horizontal_alignment = 1
+
 [node name="StartButton" type="Button" parent="." unique_id=1207104995]
 layout_mode = 1
 anchors_preset = 3
@@ -59,74 +88,80 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 64
 text = "START"
 
-[node name="PlatformsTextContainer" type="MarginContainer" parent="." unique_id=325792894]
+[node name="RightButton" type="Button" parent="." unique_id=172005340]
 layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 847.0
+offset_top = 588.0
+offset_right = 943.0
+offset_bottom = 684.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 64
+text = ">"
+
+[node name="LeftButton" type="Button" parent="." unique_id=1731338768]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 733.0
+offset_top = 588.0
+offset_right = 829.0
+offset_bottom = 684.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 64
+text = "<"
+
+[node name="PageOne" type="Node2D" parent="." unique_id=1423595544]
+
+[node name="PlatformsTextContainer" type="MarginContainer" parent="PageOne" unique_id=325792894]
 offset_left = 29.0
 offset_top = 90.0
 offset_right = 616.0
-offset_bottom = 355.0
+offset_bottom = 385.0
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="PlatformsTextContainer" unique_id=35346449]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PageOne/PlatformsTextContainer" unique_id=35346449]
 layout_mode = 2
 
-[node name="PlatformsText" type="Label" parent="PlatformsTextContainer/VBoxContainer2" unique_id=935972437]
+[node name="PlatformsText" type="Label" parent="PageOne/PlatformsTextContainer/VBoxContainer2" unique_id=935972437]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 48
 text = "Platforms"
 
-[node name="SmallText" type="Label" parent="PlatformsTextContainer/VBoxContainer2" unique_id=918067807]
+[node name="SmallText" type="Label" parent="PageOne/PlatformsTextContainer/VBoxContainer2" unique_id=918067807]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_font_sizes/font_size = 38
 text = "Small"
 
-[node name="MediumText" type="Label" parent="PlatformsTextContainer/VBoxContainer2" unique_id=1812747031]
+[node name="MediumText" type="Label" parent="PageOne/PlatformsTextContainer/VBoxContainer2" unique_id=1812747031]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.62
 theme_override_font_sizes/font_size = 38
 text = "Medium"
 
-[node name="LargeText" type="Label" parent="PlatformsTextContainer/VBoxContainer2" unique_id=1373302520]
+[node name="LargeText" type="Label" parent="PageOne/PlatformsTextContainer/VBoxContainer2" unique_id=1373302520]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 38
 text = "Large"
 
-[node name="ExtraLargeText" type="Label" parent="PlatformsTextContainer/VBoxContainer2" unique_id=1989263066]
+[node name="ExtraLargeText" type="Label" parent="PageOne/PlatformsTextContainer/VBoxContainer2" unique_id=1989263066]
 layout_mode = 2
 theme_override_font_sizes/font_size = 38
 text = "Extra Large"
 
-[node name="PlatformSizeSliders" type="VBoxContainer" parent="." unique_id=1875534401]
-layout_mode = 1
-offset_left = 243.0
-offset_top = 172.0
-offset_right = 423.0
-offset_bottom = 278.5
-scale = Vector2(2, 2)
-
-[node name="SmallPlatformSlider" type="HSlider" parent="PlatformSizeSliders" unique_id=1728678314]
-layout_mode = 2
-size_flags_vertical = 10
-size_flags_stretch_ratio = 0.0
-
-[node name="MediumPlatformSlider" type="HSlider" parent="PlatformSizeSliders" unique_id=2008739298]
-layout_mode = 2
-size_flags_vertical = 3
-size_flags_stretch_ratio = 1.62
-
-[node name="LargePlatformSlider" type="HSlider" parent="PlatformSizeSliders" unique_id=1747766470]
-layout_mode = 2
-size_flags_vertical = 6
-
-[node name="ExtraLargePlatformSlider" type="HSlider" parent="PlatformSizeSliders" unique_id=753563799]
-layout_mode = 2
-size_flags_vertical = 10
-
-[node name="JumpGapsContainer" type="MarginContainer" parent="." unique_id=346427633]
-layout_mode = 1
+[node name="JumpGapsContainer" type="MarginContainer" parent="PageOne" unique_id=346427633]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -136,36 +171,35 @@ offset_right = 1152.0
 offset_bottom = 337.0
 grow_horizontal = 0
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="JumpGapsContainer" unique_id=1841230424]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PageOne/JumpGapsContainer" unique_id=1841230424]
 layout_mode = 2
 
-[node name="JumpGapsText" type="Label" parent="JumpGapsContainer/VBoxContainer2" unique_id=1715970250]
+[node name="JumpGapsText" type="Label" parent="PageOne/JumpGapsContainer/VBoxContainer2" unique_id=1715970250]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 48
 text = "Jump Gaps"
 
-[node name="SmallText" type="Label" parent="JumpGapsContainer/VBoxContainer2" unique_id=722288914]
+[node name="SmallText" type="Label" parent="PageOne/JumpGapsContainer/VBoxContainer2" unique_id=722288914]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_font_sizes/font_size = 38
 text = "Small"
 
-[node name="MediumText" type="Label" parent="JumpGapsContainer/VBoxContainer2" unique_id=1683898108]
+[node name="MediumText" type="Label" parent="PageOne/JumpGapsContainer/VBoxContainer2" unique_id=1683898108]
 layout_mode = 2
 size_flags_vertical = 0
 size_flags_stretch_ratio = 1.62
 theme_override_font_sizes/font_size = 38
 text = "Medium"
 
-[node name="LargeText" type="Label" parent="JumpGapsContainer/VBoxContainer2" unique_id=717767816]
+[node name="LargeText" type="Label" parent="PageOne/JumpGapsContainer/VBoxContainer2" unique_id=717767816]
 layout_mode = 2
 size_flags_vertical = 2
 theme_override_font_sizes/font_size = 38
 text = "Large"
 
-[node name="JumpGapsSlider" type="VBoxContainer" parent="." unique_id=1119555752]
-layout_mode = 1
+[node name="JumpGapsSlider" type="VBoxContainer" parent="PageOne" unique_id=1119555752]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -176,61 +210,66 @@ offset_bottom = 254.5
 grow_horizontal = 0
 scale = Vector2(2, 2)
 
-[node name="SmallGapSlider" type="HSlider" parent="JumpGapsSlider" unique_id=33755782]
+[node name="SmallGapSlider" type="HSlider" parent="PageOne/JumpGapsSlider" unique_id=33755782]
 layout_mode = 2
 size_flags_vertical = 10
 size_flags_stretch_ratio = 0.0
+min_value = 1.0
+value = 50.0
+rounded = true
 
-[node name="MediumGapSlider" type="HSlider" parent="JumpGapsSlider" unique_id=1545142414]
+[node name="MediumGapSlider" type="HSlider" parent="PageOne/JumpGapsSlider" unique_id=1545142414]
 layout_mode = 2
 size_flags_vertical = 6
 size_flags_stretch_ratio = 1.62
+min_value = 1.0
+value = 50.0
 
-[node name="LargeGapSlider" type="HSlider" parent="JumpGapsSlider" unique_id=1609717607]
+[node name="LargeGapSlider" type="HSlider" parent="PageOne/JumpGapsSlider" unique_id=1609717607]
 layout_mode = 2
 size_flags_vertical = 6
+min_value = 1.0
+value = 50.0
 
-[node name="LevelComponentsContainer" type="MarginContainer" parent="." unique_id=259918445]
-layout_mode = 1
+[node name="LevelComponentsContainer" type="MarginContainer" parent="PageOne" unique_id=259918445]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 27.0
-offset_top = 501.0
+offset_top = 455.0
 offset_right = 576.0
 offset_bottom = 693.0
 grow_vertical = 0
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="LevelComponentsContainer" unique_id=2038526355]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PageOne/LevelComponentsContainer" unique_id=2038526355]
 layout_mode = 2
 
-[node name="PlatformsText" type="Label" parent="LevelComponentsContainer/VBoxContainer2" unique_id=146972052]
+[node name="PlatformsText" type="Label" parent="PageOne/LevelComponentsContainer/VBoxContainer2" unique_id=146972052]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 48
 text = "Level Components"
 
-[node name="SmallText" type="Label" parent="LevelComponentsContainer/VBoxContainer2" unique_id=1137938817]
+[node name="SmallText" type="Label" parent="PageOne/LevelComponentsContainer/VBoxContainer2" unique_id=1137938817]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_font_sizes/font_size = 38
 text = "Coins"
 
-[node name="MediumText" type="Label" parent="LevelComponentsContainer/VBoxContainer2" unique_id=2060498594]
+[node name="MediumText" type="Label" parent="PageOne/LevelComponentsContainer/VBoxContainer2" unique_id=2060498594]
 layout_mode = 2
 size_flags_vertical = 0
 size_flags_stretch_ratio = 1.62
 theme_override_font_sizes/font_size = 38
 text = "Spikes"
 
-[node name="LargeText" type="Label" parent="LevelComponentsContainer/VBoxContainer2" unique_id=2080596116]
+[node name="LargeText" type="Label" parent="PageOne/LevelComponentsContainer/VBoxContainer2" unique_id=2080596116]
 layout_mode = 2
 size_flags_vertical = 2
 theme_override_font_sizes/font_size = 38
 text = "Bounce Pads"
 
-[node name="LevelComponentsSlider" type="VBoxContainer" parent="." unique_id=932591857]
-layout_mode = 1
+[node name="LevelComponentsSlider" type="VBoxContainer" parent="PageOne" unique_id=932591857]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -241,22 +280,27 @@ offset_bottom = 614.5
 grow_vertical = 0
 scale = Vector2(2, 2)
 
-[node name="CoinSlider" type="HSlider" parent="LevelComponentsSlider" unique_id=1649837816]
+[node name="CoinSlider" type="HSlider" parent="PageOne/LevelComponentsSlider" unique_id=1649837816]
 layout_mode = 2
 size_flags_vertical = 10
 size_flags_stretch_ratio = 0.0
+rounded = true
 
-[node name="SpikesSlider" type="HSlider" parent="LevelComponentsSlider" unique_id=1255068725]
+[node name="SpikesSlider" type="HSlider" parent="PageOne/LevelComponentsSlider" unique_id=1255068725]
 layout_mode = 2
 size_flags_vertical = 6
 size_flags_stretch_ratio = 1.62
+value = 1.0
+rounded = true
 
-[node name="BouncePadSlider" type="HSlider" parent="LevelComponentsSlider" unique_id=1950537961]
+[node name="BouncePadSlider" type="HSlider" parent="PageOne/LevelComponentsSlider" unique_id=1950537961]
 layout_mode = 2
 size_flags_vertical = 6
+max_value = 20.0
+value = 10.0
+rounded = true
 
-[node name="SectionsTextContainer" type="MarginContainer" parent="." unique_id=742400073]
-layout_mode = 1
+[node name="SectionsTextContainer" type="MarginContainer" parent="PageOne" unique_id=742400073]
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
@@ -269,30 +313,29 @@ offset_bottom = 543.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="SectionsTextContainer" unique_id=1767497118]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PageOne/SectionsTextContainer" unique_id=1767497118]
 layout_mode = 2
 
-[node name="PlatformsText" type="Label" parent="SectionsTextContainer/VBoxContainer2" unique_id=2122161122]
+[node name="PlatformsText" type="Label" parent="PageOne/SectionsTextContainer/VBoxContainer2" unique_id=2122161122]
 layout_mode = 2
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 48
 text = "Sections"
 
-[node name="SmallText" type="Label" parent="SectionsTextContainer/VBoxContainer2" unique_id=888191365]
+[node name="SmallText" type="Label" parent="PageOne/SectionsTextContainer/VBoxContainer2" unique_id=888191365]
 layout_mode = 2
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 38
 text = "Number of Sections"
 
-[node name="MediumText" type="Label" parent="SectionsTextContainer/VBoxContainer2" unique_id=1396610841]
+[node name="MediumText" type="Label" parent="PageOne/SectionsTextContainer/VBoxContainer2" unique_id=1396610841]
 layout_mode = 2
 size_flags_vertical = 0
 size_flags_stretch_ratio = 1.62
 theme_override_font_sizes/font_size = 38
 text = "Size Per Section"
 
-[node name="SectionNumbers" type="MarginContainer" parent="." unique_id=320561905]
-layout_mode = 1
+[node name="SectionNumbers" type="MarginContainer" parent="PageOne" unique_id=320561905]
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
@@ -306,13 +349,14 @@ grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(1.3, 1.3)
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="SectionNumbers" unique_id=784870823]
+[node name="VBoxContainer2" type="VBoxContainer" parent="PageOne/SectionNumbers" unique_id=784870823]
 layout_mode = 2
 
-[node name="NumberOfSections" type="OptionButton" parent="SectionNumbers/VBoxContainer2" unique_id=530448562]
+[node name="NumberOfSections" type="OptionButton" parent="PageOne/SectionNumbers/VBoxContainer2" unique_id=530448562]
 layout_mode = 2
 size_flags_stretch_ratio = 0.0
 theme_override_font_sizes/font_size = 32
+selected = 0
 item_count = 8
 popup/item_0/text = "2"
 popup/item_0/id = 2
@@ -331,28 +375,143 @@ popup/item_6/id = 8
 popup/item_7/text = "9"
 popup/item_7/id = 9
 
-[node name="SizePerSection" type="TextEdit" parent="SectionNumbers/VBoxContainer2" unique_id=234180250]
+[node name="SizePerSection" type="TextEdit" parent="PageOne/SectionNumbers/VBoxContainer2" unique_id=234180250]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.0
 theme_override_font_sizes/font_size = 32
 placeholder_text = "25"
 
-[node name="TitleContainer" type="MarginContainer" parent="." unique_id=409084208]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = 1.0
-offset_right = 1277.0
-offset_bottom = 106.0
-grow_horizontal = 2
+[node name="PlatformSizeSliders" type="VBoxContainer" parent="PageOne" unique_id=1732941896]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 253.0
+offset_top = 176.0
+offset_right = 436.5
+offset_bottom = 276.5
+grow_horizontal = 0
+scale = Vector2(2, 2)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TitleContainer" unique_id=456583698]
+[node name="SmallPlatformSlider" type="HSlider" parent="PageOne/PlatformSizeSliders" unique_id=330161919]
+layout_mode = 2
+size_flags_vertical = 10
+size_flags_stretch_ratio = 0.0
+min_value = 1.0
+value = 50.0
+rounded = true
+
+[node name="MediumPlatformSlider" type="HSlider" parent="PageOne/PlatformSizeSliders" unique_id=699524941]
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 1.62
+min_value = 1.0
+value = 50.0
+rounded = true
+
+[node name="LargePlatformSlider" type="HSlider" parent="PageOne/PlatformSizeSliders" unique_id=1100683195]
+layout_mode = 2
+size_flags_vertical = 2
+min_value = 1.0
+value = 50.0
+rounded = true
+
+[node name="ExtraLargePlatformSlider" type="HSlider" parent="PageOne/PlatformSizeSliders" unique_id=1082181365]
+layout_mode = 2
+size_flags_vertical = 10
+min_value = 1.0
+value = 50.0
+rounded = true
+
+[node name="PageTwo" type="Node2D" parent="." unique_id=816605980]
+visible = false
+
+[node name="PlatformTypeContainer" type="MarginContainer" parent="PageTwo" unique_id=162021362]
+offset_left = 24.0
+offset_top = 124.0
+offset_right = 708.0
+offset_bottom = 379.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo/PlatformTypeContainer" unique_id=360944940]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TitleContainer/VBoxContainer" unique_id=295680407]
+[node name="SpawnChanceHeader" type="Label" parent="PageTwo/PlatformTypeContainer/VBoxContainer2" unique_id=1529637768]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "Level Attributes"
-horizontal_alignment = 1
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 48
+text = "Platform Type Spawn Chance"
+
+[node name="Flat" type="Label" parent="PageTwo/PlatformTypeContainer/VBoxContainer2" unique_id=1460689746]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 38
+text = "Flat"
+
+[node name="Incline" type="Label" parent="PageTwo/PlatformTypeContainer/VBoxContainer2" unique_id=1672932782]
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 1.62
+theme_override_font_sizes/font_size = 38
+text = "Incline"
+
+[node name="Bridge" type="Label" parent="PageTwo/PlatformTypeContainer/VBoxContainer2" unique_id=2137810896]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 38
+text = "Bridge"
+
+[node name="PlatformSizeSliders" type="VBoxContainer" parent="PageTwo" unique_id=2119670998]
+offset_left = 167.0
+offset_top = 205.0
+offset_right = 354.5
+offset_bottom = 295.0
+scale = Vector2(2, 2)
+
+[node name="FlatPlatformSlider" type="HSlider" parent="PageTwo/PlatformSizeSliders" unique_id=1724264829]
+layout_mode = 2
+size_flags_vertical = 10
+size_flags_stretch_ratio = 0.0
+min_value = 1.0
+value = 50.0
+
+[node name="InclinePlatformSlider" type="HSlider" parent="PageTwo/PlatformSizeSliders" unique_id=1176449047]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.62
+min_value = 1.0
+value = 25.0
+
+[node name="BridgePlatformSlider" type="HSlider" parent="PageTwo/PlatformSizeSliders" unique_id=752171821]
+layout_mode = 2
+size_flags_vertical = 6
+min_value = 1.0
+value = 40.0
+
+[node name="DirectionChangeTextContainer" type="MarginContainer" parent="PageTwo" unique_id=1219826110]
+offset_left = 16.0
+offset_top = 499.0
+offset_right = 512.0
+offset_bottom = 560.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo/DirectionChangeTextContainer" unique_id=1882864919]
+layout_mode = 2
+
+[node name="DirectionChangeText" type="Label" parent="PageTwo/DirectionChangeTextContainer/VBoxContainer2" unique_id=1479418562]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 38
+text = "Direction Change Chance"
+
+[node name="DirectionChangeContainer" type="VBoxContainer" parent="PageTwo" unique_id=700902079]
+offset_left = 495.0
+offset_top = 503.0
+offset_right = 710.5
+offset_bottom = 534.0
+scale = Vector2(2, 2)
+
+[node name="DirectionChangeSlider" type="HSlider" parent="PageTwo/DirectionChangeContainer" unique_id=502257336]
+layout_mode = 2
+size_flags_vertical = 6
+min_value = 1.0
+max_value = 50.0
+value = 20.0

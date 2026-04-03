@@ -40,6 +40,7 @@ smallPlatformSpawnChance = 100
 mediumPlatformSpawnChance = 100
 largePlatformSpawnChance = 100
 extraLargePlatformSpawnChance = 100
+largeJumpGapSpawnChance = 100
 flatPlatformTypeSpawnChance = 50
 inclinePlatformTypeSpawnChance = 25
 bridgePlatformTypeSpawnChance = 40
