@@ -38,6 +38,7 @@ public partial class GameManager : Node
 
         instance.hud = hudScene.Instantiate<Control>();
         instance.playerCharacter = playerScene.Instantiate<PlayerCharacter>();
+        instance.playerCharacter.Position = new Vector3(0, 2, 0);
         instance.pauseMenu = pauseMenuScene.Instantiate<PauseMenu>();
         instance.endScreen = endScreenScene.Instantiate<EndScreen>();
         instance.jsonWriter = jsonWriterScene.Instantiate<JsonWriter>();
