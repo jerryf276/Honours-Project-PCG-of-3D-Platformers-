@@ -132,7 +132,7 @@ public partial class CoinPatterns : Node
         }
     }
 
-    private void smallInclinePlatforms()
+    private void addSmallInclinePatterns()
     {
         //Adding small incline pattern 1
         smallInclinePatterns.Add(new List<Vector3>() { new Vector3(0.9f, 1.4f, 0.0f) });
@@ -142,5 +142,25 @@ public partial class CoinPatterns : Node
             smallInclinePatterns[0].Add(new Vector3(smallInclinePatterns[0][i].X + 1.2f, smallInclinePatterns[0][i].Y + 0.4f, 0.0f));
         }
     }
+
+    private void addExtraLargePlatformPatterns()
+
+    {
+        //Adding the first pattern
+        extraLargePlaformPatterns.Add(new List<Vector3>() { new Vector3(0, 2, 0), new Vector3(1.5f, 2, 0), new Vector3(3, 2, 0), new Vector3(4.5f, 2, 0), new Vector3(6, 2, 0), 
+        new Vector3(-1.5f, 2, 0), new Vector3(-3, 2, 0), new Vector3(-4.5f, 2, 0), new Vector3(-6, 2, 0), new Vector3(0, 2, 1.5f), new Vector3(0, 2, 3), new Vector3(0, 2, 4.5f),
+        new Vector3(0, 2, 6), new Vector3(0, 2, -1.5f), new Vector3(0, 2, -3), new Vector3(0, 2, -4.5f), new Vector3(0, 2, -6)});
+
+
+        //Adding the second pattern
+        extraLargePlaformPatterns.Add(new List<Vector3>() { new Vector3(0, 2, 0), new Vector3(1.5f, 2, 0), new Vector3(3, 2, 0), new Vector3(4.5f, 2, 0), new Vector3(6, 2, 0),
+        new Vector3(-1.5f, 2, 0), new Vector3(-3, 2, 0), new Vector3(-4.5f, 2, 0), new Vector3(-6, 2, 0), new Vector3(0, 2, 1.5f), new Vector3(0, 2, 3), new Vector3(0, 2, 4.5f),
+        new Vector3(0, 2, 6), new Vector3(0, 2, -1.5f), new Vector3(0, 2, -3), new Vector3(0, 2, -4.5f), new Vector3(0, 2, -6), new Vector3(1.5f, 2, 1.5f), new Vector3(1.5f, 2, -1.5f),
+        new Vector3(-1.5f, 2, 1.5f), new Vector3(-1.5f, 2, -1.5f), new Vector3(3, 2, 3), new Vector3(3, 2, -3), new Vector3(-3, 2, 3), new Vector3(-3, 2, -3), 
+        new Vector3(4.5f, 2, 4.5f), new Vector3(4.5f, 2, -4.5f), new Vector3(-4.5f, 2, 4.5f), new Vector3(-4.5f, 2, -4.5f), new Vector3(6, 2, 6), new Vector3(6, 2, -6),
+        new Vector3(-6, 2, 6), new Vector3(-6, 2, -6)});
+    }
+
+
 
 }
