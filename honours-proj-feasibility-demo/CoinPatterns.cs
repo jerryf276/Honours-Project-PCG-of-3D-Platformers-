@@ -18,7 +18,7 @@ public partial class CoinPatterns : Node
 
     List<List<Vector3>> largePlatformPatterns = new List<List<Vector3>> { };
 
-    List<List<Vector3>> extraLargePlaformPatterns = new List<List<Vector3>> { };
+    List<List<Vector3>> extraLargePlatformPatterns = new List<List<Vector3>> { };
 
     List<List<Vector3>> smallBridgePlatformPatterns = new List<List<Vector3>> { };
 
@@ -33,6 +33,217 @@ public partial class CoinPatterns : Node
 
     }
 
+    public void spawnCoins(PlatformTypes type, Lengths size, Vector3 position, NewDirection direction)
+    {
+        // PlatformTypes typeToUse = type;
+        if (type == PlatformTypes.FLAT)
+        {
+            chooseFlatPlatformSize(size, position, direction);
+        }
+
+        else if (type == PlatformTypes.INCLINE)
+        {
+            chooseInclinePlatformSize(size, position, direction);
+        }
+
+        else
+        {
+            chooseBridgePlatformSize(size, position, direction);
+        }
+    }
+
+    private void chooseFlatPlatformSize(Lengths size, Vector3 position, NewDirection direction)
+    {
+        if (size == Lengths.SHORT)
+        {
+            spawnFlatSmallCoins(position, direction);
+        }
+
+        else if (size == Lengths.MEDIUM)
+        {
+            spawnFlatMediumCoins(position, direction);
+        }
+
+        else if (size == Lengths.LONG)
+        {
+            spawnFlatLargeCoins(position, direction);
+        }
+
+        else
+        {
+            spawnFlatExtraLargeCoins(position, direction);
+        }
+    }
+
+    private void chooseInclinePlatformSize(Lengths size, Vector3 position, NewDirection direction)
+    {
+        if (size == Lengths.SHORT)
+        {
+            spawnInclineSmallCoins(position, direction);
+        }
+
+        else if (size == Lengths.MEDIUM)
+        {
+            spawnInclineMediumCoins(position, direction);
+        }
+
+        else if (size == Lengths.LONG)
+        {
+            spawnInclineLargeCoins(position, direction);
+        }
+    }
+
+    private void chooseBridgePlatformSize(Lengths size, Vector3 position, NewDirection direction)
+    {
+        if (size == Lengths.SHORT)
+        {
+            spawnBridgeSmallCoins(position, direction);
+        }
+
+        else if (size == Lengths.MEDIUM)
+        {
+            spawnBridgeMediumCoins(position, direction);
+        }
+
+        else if (size == Lengths.LONG)
+        {
+            spawnBridgeLargeCoins(position, direction);
+        }
+    }
+
+    private void spawnFlatSmallCoins(Vector3 position, NewDirection direction)
+    {
+        if (smallPlatformPatterns[0][0] == null)
+        {
+            addSmallPlatformPatterns();
+        }
+
+        int index = 0;
+        if (smallPlatformPatterns.Count > 1) 
+        {
+            //do rng stuff
+            //change index here
+        }
+
+        PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+        for (int i = 0; i < smallPlatformPatterns[0].Count; i++)
+        {
+            Node3D coin = coinScene.Instantiate<Node3D>();
+            coin.Position = position + new Vector3(smallPlatformPatterns[0][i].X, smallPlatformPatterns[0][i].Y, smallPlatformPatterns[0][i].Z);
+            AddChild(coin);
+        }
+
+        //do same sort of behaviour for other sizes
+
+        //if (direction == NewDirection.FORWARD)
+        //{
+
+        //}
+    }
+
+    private void spawnFlatMediumCoins(Vector3 position, NewDirection direction)
+    {
+        if (mediumPlatformPatterns[0][0] == null)
+        {
+            addMediumPlatformPatterns();
+        }
+    }
+
+    private void spawnFlatLargeCoins(Vector3 position, NewDirection direction)
+    {
+        if (largePlatformPatterns[0][0] == null)
+        {
+            addLargePlatformPatterns();
+        }
+    }
+
+    private void spawnFlatExtraLargeCoins(Vector3 position, NewDirection direction)
+    {
+        if (extraLargePlatformPatterns[0][0] == null)
+        {
+            addExtraLargePlatformPatterns();
+        }
+    }
+
+    private void spawnInclineSmallCoins(Vector3 position, NewDirection direction)
+    {
+
+
+        if (direction == NewDirection.FORWARD)
+        {
+
+        }
+
+        else
+        {
+
+        }
+    }
+
+    private void spawnInclineMediumCoins(Vector3 position, NewDirection direction)
+    {
+        if (direction == NewDirection.FORWARD)
+        {
+
+        }
+
+        else
+        {
+
+        }
+    }
+
+    private void spawnInclineLargeCoins(Vector3 position, NewDirection direction)
+    {
+        if (direction == NewDirection.FORWARD)
+        {
+
+        }
+
+        else
+        {
+
+        }
+    }
+
+    private void spawnBridgeSmallCoins(Vector3 position, NewDirection direction)
+    {
+        if (direction == NewDirection.FORWARD)
+        {
+
+        }
+
+        else
+        {
+
+        }
+    }
+
+    private void spawnBridgeMediumCoins(Vector3 position, NewDirection direction)
+    {
+        if (direction == NewDirection.FORWARD)
+        {
+
+        }
+
+        else
+        {
+
+        }
+    }
+
+    private void spawnBridgeLargeCoins(Vector3 position, NewDirection direction)
+    {
+        if (direction == NewDirection.FORWARD)
+        {
+
+        }
+
+        else
+        {
+
+        }
+    }
     private void addLargeInclinePatterns()
     {
         //Adding large incline pattern 1
@@ -148,13 +359,13 @@ public partial class CoinPatterns : Node
 
     {
         //Adding the first pattern
-        extraLargePlaformPatterns.Add(new List<Vector3>() { new Vector3(0, 2, 0), new Vector3(1.5f, 2, 0), new Vector3(3, 2, 0), new Vector3(4.5f, 2, 0), new Vector3(6, 2, 0), 
+        extraLargePlatformPatterns.Add(new List<Vector3>() { new Vector3(0, 2, 0), new Vector3(1.5f, 2, 0), new Vector3(3, 2, 0), new Vector3(4.5f, 2, 0), new Vector3(6, 2, 0), 
         new Vector3(-1.5f, 2, 0), new Vector3(-3, 2, 0), new Vector3(-4.5f, 2, 0), new Vector3(-6, 2, 0), new Vector3(0, 2, 1.5f), new Vector3(0, 2, 3), new Vector3(0, 2, 4.5f),
         new Vector3(0, 2, 6), new Vector3(0, 2, -1.5f), new Vector3(0, 2, -3), new Vector3(0, 2, -4.5f), new Vector3(0, 2, -6)});
 
 
         //Adding the second pattern
-        extraLargePlaformPatterns.Add(new List<Vector3>() { new Vector3(0, 2, 0), new Vector3(1.5f, 2, 0), new Vector3(3, 2, 0), new Vector3(4.5f, 2, 0), new Vector3(6, 2, 0),
+        extraLargePlatformPatterns.Add(new List<Vector3>() { new Vector3(0, 2, 0), new Vector3(1.5f, 2, 0), new Vector3(3, 2, 0), new Vector3(4.5f, 2, 0), new Vector3(6, 2, 0),
         new Vector3(-1.5f, 2, 0), new Vector3(-3, 2, 0), new Vector3(-4.5f, 2, 0), new Vector3(-6, 2, 0), new Vector3(0, 2, 1.5f), new Vector3(0, 2, 3), new Vector3(0, 2, 4.5f),
         new Vector3(0, 2, 6), new Vector3(0, 2, -1.5f), new Vector3(0, 2, -3), new Vector3(0, 2, -4.5f), new Vector3(0, 2, -6), new Vector3(1.5f, 2, 1.5f), new Vector3(1.5f, 2, -1.5f),
         new Vector3(-1.5f, 2, 1.5f), new Vector3(-1.5f, 2, -1.5f), new Vector3(3, 2, 3), new Vector3(3, 2, -3), new Vector3(-3, 2, 3), new Vector3(-3, 2, -3), 
