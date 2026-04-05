@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Net;
 
 public partial class CoinPatterns : Node
@@ -161,6 +162,46 @@ public partial class CoinPatterns : Node
         new Vector3(-6, 2, 6), new Vector3(-6, 2, -6)});
     }
 
+    private void addLargePlatformPatterns()
+    {
+        //Adding first pattern
+        largePlatformPatterns.Add(new List<Vector3>() {new Vector3(0, 2, 0),  new Vector3(1.5f, 2, 0), new Vector3(3, 2, 0), new Vector3(-1.5f, 2, 0), new Vector3(-3, 2, 0),
+        new Vector3(0, 2, 1.5f), new Vector3(0, 2, 3), new Vector3(0, 2, -1.5f), new Vector3(0, 2, -3)});
 
+        //Adding second pattern
+        largePlatformPatterns.Add(new List<Vector3>() {new Vector3(0, 2, 0),  new Vector3(1.5f, 2, 0), new Vector3(3, 2, 0), new Vector3(-1.5f, 2, 0), new Vector3(-3, 2, 0),
+        new Vector3(0, 2, 1.5f), new Vector3(0, 2, 3), new Vector3(0, 2, -1.5f), new Vector3(0, 2, -3), new Vector3(1.5f, 2, 1.5f), new Vector3(1.5f, 2, -1.5f), new Vector3(), 
+        new Vector3(-1.5f, 2, 1.5f), new Vector3(-1.5f, 2, -1.5f), new Vector3(3, 2, 3), new Vector3(3, 2, -3), new Vector3(-3, 2, 3), new Vector3(-3, 2, -3)});
+    }
 
+    private void addMediumPlatformPatterns()
+    {
+        //Adding first pattern
+        mediumPlatformPatterns.Add(new List<Vector3>() { new Vector3(0, 2, 0), new Vector3(1.5f, 2, 0), new Vector3(-1.5f, 2, 0), new Vector3(0, 2, 1.5f), new Vector3(0, 2, -1.5f) });
+        //Adding second pattern
+        mediumPlatformPatterns.Add(new List<Vector3>() { new Vector3(0, 2, 0), new Vector3(1.5f, 2, 0), new Vector3(-1.5f, 2, 0), new Vector3(0, 2, 1.5f), new Vector3(0, 2, -1.5f),
+        new Vector3(1.5f, 2, 1.5f), new Vector3(1.5f, 2, -1.5f), new Vector3(-1.5f, 2, 1.5f), new Vector3(-1.5f, 2, -1.5f)});
+    }
+
+    private void addSmallPlatformPatterns()
+    {
+        smallPlatformPatterns.Add(new List<Vector3>() { new Vector3(0, 2, 0) });
+    }
+
+    private void addSmallBridgePatterns()
+    {
+        smallBridgePlatformPatterns.Add(new List<Vector3>() {new Vector3(0, 1, 0.5f), new Vector3(1, 1, 0.5f), new Vector3(2, 1, 0.5f), new Vector3(-1, 1, 0.5f), new Vector3(-2, 1, 0.5f) });
+    }
+
+    private void addMediumBridgePatterns()
+    {
+        mediumBridgePlatformPatterns.Add(new List<Vector3>() { new Vector3(0, 1, 0.5f), new Vector3(1, 1, 0.5f), new Vector3(2, 1, 0.5f), new Vector3(-1, 1, 0.5f), new Vector3(-2, 1, 0.5f),
+        new Vector3(3, 1, 0.5f), new Vector3(-3, 1, 0.5f)});
+    }
+
+    private void addLargeBridgePatterns()
+    {
+        largeBridgePlatformPatterns.Add(new List<Vector3>() { new Vector3(0, 1, 0.5f), new Vector3(1, 1, 0.5f), new Vector3(2, 1, 0.5f), new Vector3(-1, 1, 0.5f), new Vector3(-2, 1, 0.5f),
+        new Vector3(3, 1, 0.5f), new Vector3(-3, 1, 0.5f), new Vector3(4, 1, 0.5f), new Vector3(-4, 1, 0.5f), new Vector3(5, 1, 0.5f), new Vector3(-5, 1, 0.5f), });
+    }
 }
