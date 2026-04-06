@@ -113,7 +113,7 @@ public partial class CoinPatterns : Node
 
     private void spawnFlatSmallCoins(Vector3 position, NewDirection direction)
     {
-        if (smallPlatformPatterns[0][0] == null)
+        if (smallPlatformPatterns.Capacity <= 0)
         {
             addSmallPlatformPatterns();
         }
@@ -132,115 +132,309 @@ public partial class CoinPatterns : Node
             coin.Position = position + new Vector3(smallPlatformPatterns[0][i].X, smallPlatformPatterns[0][i].Y, smallPlatformPatterns[0][i].Z);
             AddChild(coin);
         }
-
-        //do same sort of behaviour for other sizes
-
-        //if (direction == NewDirection.FORWARD)
-        //{
-
-        //}
     }
 
     private void spawnFlatMediumCoins(Vector3 position, NewDirection direction)
     {
-        if (mediumPlatformPatterns[0][0] == null)
+        if (mediumPlatformPatterns.Capacity <= 0)
         {
             addMediumPlatformPatterns();
+        }
+
+        int index = 0;
+
+        if (mediumPlatformPatterns.Count > 1)
+        {
+            //do rng stuff
+            //change index here
+        }
+
+        PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+
+        for (int i = 0; i < mediumPlatformPatterns[0].Count; i++)
+        {
+            Node3D coin = coinScene.Instantiate<Node3D>();
+            coin.Position = position + new Vector3(mediumPlatformPatterns[0][i].X, mediumPlatformPatterns[0][i].Y, mediumPlatformPatterns[0][i].Z);
+            AddChild(coin);
         }
     }
 
     private void spawnFlatLargeCoins(Vector3 position, NewDirection direction)
     {
-        if (largePlatformPatterns[0][0] == null)
+        if (largePlatformPatterns.Capacity <= 0)
         {
             addLargePlatformPatterns();
+        }
+        int index = 0;
+
+        if (largePlatformPatterns.Count > 1)
+        {
+            //do rng stuff
+            //change index here
+        }
+
+        PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+
+        for (int i = 0; i < largePlatformPatterns[0].Count; i++)
+        {
+            Node3D coin = coinScene.Instantiate<Node3D>();
+            coin.Position = position + new Vector3(largePlatformPatterns[0][i].X, largePlatformPatterns[0][i].Y, largePlatformPatterns[0][i].Z);
+            AddChild(coin);
         }
     }
 
     private void spawnFlatExtraLargeCoins(Vector3 position, NewDirection direction)
     {
-        if (extraLargePlatformPatterns[0][0] == null)
+        if (extraLargePlatformPatterns.Capacity <= 0)
         {
             addExtraLargePlatformPatterns();
+        }
+
+        int index = 0;
+
+        if (extraLargePlatformPatterns.Count > 1)
+        {
+            //do rng stuff
+            //change index here
+        }
+
+        PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+
+        for (int i = 0; i < extraLargePlatformPatterns[0].Count; i++)
+        {
+            Node3D coin = coinScene.Instantiate<Node3D>();
+            coin.Position = position + new Vector3(extraLargePlatformPatterns[0][i].X, extraLargePlatformPatterns[0][i].Y, extraLargePlatformPatterns[0][i].Z);
+            AddChild(coin);
         }
     }
 
     private void spawnInclineSmallCoins(Vector3 position, NewDirection direction)
     {
-
-
-        if (direction == NewDirection.FORWARD)
+        if (smallInclinePatterns.Capacity <= 0)
         {
-
+            addSmallInclinePatterns();
         }
 
-        else
+        int index = 0;
+
+        PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+
+
+        if (smallInclinePatterns.Count > 1)
         {
+            //do rng stuff
+            //change index here
+        }
+
+        for (int i = 0; i < smallInclinePatterns[0].Count; i++)
+        {
+            Vector3 positionToUse = new Vector3(smallInclinePatterns[0][i].X, smallInclinePatterns[0][i].Y, smallInclinePatterns[0][i].Z);
+            if (direction == NewDirection.LEFT)
+            {
+                positionToUse = new Vector3(smallInclinePatterns[0][i].Z * -1, smallInclinePatterns[0][i].Y, smallInclinePatterns[0][i].X * -1);
+            }
+
+            else if (direction == NewDirection.RIGHT)
+            {
+                positionToUse = new Vector3(smallInclinePatterns[0][i].Z, smallInclinePatterns[0][i].Y, smallInclinePatterns[0][i].X);
+            }
+
+            Node3D coin = coinScene.Instantiate<Node3D>();
+            coin.Position = position + new Vector3(positionToUse.X, positionToUse.Y, positionToUse.Z);
+            AddChild(coin);
 
         }
     }
 
     private void spawnInclineMediumCoins(Vector3 position, NewDirection direction)
     {
-        if (direction == NewDirection.FORWARD)
+        if (mediumInclinePatterns.Capacity <= 0)
         {
-
+            addMediumInclinePatterns();
         }
 
-        else
+        int index = 0;
+
+        PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+
+
+        if (mediumInclinePatterns.Count > 1)
         {
+            //do rng stuff
+            //change index here
+        }
+
+        for (int i = 0; i < mediumInclinePatterns[0].Count; i++)
+        {
+            Vector3 positionToUse = new Vector3(mediumInclinePatterns[0][i].X, mediumInclinePatterns[0][i].Y, mediumInclinePatterns[0][i].Z);
+
+            if (direction == NewDirection.LEFT)
+            {
+                positionToUse = new Vector3(mediumInclinePatterns[0][i].Z * -1, mediumInclinePatterns[0][i].Y, mediumInclinePatterns[0][i].X * -1);
+            }
+
+            else if (direction == NewDirection.RIGHT)
+            {
+                positionToUse = new Vector3(mediumInclinePatterns[0][i].Z, mediumInclinePatterns[0][i].Y, mediumInclinePatterns[0][i].X);
+            }
+
+            Node3D coin = coinScene.Instantiate<Node3D>();
+            coin.Position = position + new Vector3(positionToUse.X, positionToUse.Y, positionToUse.Z);
+            AddChild(coin);
 
         }
     }
 
     private void spawnInclineLargeCoins(Vector3 position, NewDirection direction)
     {
-        if (direction == NewDirection.FORWARD)
+        if (largeInclinePatterns.Capacity <= 0)
         {
-
+            addLargeInclinePatterns();
         }
 
-        else
+        int index = 0;
+
+        PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+
+
+        if (largeInclinePatterns.Count > 1)
         {
+            //do rng stuff
+            //change index here
+        }
+
+        for (int i = 0; i < largeInclinePatterns[0].Count; i++)
+        {
+            Vector3 positionToUse = new Vector3(largeInclinePatterns[0][i].X, largeInclinePatterns[0][i].Y, largeInclinePatterns[0][i].Z);
+
+            if (direction == NewDirection.LEFT)
+            {
+                positionToUse = new Vector3(largeInclinePatterns[0][i].Z * -1, largeInclinePatterns[0][i].Y, largeInclinePatterns[0][i].X * -1);
+            }
+
+            else if (direction == NewDirection.RIGHT)
+            {
+                positionToUse = new Vector3(largeInclinePatterns[0][i].Z, largeInclinePatterns[0][i].Y, largeInclinePatterns[0][i].X);
+            }
+
+            Node3D coin = coinScene.Instantiate<Node3D>();
+            coin.Position = position + new Vector3(positionToUse.X, positionToUse.Y, positionToUse.Z);
+            AddChild(coin);
 
         }
     }
 
     private void spawnBridgeSmallCoins(Vector3 position, NewDirection direction)
     {
-        if (direction == NewDirection.FORWARD)
+        if (smallBridgePlatformPatterns.Capacity <= 0)
         {
-
+            addSmallBridgePatterns();
         }
 
-        else
+        int index = 0;
+
+        PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+
+
+        if (smallBridgePlatformPatterns.Count > 1)
         {
+            //do rng stuff
+            //change index here
+        }
+
+        for (int i = 0; i < smallBridgePlatformPatterns[0].Count; i++)
+        {
+            Vector3 positionToUse = new Vector3(smallBridgePlatformPatterns[0][i].X, smallBridgePlatformPatterns[0][i].Y, smallBridgePlatformPatterns[0][i].Z);
+            if (direction == NewDirection.LEFT)
+            {
+                positionToUse =  new Vector3(smallBridgePlatformPatterns[0][i].Z * -1, smallBridgePlatformPatterns[0][i].Y, smallBridgePlatformPatterns[0][i].X * -1);
+            }
+
+            else if (direction == NewDirection.RIGHT)
+            {
+                positionToUse = new Vector3(smallBridgePlatformPatterns[0][i].Z, smallBridgePlatformPatterns[0][i].Y, smallBridgePlatformPatterns[0][i].X);
+            }
+
+            Node3D coin = coinScene.Instantiate<Node3D>();
+            coin.Position = position + new Vector3(positionToUse.X, positionToUse.Y, positionToUse.Z);
+            AddChild(coin);
 
         }
     }
 
     private void spawnBridgeMediumCoins(Vector3 position, NewDirection direction)
     {
-        if (direction == NewDirection.FORWARD)
+        if (mediumBridgePlatformPatterns.Capacity <= 0)
         {
-
+            addMediumBridgePatterns();
         }
 
-        else
+        int index = 0;
+
+        PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+
+
+        if (mediumBridgePlatformPatterns.Count > 1)
         {
+            //do rng stuff
+            //change index here
+        }
+
+        for (int i = 0; i < mediumBridgePlatformPatterns[0].Count; i++)
+        {
+            Vector3 positionToUse = new Vector3(mediumBridgePlatformPatterns[0][i].X, mediumBridgePlatformPatterns[0][i].Y, mediumBridgePlatformPatterns[0][i].Z);
+            if (direction == NewDirection.LEFT)
+            {
+                positionToUse = new Vector3(mediumBridgePlatformPatterns[0][i].Z * -1, mediumBridgePlatformPatterns[0][i].Y, mediumBridgePlatformPatterns[0][i].X * -1);
+            }
+
+            else if (direction == NewDirection.RIGHT)
+            {
+                positionToUse = new Vector3(mediumBridgePlatformPatterns[0][i].Z, mediumBridgePlatformPatterns[0][i].Y, mediumBridgePlatformPatterns[0][i].X);
+            }
+
+            Node3D coin = coinScene.Instantiate<Node3D>();
+            coin.Position = position + new Vector3(positionToUse.X, positionToUse.Y, positionToUse.Z);
+            AddChild(coin);
 
         }
     }
 
     private void spawnBridgeLargeCoins(Vector3 position, NewDirection direction)
     {
-        if (direction == NewDirection.FORWARD)
+        if (largeBridgePlatformPatterns.Capacity <= 0)
         {
-
+            addLargeBridgePatterns();
         }
 
-        else
+        int index = 0;
+
+        PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+
+
+        if (largeBridgePlatformPatterns.Count > 1)
         {
+            //do rng stuff
+            //change index here
+        }
+
+        for (int i = 0; i < largeBridgePlatformPatterns[0].Count; i++)
+        {
+            Vector3 positionToUse = new Vector3(largeBridgePlatformPatterns[0][i].X, largeBridgePlatformPatterns[0][i].Y, largeBridgePlatformPatterns[0][i].Z);
+
+            if (direction == NewDirection.LEFT)
+            {
+                positionToUse = new Vector3(largeBridgePlatformPatterns[0][i].Z * -1, largeBridgePlatformPatterns[0][i].Y, largeBridgePlatformPatterns[0][i].X * -1);
+            }
+
+            else if (direction == NewDirection.RIGHT)
+            {
+                positionToUse = new Vector3(largeBridgePlatformPatterns[0][i].Z, largeBridgePlatformPatterns[0][i].Y, largeBridgePlatformPatterns[0][i].X);
+            }
+
+            Node3D coin = coinScene.Instantiate<Node3D>();
+            coin.Position = position + new Vector3(positionToUse.X, positionToUse.Y, positionToUse.Z);
+            AddChild(coin);
 
         }
     }

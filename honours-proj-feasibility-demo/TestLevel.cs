@@ -95,6 +95,8 @@ public partial class TestLevel : Node3D
 	//This will be used to spawn a health pack when there is 3 spikes 
 	bool spawnHealthPack = false;
 
+	CoinPatterns coinPatterns;
+
 	private struct LevelComponent
 	{
 		//Refer to ActionStates enum class
@@ -127,6 +129,8 @@ public partial class TestLevel : Node3D
 		combinedJumpGapSpawnChance = smallJumpGapSpawnChance + mediumJumpGapSpawnChance + largeJumpGapSpawnChance;
 
 		gameTimer.Start();
+
+		coinPatterns = GetNode<CoinPatterns>("../CoinPatterns");
 
 		//gameTimer.Timeout += OnTimeOut;
 	}
@@ -362,7 +366,7 @@ public partial class TestLevel : Node3D
             GenerateCheckpoint();
         }
 			//GenerateCheckpoint();
-		compSpawner.generateCoins();
+		//compSpawner.generateCoins();
 		compSpawner.generateSpikes();
        // AddCurrentPosition(direction);
 
@@ -410,15 +414,17 @@ public partial class TestLevel : Node3D
 
 
 
-		if (platformType == PlatformTypes.BRIDGE)
-		{
+		//if (platformType == PlatformTypes.BRIDGE)
+		//{
 			//if (compSpawner != null)
 			//{
-				compSpawner.addCoinPlatform(platformType, platformLength, newPlatform.Position, currentDirection);
-			//}
-		}
+			//compSpawner.addCoinPlatform(platformType, platformLength, newPlatform.Position, currentDirection);
 
-		else if (platformType == PlatformTypes.FLAT)
+			//}
+			coinPatterns.spawnCoins(platformType, platformLength, currentPosition, currentDirection);
+		//}
+
+		if (platformType == PlatformTypes.FLAT)
 		{
 			//uint rng = 1 + GD.Randi() % 2;
 			//if (rng == 1)
@@ -534,7 +540,7 @@ public partial class TestLevel : Node3D
             else if (lenOfPlatform == Lengths.MEDIUM)
             {
                 numberToAdd = 9.0f;
-                return "res://medium_platform2.tscn";
+                return "res://medium_platform.tscn";
             }
 
             else if (lenOfPlatform == Lengths.LONGEST)
