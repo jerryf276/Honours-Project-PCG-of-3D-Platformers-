@@ -1,13 +1,14 @@
-[gd_scene format=3 uid="uid://nftqb2h7f2oy"]
+[gd_scene format=3 uid="uid://cobqdg11g0qka"]
 
-[ext_resource type="PackedScene" uid="uid://fweqbtfm5wxc" path="res://Level parts/spikes.tscn" id="1_nauas"]
+[ext_resource type="PackedScene" uid="uid://fweqbtfm5wxc" path="res://Level parts/spikes.tscn" id="1_mecun"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_egp75"]
 size = Vector3(1.1676908, 0.29797363, 1.2995347)
 
 [node name="spike" type="Node3D" unique_id=760234499]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
-[node name="spikePlatform" parent="." unique_id=353727237 instance=ExtResource("1_nauas")]
+[node name="spikePlatform" parent="." unique_id=353727237 instance=ExtResource("1_mecun")]
 
 [node name="spikeArea" type="Area3D" parent="spikePlatform" unique_id=1431747127 groups=["spikes"]]
 

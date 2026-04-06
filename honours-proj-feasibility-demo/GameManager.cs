@@ -18,6 +18,7 @@ public partial class GameManager : Node
     private JsonWriter jsonWriter;
     private TestLevel level;
     private CoinPatterns coinPatterns;
+    private SpikePatterns spikePatterns;
 
 
 
@@ -37,7 +38,8 @@ public partial class GameManager : Node
         PackedScene pauseMenuScene = ResourceLoader.Load<PackedScene>("res://pauseMenu.tscn");
         PackedScene endScreenScene = ResourceLoader.Load<PackedScene>("res://scenes/EndScreen.tscn");
         PackedScene jsonWriterScene = ResourceLoader.Load<PackedScene>("res://json_writer.tscn");
-        PackedScene coinPatterns = ResourceLoader.Load<PackedScene>("res://coin_patterns.tscn");
+        PackedScene coinPatternScene = ResourceLoader.Load<PackedScene>("res://coin_patterns.tscn");
+        PackedScene spikePatternScene = ResourceLoader.Load<PackedScene>("res://spike_patterns.tscn");
 
         instance.hud = hudScene.Instantiate<Control>();
         instance.playerCharacter = playerScene.Instantiate<PlayerCharacter>();
@@ -45,7 +47,8 @@ public partial class GameManager : Node
         instance.pauseMenu = pauseMenuScene.Instantiate<PauseMenu>();
         instance.endScreen = endScreenScene.Instantiate<EndScreen>();
         instance.jsonWriter = jsonWriterScene.Instantiate<JsonWriter>();
-        instance.coinPatterns = coinPatterns.Instantiate<CoinPatterns>();
+        instance.coinPatterns = coinPatternScene.Instantiate<CoinPatterns>();
+        instance.spikePatterns = spikePatternScene.Instantiate<SpikePatterns>();
 
         instance.scoreText = instance.hud.GetNode<Label>("TopHud/MarginContainer/VBoxContainer/HBoxContainer/ScoreText");
         instance.coinText = instance.hud.GetNode<Label>("TopHud/MarginContainer/VBoxContainer/HBoxContainer2/CoinsText");
@@ -58,6 +61,7 @@ public partial class GameManager : Node
         instance.AddChild(instance.pauseMenu);
         instance.AddChild(instance.endScreen);
         instance.AddChild(instance.coinPatterns);
+        instance.AddChild(instance.spikePatterns);
 
     }
     public static void updateScoreText(int score)

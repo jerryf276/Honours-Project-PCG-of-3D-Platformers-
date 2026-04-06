@@ -96,6 +96,7 @@ public partial class TestLevel : Node3D
 	bool spawnHealthPack = false;
 
 	CoinPatterns coinPatterns;
+	SpikePatterns spikePatterns;
 
 	private struct LevelComponent
 	{
@@ -131,6 +132,7 @@ public partial class TestLevel : Node3D
 		gameTimer.Start();
 
 		coinPatterns = GetNode<CoinPatterns>("../CoinPatterns");
+		spikePatterns = GetNode<SpikePatterns>("../SpikePatterns");
 
 		//gameTimer.Timeout += OnTimeOut;
 	}
@@ -429,9 +431,9 @@ public partial class TestLevel : Node3D
 			//uint rng = 1 + GD.Randi() % 2;
 			//if (rng == 1)
 			//{
-			if (platformLength == Lengths.SHORT && currentPosition != new Vector3(0, 0, 0))
+			if (currentPosition != new Vector3(0, 0, 0))
 			{
-				compSpawner.addSpikePlatform(platformType, platformLength, newPlatform.Position, currentDirection);
+				spikePatterns.spawnSpikes(platformLength, currentPosition, currentDirection);
 				spikeAreaCount++;
 			}
             //}

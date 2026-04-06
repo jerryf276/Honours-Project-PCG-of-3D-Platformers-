@@ -45,6 +45,7 @@ shape = SubResource("CapsuleShape3D_5up26")
 
 [node name="Timer" type="Timer" parent="." unique_id=353952671]
 wait_time = 3.0
+one_shot = true
 
 [connection signal="area_entered" from="Area3D" to="Area3D" method="OnAreaEntered"]
 [connection signal="area_exited" from="Area3D" to="Area3D" method="OnAreaExited"]
