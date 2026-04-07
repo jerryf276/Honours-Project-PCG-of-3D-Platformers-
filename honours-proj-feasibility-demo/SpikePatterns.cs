@@ -80,7 +80,7 @@ public partial class SpikePatterns : Node
             }
             Node3D spike = spikeScene.Instantiate<Node3D>();
             spike.Scale *= 2;
-            spike.Position = currentPosition + new Vector3(positionToUse.X, positionToUse.Y, positionToUse.Z);
+            spike.Position = currentPosition + new Vector3(positionToUse.X, (positionToUse.Y + 1.5f), positionToUse.Z);
             AddChild(spike);
         }
 
@@ -116,7 +116,7 @@ public partial class SpikePatterns : Node
             }
             Node3D spike = spikeScene.Instantiate<Node3D>();
             spike.Scale *= 3.0f;
-            spike.Position = currentPosition + new Vector3(positionToUse.X, positionToUse.Y, positionToUse.Z);
+            spike.Position = currentPosition + new Vector3(positionToUse.X, (positionToUse.Y + 1.5f), positionToUse.Z);
             AddChild(spike);
         }
     }
@@ -124,20 +124,20 @@ public partial class SpikePatterns : Node
     private void createExtraLargeSpikePatterns()
     {
         //First pattern
-        extraLargePlatformPatterns.Add(new List<Vector3>() {new Vector3(0, 1.5f, 0), new Vector3(-5, 1.5f, 0), new Vector3(5, 1.5f, 0) });
+        extraLargePlatformPatterns.Add(new List<Vector3>() {new Vector3(0, 0, 0), new Vector3(-5, 0, 0), new Vector3(5, 0, 0) });
 
         //Second pattern
-        extraLargePlatformPatterns.Add(new List<Vector3>() { new Vector3(0, 1.5f, 0), new Vector3(-5, 1.5f, 0), new Vector3(5, 1.5f, 0), new Vector3(5, 1.5f, 5),
-        new Vector3(-5, 1.5f, -5), new Vector3(5, 1.5f, -5), new Vector3(-5, 1.5f, 5)});
+        extraLargePlatformPatterns.Add(new List<Vector3>() { new Vector3(0, 0, 0), new Vector3(-5, 0, 0), new Vector3(5, 0, 0), new Vector3(5, 0, 5),
+        new Vector3(-5, 0, -5), new Vector3(5, 0, -5), new Vector3(-5, 0, 5)});
     }
 
     private void createLargeSpikePatterns()
     {
         //First pattern
-        largePlatformPatterns.Add(new List<Vector3>() { new Vector3(0, 1.5f, 0), new Vector3(2.5f, 1.5f, 0), new Vector3(-2.5f, 1.5f, 0) });
+        largePlatformPatterns.Add(new List<Vector3>() { new Vector3(0, 0, 0), new Vector3(2.5f, 0, 0), new Vector3(-2.5f, 0, 0) });
 
         //Second pattern
-        largePlatformPatterns.Add(new List<Vector3>() {new Vector3(0, 1.5f, 0), new Vector3(2.5f, 1.5f, 0), new Vector3(-2.5f, 1.5f, 0), new Vector3(2.5f, 1.5f, 2.5f), 
-            new Vector3(-2.5f, 1.5f, -2.5f), new Vector3(2.5f, 1.5f, -2.5f), new Vector3(-2.5f, 1.5f, 2.5f)});
+        largePlatformPatterns.Add(new List<Vector3>() {new Vector3(0, 0, 0), new Vector3(2.5f, 0, 0), new Vector3(-2.5f, 0, 0), new Vector3(2.5f, 0, 2.5f), 
+            new Vector3(-2.5f, 0, -2.5f), new Vector3(2.5f, 0, -2.5f), new Vector3(-2.5f, 0, 2.5f)});
     }
 }
