@@ -61,6 +61,8 @@ public partial class TestLevel : Node3D
 
 	//[ExportSubgroup("Bouncer Spawn Rate")]
 	/*[Export(PropertyHint.Range, "5, 20")]*/ private uint bounceSpawnRate = 5;
+	private uint coinSpawnRate = 0;
+	private uint spikeSpawnRate = 0;
 
     //[ExportGroup("Number of Sections")]
 	/*[Export(PropertyHint.Range, "1, 10")]*/ private uint numberOfSections = 1;
@@ -380,12 +382,15 @@ public partial class TestLevel : Node3D
 		PackedScene platform;
 		PlatformTypes platformType;
 
+		bool bounceMode;
         if (nextAction == ActionStates.BOUNCE) { 
 			platformType = PlatformTypes.FLAT;
+			bounceMode = true;
 		}
 		else
 		{
             platformType = typeToChoose();
+			bounceMode = false;
         }
 
 		platformLength = determinePlatformLength(platformType);
@@ -413,31 +418,35 @@ public partial class TestLevel : Node3D
 			spikeAreaCount = 0;
 		}
 
-
-
-
-		//if (platformType == PlatformTypes.BRIDGE)
-		//{
-			//if (compSpawner != null)
-			//{
-			//compSpawner.addCoinPlatform(platformType, platformLength, newPlatform.Position, currentDirection);
-
-			//}
-			coinPatterns.spawnCoins(platformType, platformLength, currentPosition, currentDirection);
-		//}
-
-		if (platformType == PlatformTypes.FLAT)
+		if (platformType == PlatformTypes.FLAT && bounceMode == false)
 		{
 			//uint rng = 1 + GD.Randi() % 2;
 			//if (rng == 1)
 			//{
-			if (currentPosition != new Vector3(0, 0, 0))
+			uint rng = 1 + GD.Randi() % 200;
+			if (rng <= spikeSpawnRate)
 			{
-				spikePatterns.spawnSpikes(platformLength, currentPosition, currentDirection);
-				spikeAreaCount++;
+				if (currentPosition != new Vector3(0, 0, 0))
+				{
+					spikePatterns.spawnSpikes(platformLength, currentPosition, currentDirection);
+					spikeAreaCount++;
+				}
 			}
+			else if (rng <= coinSpawnRate + spikeSpawnRate)
+			{
+                coinPatterns.spawnCoins(platformType, platformLength, currentPosition, currentDirection);
+            }
             //}
 		}
+
+		else if (bounceMode == false)
+		{
+            uint rng = 1 + GD.Randi() % 100;
+			if (rng <= coinSpawnRate)
+			{
+				coinPatterns.spawnCoins(platformType, platformLength, currentPosition, currentDirection);
+			}
+        }
 
 		if (spikeAreaCount == 3)
 		{
@@ -626,39 +635,6 @@ public partial class TestLevel : Node3D
             }
 
         }
-			
-
-       
-
-		//else
-		//{
-		//	translationVector.Y = 0;
-
-  //          if (lenOfPlatform == Lengths.SHORT)
-		//	{
-  //              numberToAdd = 6.0f;
-  //              return "res://small_platform.tscn";
-  //          }
-
-		//	else if (lenOfPlatform == Lengths.MEDIUM)
-		//	{
-  //              numberToAdd = 9.0f;
-  //              return "res://medium_platform2.tscn";
-  //          }
-
-		//	else if (lenOfPlatform == Lengths.LONGEST)
-		//	{
-		//		numberToAdd = 18.0f;
-		//		return "res://extraLargePlatform.tscn";
-
-  //          }
-
-		//	else
-		//	{
-		//		numberToAdd = 12.0f;
-		//		return "res://large_platform.tscn";
-		//	}
-		//}
 
         return "res://large_platform.tscn";
     }
@@ -931,9 +907,11 @@ public partial class TestLevel : Node3D
 		sectionSize = (int)sizeOfSection;
 	}
 
-	public void setComponentSpawnRate(uint bouncer)
+	public void setComponentSpawnRate(uint bouncer, uint spikeRate, uint coinRate)
 	{
 		bounceSpawnRate = bouncer;
+		spikeSpawnRate = spikeRate;
+		coinSpawnRate = coinRate;
 
 	}
 

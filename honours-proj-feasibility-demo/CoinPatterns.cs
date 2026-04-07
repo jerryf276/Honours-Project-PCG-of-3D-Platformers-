@@ -347,12 +347,12 @@ public partial class CoinPatterns : Node
             Vector3 positionToUse = new Vector3(smallBridgePlatformPatterns[0][i].X, smallBridgePlatformPatterns[0][i].Y, smallBridgePlatformPatterns[0][i].Z);
             if (direction == NewDirection.LEFT)
             {
-                positionToUse =  new Vector3(smallBridgePlatformPatterns[0][i].Z * -1, smallBridgePlatformPatterns[0][i].Y, smallBridgePlatformPatterns[0][i].X * -1);
+                positionToUse =  new Vector3(smallBridgePlatformPatterns[0][i].Z * -1 + 1.0f, smallBridgePlatformPatterns[0][i].Y, smallBridgePlatformPatterns[0][i].X * -1);
             }
 
             else if (direction == NewDirection.RIGHT)
             {
-                positionToUse = new Vector3(smallBridgePlatformPatterns[0][i].Z, smallBridgePlatformPatterns[0][i].Y, smallBridgePlatformPatterns[0][i].X);
+                positionToUse = new Vector3(smallBridgePlatformPatterns[0][i].Z - 1.0f, smallBridgePlatformPatterns[0][i].Y, smallBridgePlatformPatterns[0][i].X);
             }
 
             Node3D coin = coinScene.Instantiate<Node3D>();
@@ -385,12 +385,12 @@ public partial class CoinPatterns : Node
             Vector3 positionToUse = new Vector3(mediumBridgePlatformPatterns[0][i].X, mediumBridgePlatformPatterns[0][i].Y, mediumBridgePlatformPatterns[0][i].Z);
             if (direction == NewDirection.LEFT)
             {
-                positionToUse = new Vector3(mediumBridgePlatformPatterns[0][i].Z * -1, mediumBridgePlatformPatterns[0][i].Y, mediumBridgePlatformPatterns[0][i].X * -1);
+                positionToUse = new Vector3(mediumBridgePlatformPatterns[0][i].Z * -1 + 1.0f, mediumBridgePlatformPatterns[0][i].Y, mediumBridgePlatformPatterns[0][i].X * -1);
             }
 
             else if (direction == NewDirection.RIGHT)
             {
-                positionToUse = new Vector3(mediumBridgePlatformPatterns[0][i].Z, mediumBridgePlatformPatterns[0][i].Y, mediumBridgePlatformPatterns[0][i].X);
+                positionToUse = new Vector3(mediumBridgePlatformPatterns[0][i].Z - 1.0f, mediumBridgePlatformPatterns[0][i].Y, mediumBridgePlatformPatterns[0][i].X);
             }
 
             Node3D coin = coinScene.Instantiate<Node3D>();
@@ -424,12 +424,12 @@ public partial class CoinPatterns : Node
 
             if (direction == NewDirection.LEFT)
             {
-                positionToUse = new Vector3(largeBridgePlatformPatterns[0][i].Z * -1, largeBridgePlatformPatterns[0][i].Y, largeBridgePlatformPatterns[0][i].X * -1);
+                positionToUse = new Vector3(largeBridgePlatformPatterns[0][i].Z * -1 + 1.0f, largeBridgePlatformPatterns[0][i].Y, (largeBridgePlatformPatterns[0][i].X * -1));
             }
 
             else if (direction == NewDirection.RIGHT)
             {
-                positionToUse = new Vector3(largeBridgePlatformPatterns[0][i].Z, largeBridgePlatformPatterns[0][i].Y, largeBridgePlatformPatterns[0][i].X);
+                positionToUse = new Vector3(largeBridgePlatformPatterns[0][i].Z - 1.0f, largeBridgePlatformPatterns[0][i].Y, largeBridgePlatformPatterns[0][i].X);
             }
 
             Node3D coin = coinScene.Instantiate<Node3D>();

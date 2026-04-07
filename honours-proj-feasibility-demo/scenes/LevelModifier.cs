@@ -115,7 +115,7 @@ public partial class LevelModifier : Control
         {
             level.settingSections((uint)25, (uint)numberOfSections.GetItemId(numberOfSections.Selected));
         }
-        level.setComponentSpawnRate((uint)bouncePadSlider.Value);
+        level.setComponentSpawnRate((uint)bouncePadSlider.Value, (uint)spikeSlider.Value, (uint)coinSlider.Value);
         level.setSpawnSection(true);
             //level.settingSections((uint)numberOfSections.Selected, 25);
         // AddChild(level);

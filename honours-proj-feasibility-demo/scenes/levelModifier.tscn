@@ -284,13 +284,14 @@ scale = Vector2(2, 2)
 layout_mode = 2
 size_flags_vertical = 10
 size_flags_stretch_ratio = 0.0
+value = 50.0
 rounded = true
 
 [node name="SpikesSlider" type="HSlider" parent="PageOne/LevelComponentsSlider" unique_id=1255068725]
 layout_mode = 2
 size_flags_vertical = 6
 size_flags_stretch_ratio = 1.62
-value = 1.0
+value = 50.0
 rounded = true
 
 [node name="BouncePadSlider" type="HSlider" parent="PageOne/LevelComponentsSlider" unique_id=1950537961]

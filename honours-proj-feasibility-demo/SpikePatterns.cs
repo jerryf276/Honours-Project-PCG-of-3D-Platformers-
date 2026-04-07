@@ -44,7 +44,9 @@ public partial class SpikePatterns : Node
     {
         PackedScene spikeScene = ResourceLoader.Load<PackedScene>("res://Level parts/spikeTest.tscn");
         Node3D spike = spikeScene.Instantiate<Node3D>();
-        spike.Scale *= 2;
+     //   spike.Scale *= 2;
+       // spike.Scale.Y *= 2;
+       spike.Scale = new Vector3(2, 4, 2);
         spike.Position = new Vector3(currentPosition.X, currentPosition.Y + 1.5f, currentPosition.Z);
         AddChild(spike);
     }
@@ -79,7 +81,8 @@ public partial class SpikePatterns : Node
                 //positionToUse *= -1;
             }
             Node3D spike = spikeScene.Instantiate<Node3D>();
-            spike.Scale *= 2;
+          //  spike.Scale *= 2;
+          spike.Scale = new Vector3 (2, 3, 2);
             spike.Position = currentPosition + new Vector3(positionToUse.X, (positionToUse.Y + 1.5f), positionToUse.Z);
             AddChild(spike);
         }
