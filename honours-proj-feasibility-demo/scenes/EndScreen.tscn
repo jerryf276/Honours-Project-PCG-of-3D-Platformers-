@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bovvclosen066" path="res://scenes/EndScreen.cs" id="1_qfurf"]
 
-[node name="EndScreen" type="Control" unique_id=461822167 node_paths=PackedStringArray("restartButton", "quitButton", "scoreText", "timeText", "rankText", "deathText")]
+[node name="EndScreen" type="Control" unique_id=461822167 node_paths=PackedStringArray("restartButton", "quitButton", "scoreText", "timeText", "finalScoreText", "coinsText", "coinBonusText", "deathText")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -16,7 +16,9 @@ restartButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/PlayAgain"
 quitButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/Quit")
 scoreText = NodePath("MarginContainer/VBoxContainer/ScoreText")
 timeText = NodePath("MarginContainer/VBoxContainer/TimeText")
-rankText = NodePath("MarginContainer/VBoxContainer/RankText")
+finalScoreText = NodePath("MarginContainer/VBoxContainer/FinalScoreText")
+coinsText = NodePath("MarginContainer/VBoxContainer/CoinsText")
+coinBonusText = NodePath("MarginContainer/VBoxContainer/CoinBonusText")
 deathText = NodePath("MarginContainer/VBoxContainer/deathText")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1369918132]
@@ -46,30 +48,42 @@ theme_override_font_sizes/font_size = 64
 text = "Level Complete!"
 horizontal_alignment = 1
 
-[node name="ScoreText" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1935654539]
-layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "Score: XXXX"
-horizontal_alignment = 1
-
 [node name="TimeText" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1856819949]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 48
 text = "Time: XX:XX"
+horizontal_alignment = 1
+
+[node name="CoinsText" type="Label" parent="MarginContainer/VBoxContainer" unique_id=775306665]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Coins: XXX"
 horizontal_alignment = 1
 
 [node name="deathText" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1157600133]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 48
 text = "Deaths: NULL"
 horizontal_alignment = 1
 
-[node name="RankText" type="Label" parent="MarginContainer/VBoxContainer" unique_id=661018517]
+[node name="ScoreText" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1935654539]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Score: XXXX"
+horizontal_alignment = 1
+
+[node name="CoinBonusText" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1653185036]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "Coin Bonus: XXXX"
+horizontal_alignment = 1
+
+[node name="FinalScoreText" type="Label" parent="MarginContainer/VBoxContainer" unique_id=661018517]
 layout_mode = 2
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
-theme_override_font_sizes/font_size = 64
-text = "Rank: XX"
+theme_override_font_sizes/font_size = 48
+text = "Final Score: XXXX"
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=768044799]

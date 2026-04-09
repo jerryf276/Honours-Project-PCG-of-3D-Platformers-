@@ -6,8 +6,46 @@
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_0qle8"]
 points = PackedVector3Array(0.028922474, 0.06708541, 0.019020451, -0.020822473, -0.011059539, -0.36164868, 0.3545541, -0.023517378, -0.14104399, -0.2058678, -0.03495771, 0.27065128, -0.34301746, 0.03365295, -0.118164435, 0.2058678, 0.03365295, 0.2821252, -0.2058678, 0.03365295, 0.2821252, -0.019608665, -0.069323055, 0.019886399, 0.2058678, -0.03495771, 0.27065128, -0.3316958, -0.03495771, -0.118164435, 0.34301746, 0.03365295, -0.118164435, 0.0113933105, 0.03365295, -0.35836554, 0.0113933105, -0.03495771, -0.35836554, 0.3316958, -0.03495771, -0.118164435, -0.2183175, -0.011557143, 0.28912917, -0.038350824, 0.066501014, -0.029476508, -0.3545541, -0.023517378, -0.14104399, 0.2193691, 0.01030491, 0.29073313, 0.038676046, -0.068375245, -0.019705439, -0.1714729, 0.045077614, 0.21341828, -0.0113933105, 0.03365295, -0.35836554, 0.1714729, 0.045077614, 0.21341828, 0.038350824, 0.066501014, -0.029476508, -0.038676046, -0.068375245, -0.019705439, -0.0113933105, -0.03495771, -0.35836554, -0.2193691, 0.01030491, 0.29073313, 0.2183175, -0.011557143, 0.28912917, 0.021014705, 0.009850858, -0.3645825, 0.34301746, 0.03365295, -0.10675881, -0.34301746, 0.03365295, -0.10675881, 0.3444653, 0.010099518, -0.13532095, -0.028922474, 0.06708541, 0.019020451)
 
+[sub_resource type="Animation" id="Animation_hvaf0"]
+length = 0.001
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Star")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0.70710677, 0, 0, 0.70710677)
+
+[sub_resource type="Animation" id="Animation_wsbct"]
+resource_name = "spinningStar"
+length = 6.0
+loop_mode = 1
+tracks/0/type = "rotation_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Star")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.033333335, 1, 0.70710677, 0, 0, 0.70710677, 0.5, 1, 0.683013, 0.183013, -0.183013, 0.683013, 1, 1, 0.612372, 0.353553, -0.353553, 0.612372, 1.5, 1, 0.5, 0.5, -0.5, 0.5, 2, 1, 0.353553, 0.612372, -0.612372, 0.353553, 2.5, 1, 0.183013, 0.683013, -0.683013, 0.183013, 3, 1, 0, 0.707107, -0.707107, 0, 3.5, 1, -0.183013, 0.683013, -0.683013, -0.183013, 4, 1, -0.353553, 0.612372, -0.612372, -0.353553, 4.5, 1, 0.5, -0.5, 0.5, 0.5, 5, 1, 0.612372, -0.353553, 0.353553, 0.612372, 5.5, 1, 0.683013, -0.183013, 0.183013, 0.683013, 6, 1, 0.707107, 0, 0, 0.707107)
+tracks/1/type = "rotation_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Area3D")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0.001, 1, 0, 0, 0, 1, 0.5, 1, 0, 0.258819, 0, 0.965926, 1, 1, 0, 0.5, 0, 0.866025, 1.5, 1, 0, 0.707107, 0, 0.707107, 2, 1, 0, 0.866025, 0, 0.5, 2.5, 1, 0, 0.965926, 0, 0.258819, 3, 1, 0, 1, 0, 0, 3.5, 1, 0, -0.965926, 0, 0.258819, 4, 1, 0, -0.866025, 0, 0.5, 4.5, 1, 0, -0.707107, 0, 0.707107, 5, 1, 0, -0.5, 0, 0.866025, 5.5, 1, 0, -0.258819, 0, 0.965926, 6, 1, 0, 0, 0, 1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hvaf0"]
+_data = {
+&"RESET": SubResource("Animation_hvaf0"),
+&"spinningStar": SubResource("Animation_wsbct")
+}
+
 [node name="Goal" unique_id=609459687 instance=ExtResource("1_wsbct")]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+
+[node name="Star" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
 
 [node name="Area3D" type="Area3D" parent="." index="1" unique_id=267891375 groups=["Goal"]]
 script = ExtResource("2_hvaf0")
@@ -15,3 +53,7 @@ script = ExtResource("2_hvaf0")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0" unique_id=1162981554]
 transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_0qle8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="2" unique_id=680878255]
+libraries/ = SubResource("AnimationLibrary_hvaf0")
+autoplay = &"spinningStar"

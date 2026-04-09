@@ -5,7 +5,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_4166j"]
 size = Vector3(8.948181, 1, 9.060608)
 
-[node name="large_platform" type="Node3D" unique_id=1416088427]
+[node name="PlatformMedium" type="Node3D" unique_id=1416088427]
 transform = Transform3D(0.667, 0, 0, 0, 0.667, 0, 0, 0, 0.667, 0, 0, 0)
 
 [node name="largeGrassBlock" parent="." unique_id=576209121 instance=ExtResource("1_4166j")]

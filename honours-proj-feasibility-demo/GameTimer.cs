@@ -75,6 +75,16 @@ public partial class GameTimer : Timer
         }
     }
 
+    public int getMinutes()
+    {
+        return minutes;
+    }
+
+    public int getSeconds()
+    {
+        return seconds;
+    }
+
     private string displayMinutes()
     {
         if (minutes < 10)

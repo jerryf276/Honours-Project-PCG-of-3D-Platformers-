@@ -1,9 +1,8 @@
 [gd_scene format=3 uid="uid://cw6a1hrxqkxat"]
 
 [ext_resource type="PackedScene" uid="uid://cwh86qiadegpl" path="res://glb/large_grass_block.tscn" id="1_awuks"]
-[ext_resource type="PackedScene" uid="uid://fweqbtfm5wxc" path="res://Level parts/spikes.tscn" id="2_w8yxr"]
 
-[node name="Node3D" type="Node3D" unique_id=2102310516]
+[node name="PlatformMedium" type="Node3D" unique_id=2102310516]
 
 [node name="largeGrassBlock" parent="." unique_id=1219515989 instance=ExtResource("1_awuks")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 1.5)
@@ -16,6 +15,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -1.5)
 
 [node name="largeGrassBlock4" parent="." unique_id=1398915015 instance=ExtResource("1_awuks")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1.5)
-
-[node name="spikePlatform" parent="." unique_id=1336128706 instance=ExtResource("2_w8yxr")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1.5, 0)

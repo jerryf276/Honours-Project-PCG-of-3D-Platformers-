@@ -78,6 +78,9 @@ public partial class TestLevel : Node3D
 
 	private uint combinedPlatformTypeChance;
 
+	private uint easySpikeChance = 1;
+	private uint hardSpikeChance = 1;
+
 	//Size of section, which in this case is the size of the level for now.
 	//In the future we will make this an array of section sizes when we develop multiple level sections
 	//[ExportGroup("Sections")]
@@ -94,12 +97,44 @@ public partial class TestLevel : Node3D
 	int spikeAreaCount = 0;
 
 
+	//Used to separate platforms by section in the json file
+	int currentSection = 1;
+
+
 	//This will be used to spawn a health pack when there is 3 spikes 
 	bool spawnHealthPack = false;
+
+
+	//If a bounce pad on the previous platform spawned and the next platform is an extra large platform, we will translate the current position by 2 to prevent the extra large platform being
+	//directly above the bounce platform.
+	bool bounceSpawned = false;
+
+    //we will translate the current position by 2 to prevent the extra large platform being
+    //directly above the platform.
+    bool smallJumpGapBeforeExLarge = false;
 
 	CoinPatterns coinPatterns;
 	SpikePatterns spikePatterns;
 
+
+	//10000
+	//If time is excellent
+		//Make time 10000
+	//If time is okay
+		//Time = 10000 * ( (currentTimeLeft / (maxTime / 2))
+	//If time sucks
+		//Time bonus = 0
+	int maxTimeBonus = 10000;
+
+
+	//Coin bonus formula
+	/// <summary>
+	//Coin bonus = maxCoinBonus * (currentCoinCount / maxCoinCount)
+	/// </summary>
+	int maxCoinBonus = 10000;
+
+
+	JsonWriter jsonWriter;
 	private struct LevelComponent
 	{
 		//Refer to ActionStates enum class
@@ -137,6 +172,7 @@ public partial class TestLevel : Node3D
 		spikePatterns = GetNode<SpikePatterns>("../SpikePatterns");
 
 		//gameTimer.Timeout += OnTimeOut;
+		jsonWriter = GetNode<JsonWriter>("../JsonWriter");
 	}
 
 	public override void _Process(double delta)
@@ -179,7 +215,7 @@ public partial class TestLevel : Node3D
 					platformsSpawned++;
                 }
 
-				else
+				else if (i != (sectionSize - 1))
 				{
                     uint directionChange = 1 + GD.Randi() % 100;
 
@@ -278,7 +314,6 @@ public partial class TestLevel : Node3D
                 levelComponents.Add(new LevelComponent(actionsToAdd[i], lengthToAdd));
             }
             //Generates level once each component of the level has been defined
-
             GenerateLevel(levelComponents);
             //levelSpawned = true;
 
@@ -286,6 +321,8 @@ public partial class TestLevel : Node3D
             spawnSection = false;
 			spawnHealthPack = false;
 			sectionsSpawned++;
+            currentSection++;
+            jsonWriter.outputGeneratedLevelToJson();
 
 			//GD.Print(sectionSize);
 		}
@@ -342,6 +379,12 @@ public partial class TestLevel : Node3D
                     else if (componentsToAdd[i + 1].action == ActionStates.BOUNCE)
                     {
                         spawnBouncer();
+						bounceSpawned = true;
+                    }
+
+					if (componentsToAdd[i + 1].action != ActionStates.BOUNCE)
+					{
+                        bounceSpawned = false;
                     }
 
                     AddCurrentPosition(newDirection);
@@ -406,30 +449,29 @@ public partial class TestLevel : Node3D
         newPlatform.Position = currentPosition;
 		//GD.Print(newPlatform.Position);
 		AddChild(newPlatform);
-
-		if (spawnHealthPack == true)
-		{
-			PackedScene healthPackScene = ResourceLoader.Load<PackedScene>("res://healthOrb.tscn");
-
-			Node3D healthOrb = healthPackScene.Instantiate<Node3D>();
-			healthOrb.Position = new Vector3(currentPosition.X, currentPosition.Y + 2, currentPosition.Z);
-			AddChild(healthOrb);
-			spawnHealthPack = false;
-			spikeAreaCount = 0;
-		}
+		jsonWriter.addPlatform(currentPosition, newPlatform.SceneFilePath, currentSection);
+		jsonWriter.addLevelPartToJson(currentPosition, newPlatform.SceneFilePath, currentSection);
+		
 
 		if (platformType == PlatformTypes.FLAT && bounceMode == false)
 		{
-			//uint rng = 1 + GD.Randi() % 2;
-			//if (rng == 1)
-			//{
 			uint rng = 1 + GD.Randi() % 200;
 			if (rng <= spikeSpawnRate)
 			{
 				if (currentPosition != new Vector3(0, 0, 0))
 				{
-					spikePatterns.spawnSpikes(platformLength, currentPosition, currentDirection);
+					uint rng2 = 1 + GD.Randi() % +(easySpikeChance + hardSpikeChance);
+					if (rng <= hardSpikeChance)
+					{
+						spikePatterns.spawnSpikes(platformLength, currentPosition, currentDirection, true);
+					}
+
+					else
+					{
+						spikePatterns.spawnSpikes(platformLength, currentPosition, currentDirection, false);
+					}
 					spikeAreaCount++;
+					spawnHealthPack = false;
 				}
 			}
 			else if (rng <= coinSpawnRate + spikeSpawnRate)
@@ -448,6 +490,21 @@ public partial class TestLevel : Node3D
 			}
         }
 
+        if (spawnHealthPack == true)
+        {
+            PackedScene healthPackScene = ResourceLoader.Load<PackedScene>("res://healthOrb.tscn");
+
+            Node3D healthOrb = healthPackScene.Instantiate<Node3D>();
+            healthOrb.Position = new Vector3(currentPosition.X, currentPosition.Y + 2, currentPosition.Z);
+			if (bounceMode == true)
+			{
+				healthOrb.Position += new Vector3(healthOrb.Position.X, healthOrb.Position.Y + 3, healthOrb.Position.Z);
+			}
+            AddChild(healthOrb);
+            spawnHealthPack = false;
+            spikeAreaCount = 0;
+        }
+        
 		if (spikeAreaCount == 3)
 		{
 			//PackedScene healthPackScene = ResourceLoader.Load<PackedScene>("");
@@ -556,7 +613,37 @@ public partial class TestLevel : Node3D
 
             else if (lenOfPlatform == Lengths.LONGEST)
             {
-                numberToAdd = 18.0f;
+				if (currentDirection == NewDirection.FORWARD)
+				{
+					currentPosition.X += 3;
+
+					if (bounceSpawned == true || smallJumpGapBeforeExLarge == true) 
+					{
+						currentPosition.X += 2;
+					}
+				}
+
+				else if (currentDirection == NewDirection.LEFT)
+				{
+					currentPosition.Z -= 3;
+
+                    if (bounceSpawned == true || smallJumpGapBeforeExLarge == true)
+                    {
+                        currentPosition.Z -= 2;
+                    }
+                }
+
+				else
+				{
+					currentPosition.Z += 3;
+
+                    if (bounceSpawned == true || smallJumpGapBeforeExLarge == true)
+                    {
+                        currentPosition.Z += 2;
+                    }
+                }
+				
+				numberToAdd = 21.0f;
                 return "res://extraLargePlatform.tscn";
 
             }
@@ -577,20 +664,20 @@ public partial class TestLevel : Node3D
                 translationVector.Y = 0;
                 if (lenOfPlatform == Lengths.SHORT)
                 {
-                    numberToAdd = 6.0f;
+                    numberToAdd = 9.0f;
 
                     return "res://smallBridgePlatform.tscn";
                 }
 
                 else if (lenOfPlatform == Lengths.MEDIUM)
                 {
-                    numberToAdd = 10.0f;
+                    numberToAdd = 13.0f;
                     return "res://mediumBridgePlatform.tscn";
                 }
 
                 else if (lenOfPlatform == Lengths.LONG)
                 {
-                    numberToAdd = 14.0f;
+                    numberToAdd = 17.0f;
                     return "res://largeBridgePlatform.tscn";
                 }
             }
@@ -599,10 +686,10 @@ public partial class TestLevel : Node3D
             {
                 if (lenOfPlatform == Lengths.SHORT)
                 {
-                    numberToAdd = 9.0f;
+                    numberToAdd = 12.0f;
                     if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
                     {
-                        numberToAdd = 7.5f;
+                        numberToAdd = 8.5f;
                     }
                     translationVector.Y = 2;
                     return "res://inclinePlatformSmall.tscn";
@@ -610,11 +697,11 @@ public partial class TestLevel : Node3D
 
                 else if (lenOfPlatform == Lengths.MEDIUM)
                 {
-                    numberToAdd = 12.0f;
+                    numberToAdd = 15.0f;
 
                     if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
                     {
-                        numberToAdd = 9.5f;
+                        numberToAdd = 10.5f;
                     }
                     translationVector.Y = 3;
                     return "res://inclinePlatformMedium.tscn";
@@ -622,11 +709,11 @@ public partial class TestLevel : Node3D
 
                 else if (lenOfPlatform == Lengths.LONG)
                 {
-                    numberToAdd = 18.0f;
+                    numberToAdd = 21.0f;
 
                     if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
                     {
-                        numberToAdd = 11.5f;
+                        numberToAdd = 12.5f;
                     }
 
                     translationVector.Y = 5;
@@ -725,15 +812,21 @@ public partial class TestLevel : Node3D
 		switch (jumpLength)
 		{
 			case Lengths.SHORT:
-				numberToAdd = jumpSizes[0];
+				smallJumpGapBeforeExLarge = true;
+                numberToAdd = jumpSizes[0];
+				jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "Small Jump Gap", currentSection);
 				break;
 			case Lengths.MEDIUM:
-				numberToAdd = jumpSizes[1];
+                smallJumpGapBeforeExLarge = false;
+                numberToAdd = jumpSizes[1];
+				jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "Medium Jump Gap", currentSection);
 				break;
 			case Lengths.LONG:
-				yPosition /= 2;
+                smallJumpGapBeforeExLarge = false;
+                yPosition /= 2;
 				numberToAdd = jumpSizes[2];
-				break;
+                jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "Long Jump Gap", currentSection);
+                break;
 		}
 
 		switch (currentDirection) 
@@ -763,6 +856,8 @@ public partial class TestLevel : Node3D
         //Translate it by currentPosition.
 		newPlatform.Position = currentPosition;
         AddChild(newPlatform);
+		jsonWriter.addPlatform(currentPosition, newPlatform.SceneFilePath, currentSection);
+		jsonWriter.addLevelPartToJson(currentPosition, newPlatform.SceneFilePath, currentSection);
 
 		PackedScene checkpointLoad;
 
@@ -790,9 +885,10 @@ public partial class TestLevel : Node3D
 		//Translate it by currentPosition.
 		newPlatform.Position = currentPosition;
 		AddChild(newPlatform);
+        jsonWriter.addPlatform(currentPosition, newPlatform.SceneFilePath, currentSection);
+        jsonWriter.addLevelPartToJson(new Vector3(0, 100, 0), newPlatform.SceneFilePath, currentSection);
 
-
-		PackedScene goalLoad;
+        PackedScene goalLoad;
 
 		goalLoad = ResourceLoader.Load<PackedScene>("res://Level parts/goal.tscn");
 		Node3D goal = goalLoad.Instantiate<Node3D>();
@@ -800,14 +896,10 @@ public partial class TestLevel : Node3D
 
         if (currentDirection == NewDirection.FORWARD)
         {
-			goal.RotateY(Mathf.Pi / 2);
+		//	goal.RotateY(Mathf.Pi / 2);
 
         }
 
-        //else if (currentDirection == NewDirection.RIGHT)
-        //{
-        //    goal.RotateY(Mathf.Pi / -2);
-        //}
         AddChild(goal);
 
     }
@@ -823,39 +915,36 @@ public partial class TestLevel : Node3D
 			if (currentActionState == ActionStates.TURN_RIGHT)
 			{
 				currentDirection = NewDirection.RIGHT;
+				jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "[Direction changed to right]", currentSection);
 			}
 
 			else
 			{
 				currentDirection = NewDirection.LEFT;
-			}
+				jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "[Direction changed to left]", currentSection);
+            }
 		}
 
 		else if (currentDirection == NewDirection.RIGHT || currentDirection == NewDirection.LEFT)
 		{
 			currentDirection = NewDirection.FORWARD;
-		}
+            jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "[Direction changed to forward]", currentSection);
+        }
 
 		return currentDirection;
 	}
+	//private void spawnCoins(NewDirection currentDirection, int platformLength, int platformWidth, string platformType, Vector3 platformPosition)
+	//{
+	//	PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
+	//	Node3D coin = coinScene.Instantiate<Node3D>();
+	//	coin.Position = platformPosition;
+	//	Vector3 coinPosition = coin.Position;
+	//	coinPosition.Y += 1;
+	//	coin.Position = coinPosition;
+	//	GetTree().Root.AddChild(coin);
 
 
-	private void spawnBridgeCoins()
-	{
-
-	}
-	private void spawnCoins(NewDirection currentDirection, int platformLength, int platformWidth, string platformType, Vector3 platformPosition)
-	{
-		PackedScene coinScene = ResourceLoader.Load<PackedScene>("res://Level parts/coin.tscn");
-		Node3D coin = coinScene.Instantiate<Node3D>();
-		coin.Position = platformPosition;
-		Vector3 coinPosition = coin.Position;
-		coinPosition.Y += 1;
-		coin.Position = coinPosition;
-		GetTree().Root.AddChild(coin);
-
-
-    }
+ //   }
 
 	private void spawnBouncer()
 	{
@@ -915,8 +1004,19 @@ public partial class TestLevel : Node3D
 
 	}
 
+	public void setSpikeDifficulties(uint easy, uint hard)
+	{
+		easySpikeChance = easy;
+		hardSpikeChance = hard;
+	}
+
 	public void setSpawnSection(bool sectionSpawn)
 	{
 		spawnSection = sectionSpawn;
+	}
+
+	public void setDirectionChangeChance(uint directionChange)
+	{
+		directionChangeChance = directionChange;
 	}
 }

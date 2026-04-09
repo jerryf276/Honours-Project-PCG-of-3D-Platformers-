@@ -38,6 +38,7 @@ public partial class PlayerCharacter : CharacterBody3D
 
 	//The last platform the player jumped on
 	private string previousPlatform;
+	private Vector3 previousPlatformPosition;
 
 	private int currentScore = 0;
 	private int coinCount = 0;
@@ -248,9 +249,16 @@ public partial class PlayerCharacter : CharacterBody3D
 				informationToAdd = "Died at: " + "X: " + GlobalPosition.X + "Z: " + GlobalPosition.Z;
 				jsonWriter.addLevelData(informationToAdd);
 
-				informationToAdd = "Last platform jumped on before dying: " + previousPlatform;
+				informationToAdd = "Last platform jumped on before dying: " + previousPlatform + " Position: " + previousPlatformPosition;
 				jsonWriter.addLevelData(informationToAdd);
-			}
+
+				informationToAdd = "Platform before this: " + jsonWriter.getPlatformBeforeCurrent();
+				jsonWriter.addLevelData(informationToAdd);
+
+				informationToAdd = "Platform after this: " + jsonWriter.getPlatformAfterCurrent();
+                jsonWriter.addLevelData(informationToAdd);
+
+            }
 			//    GD.Print("Died at: " + "X: " + GlobalPosition.X + " Z: " + GlobalPosition.Z);
 			//GD.Print("Last platform jumped on before dying: " + previousPlatform);
 
@@ -261,7 +269,9 @@ public partial class PlayerCharacter : CharacterBody3D
 				jsonWriter.addLevelData("Player's current death count: " + deathCount);
 				playerHealth = 3;
 				currentScore -= 5000;
-			}
+                informationToAdd = "";
+                jsonWriter.addLevelData(informationToAdd);
+            }
 			Velocity = Vector3.Zero;
 			GlobalPosition = spawnPoint;
 			hasDied = true;
@@ -290,6 +300,11 @@ public partial class PlayerCharacter : CharacterBody3D
 	public void setPlatformJumpedOn(string platform)
 	{
 		previousPlatform = platform;
+	}
+
+	public void setCurrentPlatformPosition(Vector3 pos)
+	{
+		previousPlatformPosition = pos;
 	}
 
 	public void attackedBySpike()
@@ -353,7 +368,9 @@ public partial class PlayerCharacter : CharacterBody3D
 
 	public void healPlayer()
 	{
-		if (playerHealth < 3)
+        currentScore += 1000;
+        GameManager.updateScoreText(currentScore);
+        if (playerHealth < 3)
 		{
 			playerHealth += 1;
 			jsonWriter.addLevelData("Player restored 1 health!");

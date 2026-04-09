@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://h7orjgplh878" path="res://scenes/LevelModifier.cs" id="1_fntvc"]
 
-[node name="LevelModifier" type="Control" unique_id=521948923 node_paths=PackedStringArray("smallPlatformSlider", "mediumPlatformSlider", "largePlatformSlider", "extraLargePlatformSlider", "smallJumpGapSlider", "mediumJumpGapSlider", "largeJumpGapSlider", "flatPlatformTypeSlider", "inclinePlatformTypeSlider", "bridgePlaformTypeSlider", "coinSlider", "spikeSlider", "bouncePadSlider", "numberOfSections", "sizePerSection", "leftButton", "rightButton", "startButton", "pageOne", "pageTwo")]
+[node name="LevelModifier" type="Control" unique_id=521948923 node_paths=PackedStringArray("smallPlatformSlider", "mediumPlatformSlider", "largePlatformSlider", "extraLargePlatformSlider", "smallJumpGapSlider", "mediumJumpGapSlider", "largeJumpGapSlider", "flatPlatformTypeSlider", "inclinePlatformTypeSlider", "bridgePlatformTypeSlider", "coinSlider", "spikeSlider", "bouncePadSlider", "easySpikeSlider", "hardSpikeSlider", "numberOfSections", "sizePerSection", "leftButton", "rightButton", "startButton", "directionChange", "pageOne", "pageTwo")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -22,15 +22,18 @@ mediumJumpGapSlider = NodePath("PageOne/JumpGapsSlider/MediumGapSlider")
 largeJumpGapSlider = NodePath("PageOne/JumpGapsSlider/LargeGapSlider")
 flatPlatformTypeSlider = NodePath("PageTwo/PlatformSizeSliders/FlatPlatformSlider")
 inclinePlatformTypeSlider = NodePath("PageTwo/PlatformSizeSliders/InclinePlatformSlider")
-bridgePlaformTypeSlider = NodePath("PageTwo/PlatformSizeSliders/BridgePlatformSlider")
+bridgePlatformTypeSlider = NodePath("PageTwo/PlatformSizeSliders/BridgePlatformSlider")
 coinSlider = NodePath("PageOne/LevelComponentsSlider/CoinSlider")
 spikeSlider = NodePath("PageOne/LevelComponentsSlider/SpikesSlider")
 bouncePadSlider = NodePath("PageOne/LevelComponentsSlider/BouncePadSlider")
+easySpikeSlider = NodePath("PageTwo/SpikeTypeSliders/EasySlider")
+hardSpikeSlider = NodePath("PageTwo/SpikeTypeSliders/HardSlider")
 numberOfSections = NodePath("PageOne/SectionNumbers/VBoxContainer2/NumberOfSections")
 sizePerSection = NodePath("PageOne/SectionNumbers/VBoxContainer2/SizePerSection")
 leftButton = NodePath("LeftButton")
 rightButton = NodePath("RightButton")
 startButton = NodePath("StartButton")
+directionChange = NodePath("PageTwo/DirectionChangeContainer/DirectionChangeSlider")
 pageOne = NodePath("PageOne")
 pageTwo = NodePath("PageTwo")
 
@@ -121,6 +124,7 @@ theme_override_font_sizes/font_size = 64
 text = "<"
 
 [node name="PageOne" type="Node2D" parent="." unique_id=1423595544]
+visible = false
 
 [node name="PlatformsTextContainer" type="MarginContainer" parent="PageOne" unique_id=325792894]
 offset_left = 29.0
@@ -291,7 +295,7 @@ rounded = true
 layout_mode = 2
 size_flags_vertical = 6
 size_flags_stretch_ratio = 1.62
-value = 50.0
+value = 25.0
 rounded = true
 
 [node name="BouncePadSlider" type="HSlider" parent="PageOne/LevelComponentsSlider" unique_id=1950537961]
@@ -425,7 +429,6 @@ value = 50.0
 rounded = true
 
 [node name="PageTwo" type="Node2D" parent="." unique_id=816605980]
-visible = false
 
 [node name="PlatformTypeContainer" type="MarginContainer" parent="PageTwo" unique_id=162021362]
 offset_left = 24.0
@@ -516,3 +519,51 @@ size_flags_vertical = 6
 min_value = 1.0
 max_value = 50.0
 value = 20.0
+
+[node name="SpikeTypeContainer" type="MarginContainer" parent="PageTwo" unique_id=1841229180]
+offset_left = 663.0
+offset_top = 220.0
+offset_right = 1282.0
+offset_bottom = 450.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo/SpikeTypeContainer" unique_id=1984629539]
+layout_mode = 2
+
+[node name="SpawnChanceHeader" type="Label" parent="PageTwo/SpikeTypeContainer/VBoxContainer2" unique_id=1125619605]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 48
+text = "Spike Types"
+
+[node name="Easy" type="Label" parent="PageTwo/SpikeTypeContainer/VBoxContainer2" unique_id=1499733538]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 38
+text = "Easy"
+
+[node name="Hard" type="Label" parent="PageTwo/SpikeTypeContainer/VBoxContainer2" unique_id=1033432012]
+layout_mode = 2
+size_flags_vertical = 6
+size_flags_stretch_ratio = 1.62
+theme_override_font_sizes/font_size = 38
+text = "Hard"
+
+[node name="SpikeTypeSliders" type="VBoxContainer" parent="PageTwo" unique_id=268932734]
+offset_left = 781.0
+offset_top = 294.0
+offset_right = 998.5
+offset_bottom = 359.0
+scale = Vector2(2, 2)
+
+[node name="EasySlider" type="HSlider" parent="PageTwo/SpikeTypeSliders" unique_id=715028417]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.62
+min_value = 1.0
+value = 50.0
+
+[node name="HardSlider" type="HSlider" parent="PageTwo/SpikeTypeSliders" unique_id=378229333]
+layout_mode = 2
+size_flags_vertical = 6
+min_value = 1.0
+value = 25.0

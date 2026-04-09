@@ -1,0 +1,28 @@
+Time bonus:
+
+
+"Perfect" for section size 25: 
+
+
+
+Time bonus:
+
+10000 - perfect
+
+
+
+Coin bonus:
+
+Coin count * 100
+
+Final score = Score + time bonus + coin bonus
+
+
+
+Rank:
+
+S - 90% of max score
+A - 80% of max score
+B - 70% of max score
+C - 60% of max score
+D - 50% of max score
