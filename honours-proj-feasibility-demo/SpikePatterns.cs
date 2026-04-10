@@ -38,7 +38,7 @@ public partial class SpikePatterns : Node
         Node3D spike = spikeScene.Instantiate<Node3D>();
         if (hardMode)
         {
-            spike.Scale = new Vector3(1.3f, 1.3f, 1.3f);
+            spike.Scale = new Vector3(1.3f, 2.6f, 1.3f);
         }
         spike.Position = new Vector3(currentPosition.X, currentPosition.Y + 1.5f, currentPosition.Z);
         
@@ -51,7 +51,16 @@ public partial class SpikePatterns : Node
         Node3D spike = spikeScene.Instantiate<Node3D>();
         //   spike.Scale *= 2;
         // spike.Scale.Y *= 2;
-        spike.Scale = new Vector3(2, 4, 2);
+        if (hardMode)
+        {
+            spike.Scale = new Vector3(2.8f, 5, 2.8f);
+        }
+
+        else
+        {
+            spike.Scale = new Vector3(2.4f, 4, 2.4f);
+        }
+           // spike.Scale = new Vector3(2, 4, 2);
         spike.Position = new Vector3(currentPosition.X, currentPosition.Y + 1.5f, currentPosition.Z);
         AddChild(spike);
     }

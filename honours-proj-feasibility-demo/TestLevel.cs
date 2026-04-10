@@ -498,7 +498,7 @@ public partial class TestLevel : Node3D
             healthOrb.Position = new Vector3(currentPosition.X, currentPosition.Y + 2, currentPosition.Z);
 			if (bounceMode == true)
 			{
-				healthOrb.Position += new Vector3(healthOrb.Position.X, healthOrb.Position.Y + 3, healthOrb.Position.Z);
+				healthOrb.Position += new Vector3(0, 3, 0);
 			}
             AddChild(healthOrb);
             spawnHealthPack = false;

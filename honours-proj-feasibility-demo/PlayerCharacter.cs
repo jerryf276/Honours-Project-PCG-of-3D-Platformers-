@@ -268,7 +268,7 @@ public partial class PlayerCharacter : CharacterBody3D
 			   // GD.Print("DEATHS: " + deathCount);
 				jsonWriter.addLevelData("Player's current death count: " + deathCount);
 				playerHealth = 3;
-				currentScore -= 5000;
+				currentScore -= 3000;
                 informationToAdd = "";
                 jsonWriter.addLevelData(informationToAdd);
             }
