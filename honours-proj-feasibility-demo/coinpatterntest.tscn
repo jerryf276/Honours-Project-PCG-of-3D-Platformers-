@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://osxek2t2l8hg"]
+[gd_scene format=3 uid="uid://cxteo1l3tpkgi"]
 
 [ext_resource type="PackedScene" uid="uid://cbbabslauwwaj" path="res://inclinePlatformLarge.tscn" id="1_j1v00"]
 [ext_resource type="PackedScene" uid="uid://dx0gjm1l03jmn" path="res://Level parts/coin.tscn" id="2_fqbtg"]

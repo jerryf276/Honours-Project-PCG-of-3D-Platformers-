@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c2xeoc406j3iv"
-path="res://.godot/imported/narrowBridge.glb-aa5591dd8aff94051f2b146ceb95556d.scn"
+uid="uid://blu8cumm3wvhq"
+path="res://.godot/imported/wideBridge.glb-22f2ac1c551b19af04c8242b7494f655.scn"
 
 [deps]
 
-source_file="res://glb/narrowBridge.glb"
-dest_files=["res://.godot/imported/narrowBridge.glb-aa5591dd8aff94051f2b146ceb95556d.scn"]
+source_file="res://Models/glb/wideBridge.glb"
+dest_files=["res://.godot/imported/wideBridge.glb-22f2ac1c551b19af04c8242b7494f655.scn"]
 
 [params]
 

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://wgj62nxwcenc"]
 
-[ext_resource type="PackedScene" uid="uid://cwh86qiadegpl" path="res://glb/large_grass_block.tscn" id="1_85w3l"]
+[ext_resource type="PackedScene" uid="uid://cwh86qiadegpl" path="res://Models/glb/large_grass_block.tscn" id="1_85w3l"]
 
 [node name="PlatformExtraLarge" type="Node3D" unique_id=1512188846]
 

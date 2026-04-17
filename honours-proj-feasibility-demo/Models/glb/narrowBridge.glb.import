@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dyscvxouuk4wy"
-path="res://.godot/imported/inclineGrassPlatformEdgeMirrored.glb-47a7be43a5e4e6dfb256314a71e08397.scn"
+uid="uid://c2xeoc406j3iv"
+path="res://.godot/imported/narrowBridge.glb-af59f673356f191495b90a8322d04f75.scn"
 
 [deps]
 
-source_file="res://glb/inclineGrassPlatformEdgeMirrored.glb"
-dest_files=["res://.godot/imported/inclineGrassPlatformEdgeMirrored.glb-47a7be43a5e4e6dfb256314a71e08397.scn"]
+source_file="res://Models/glb/narrowBridge.glb"
+dest_files=["res://.godot/imported/narrowBridge.glb-af59f673356f191495b90a8322d04f75.scn"]
 
 [params]
 

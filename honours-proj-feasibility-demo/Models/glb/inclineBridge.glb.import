@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c82khgljgevv3"
-path="res://.godot/imported/grassEdgeFront.glb-02d5c7cc313b26c07e6a1f232a20187a.scn"
+uid="uid://byqrqjmk188hc"
+path="res://.godot/imported/inclineBridge.glb-334a6343852e9668bf2ef468d8109f4b.scn"
 
 [deps]
 
-source_file="res://glb/grassEdgeFront.glb"
-dest_files=["res://.godot/imported/grassEdgeFront.glb-02d5c7cc313b26c07e6a1f232a20187a.scn"]
+source_file="res://Models/glb/inclineBridge.glb"
+dest_files=["res://.godot/imported/inclineBridge.glb-334a6343852e9668bf2ef468d8109f4b.scn"]
 
 [params]
 

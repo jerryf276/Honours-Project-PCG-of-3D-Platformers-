@@ -1,8 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bjxo1rh7ogvm4"]
+[gd_scene format=3 uid="uid://bjxo1rh7ogvm4"]
 
-[ext_resource type="PackedScene" uid="uid://dc8xw8c6l64cy" path="res://glb/inclineGrassPlatform.glb" id="1_pl5aw"]
-[ext_resource type="PackedScene" uid="uid://crx22823mechj" path="res://glb/inclineGrassPlatformEdge.glb" id="2_l3kph"]
-[ext_resource type="PackedScene" uid="uid://dyscvxouuk4wy" path="res://glb/inclineGrassPlatformEdgeMirrored.glb" id="3_70k8f"]
+[ext_resource type="PackedScene" uid="uid://dc8xw8c6l64cy" path="res://Models/glb/inclineGrassPlatform.glb" id="1_pl5aw"]
+[ext_resource type="PackedScene" uid="uid://crx22823mechj" path="res://Models/glb/inclineGrassPlatformEdge.glb" id="2_l3kph"]
+[ext_resource type="PackedScene" uid="uid://dyscvxouuk4wy" path="res://Models/glb/inclineGrassPlatformEdgeMirrored.glb" id="3_70k8f"]
 
 [node name="Node3D" type="Node3D"]
 

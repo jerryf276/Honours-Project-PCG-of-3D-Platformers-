@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://byqrqjmk188hc"
-path="res://.godot/imported/inclineBridge.glb-c571b5a152180f01decc00ce22df8972.scn"
+uid="uid://da632bjrf3jc5"
+path="res://.godot/imported/InclinePathPlatform.glb-99a62753d79bc8c83e08590ad71ba017.scn"
 
 [deps]
 
-source_file="res://glb/inclineBridge.glb"
-dest_files=["res://.godot/imported/inclineBridge.glb-c571b5a152180f01decc00ce22df8972.scn"]
+source_file="res://Models/glb/InclinePathPlatform.glb"
+dest_files=["res://.godot/imported/InclinePathPlatform.glb-99a62753d79bc8c83e08590ad71ba017.scn"]
 
 [params]
 

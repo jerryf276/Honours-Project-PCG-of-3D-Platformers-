@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://blu8cumm3wvhq"
-path="res://.godot/imported/wideBridge.glb-321b2e7aca006620189b0ca467591870.scn"
+uid="uid://dcxwuykwuqn6o"
+path="res://.godot/imported/spikes.glb-9edc6db98c4600b725a590ecf55aaf83.scn"
 
 [deps]
 
-source_file="res://glb/wideBridge.glb"
-dest_files=["res://.godot/imported/wideBridge.glb-321b2e7aca006620189b0ca467591870.scn"]
+source_file="res://Models/glb/spikes.glb"
+dest_files=["res://.godot/imported/spikes.glb-9edc6db98c4600b725a590ecf55aaf83.scn"]
 
 [params]
 

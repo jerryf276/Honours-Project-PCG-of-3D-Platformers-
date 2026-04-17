@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dc8xw8c6l64cy"
-path="res://.godot/imported/inclineGrassPlatform.glb-cbe209704bbe8d62375a55edf0926ffc.scn"
+uid="uid://crx22823mechj"
+path="res://.godot/imported/inclineGrassPlatformEdge.glb-1d61deb38701102248880451fba3b6b3.scn"
 
 [deps]
 
-source_file="res://glb/inclineGrassPlatform.glb"
-dest_files=["res://.godot/imported/inclineGrassPlatform.glb-cbe209704bbe8d62375a55edf0926ffc.scn"]
+source_file="res://Models/glb/inclineGrassPlatformEdge.glb"
+dest_files=["res://.godot/imported/inclineGrassPlatformEdge.glb-1d61deb38701102248880451fba3b6b3.scn"]
 
 [params]
 

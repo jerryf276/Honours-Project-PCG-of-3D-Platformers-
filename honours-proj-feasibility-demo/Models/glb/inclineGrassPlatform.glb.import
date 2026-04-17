@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dcxwuykwuqn6o"
-path="res://.godot/imported/spikes.glb-f4417571bd03792f9c4fc8f2df2b9689.scn"
+uid="uid://dc8xw8c6l64cy"
+path="res://.godot/imported/inclineGrassPlatform.glb-d68faf3d147aefbd99f003848a20bbd7.scn"
 
 [deps]
 
-source_file="res://glb/spikes.glb"
-dest_files=["res://.godot/imported/spikes.glb-f4417571bd03792f9c4fc8f2df2b9689.scn"]
+source_file="res://Models/glb/inclineGrassPlatform.glb"
+dest_files=["res://.godot/imported/inclineGrassPlatform.glb-d68faf3d147aefbd99f003848a20bbd7.scn"]
 
 [params]
 

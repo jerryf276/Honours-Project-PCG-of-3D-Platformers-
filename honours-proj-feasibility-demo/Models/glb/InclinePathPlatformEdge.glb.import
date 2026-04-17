@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cyjekkhp123in"
-path="res://.godot/imported/Bouncer.fbx-a99de6d2595ae9f7f0bc6e43ff58f305.scn"
+uid="uid://042qi17e8a46"
+path="res://.godot/imported/InclinePathPlatformEdge.glb-d514eec5fe16967b12c0476ed62b9300.scn"
 
 [deps]
 
-source_file="res://glb/Bouncer.fbx"
-dest_files=["res://.godot/imported/Bouncer.fbx-a99de6d2595ae9f7f0bc6e43ff58f305.scn"]
+source_file="res://Models/glb/InclinePathPlatformEdge.glb"
+dest_files=["res://.godot/imported/InclinePathPlatformEdge.glb-d514eec5fe16967b12c0476ed62b9300.scn"]
 
 [params]
 
@@ -30,7 +30,7 @@ meshes/force_disable_compression=false
 skins/use_named_skins=true
 animation/import=true
 animation/fps=30
-animation/trimming=true
+animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
@@ -38,7 +38,5 @@ materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
 _subresources={}
-fbx/importer=0
-fbx/allow_geometry_helper_nodes=false
-fbx/embedded_image_handling=1
-fbx/naming_version=2
+gltf/naming_version=2
+gltf/embedded_image_handling=1
