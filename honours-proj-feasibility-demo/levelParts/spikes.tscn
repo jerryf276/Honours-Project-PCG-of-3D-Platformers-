@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://nftqb2h7f2oy"]
+
+[ext_resource type="PackedScene" uid="uid://fweqbtfm5wxc" path="res://unusedContent/spike.tscn" id="1_nauas"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_egp75"]
+size = Vector3(1.1676908, 0.29797363, 1.2995347)
+
+[node name="spike" type="Node3D" unique_id=760234499]
+
+[node name="spikePlatform" parent="." unique_id=353727237 instance=ExtResource("1_nauas")]
+
+[node name="spikeArea" type="Area3D" parent="spikePlatform" unique_id=1431747127 groups=["spikes"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="spikePlatform/spikeArea" unique_id=2131952339]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020285368, 1.2422464, -0.006055534)
+shape = SubResource("BoxShape3D_egp75")

@@ -13,8 +13,6 @@ public partial class GameManagerOld : Node
     Label timeText;
 
     static GameManagerOld instance;
-
-    // [Export] Node3D level;
     PackedScene levelToLoad;
     Node3D level;
 
@@ -60,12 +58,6 @@ public partial class GameManagerOld : Node
 
     public static void restartLevel()
     {
-        //instance.level.QueueFree()
-        //foreach (Node child in instance.level.GetChildren())
-        //{
-        //    child.QueueFree();
-        //}
-       // instance.GetTree().Root.QueueFree();
         instance.level.QueueFree();
         instance.level = instance.levelToLoad.Instantiate<Node3D>();
         instance.AddChild(instance.level);
@@ -74,15 +66,13 @@ public partial class GameManagerOld : Node
 
     public static void startLevel()
     {
-        instance.levelToLoad = ResourceLoader.Load<PackedScene>("res://TestLevel.tscn");
+        instance.levelToLoad = ResourceLoader.Load<PackedScene>("res://scenes/TestLevel.tscn");
         instance.level = instance.levelToLoad.Instantiate<Node3D>();
         instance.AddChild(instance.level);
     }
 
     public static void displayEndScreen()
     {
-        //instance.EndScreen
-        // instance.EndScreen.
         instance.EndScreen.LevelFinished();
     }
 

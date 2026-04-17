@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://ri67uihqhlwf"]
+
+[ext_resource type="PackedScene" uid="uid://ca51npeacdou7" path="res://models/glb/flatGrassBlock.glb" id="1_2k45h"]
+
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06441426, -0.22768617)
+
+[node name="flatGrassBlock" parent="." instance=ExtResource("1_2k45h")]

@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://cr73hyybcgtha"]
+
+[ext_resource type="Script" uid="uid://dboha2f5dshax" path="res://scenes/TestLevel.cs" id="1_y1jsw"]
+[ext_resource type="PackedScene" uid="uid://ciw3uoy65rtaw" path="res://behaviourParts/killzone.tscn" id="3_2xot7"]
+[ext_resource type="Script" uid="uid://djb45ub48k8f7" path="res://behaviourParts/GameTimer.cs" id="4_mvtj7"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2xot7"]
+sky_top_color = Color(0, 0.45490196, 0.54901963, 1)
+ground_bottom_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_2xot7"]
+sky_material = SubResource("ProceduralSkyMaterial_2xot7")
+process_mode = 3
+
+[sub_resource type="Environment" id="Environment_2xot7"]
+background_mode = 2
+background_color = Color(0.27450982, 1, 1, 1)
+background_energy_multiplier = 1.72
+sky = SubResource("Sky_2xot7")
+sky_custom_fov = 71.6
+tonemap_mode = 2
+tonemap_exposure = 0.7
+tonemap_white = 1.04
+ssil_enabled = true
+ssil_sharpness = 1.0
+sdfgi_enabled = true
+volumetric_fog_emission = Color(0.2, 0.7137255, 0.95686275, 1)
+volumetric_fog_anisotropy = 0.9
+volumetric_fog_length = 54.04
+volumetric_fog_detail_spread = 0.5
+volumetric_fog_ambient_inject = 1.0
+
+[node name="TestLevel" type="Node3D" unique_id=1350729226 node_paths=PackedStringArray("gameTimer")]
+script = ExtResource("1_y1jsw")
+gameTimer = NodePath("GameTimer")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=718778193]
+transform = Transform3D(1, 0, 0, 0, -0.009075612, 0.9999589, 0, -0.9999589, -0.009075612, 0, 15.500971, -5.8425317)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1393091113]
+environment = SubResource("Environment_2xot7")
+
+[node name="Killzone" parent="." unique_id=1376344817 instance=ExtResource("3_2xot7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -80, 0)
+
+[node name="GameTimer" type="Timer" parent="." unique_id=294709075]
+script = ExtResource("4_mvtj7")

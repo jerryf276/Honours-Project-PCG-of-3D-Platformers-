@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://dexw7sg8nemdj"]
-
-[ext_resource type="Script" uid="uid://mpkf48urdhh0" path="res://JsonWriter.cs" id="1_wp5th"]
-
-[node name="JsonWriter" type="Node" unique_id=1840773759]
-script = ExtResource("1_wp5th")

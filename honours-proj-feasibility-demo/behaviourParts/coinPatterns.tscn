@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cdyoqehir715d"]
+
+[ext_resource type="Script" uid="uid://dsbanr8ak05p" path="res://behaviourParts/CoinPatterns.cs" id="1_g7xqu"]
+
+[node name="CoinPatterns" type="Node" unique_id=1442750062]
+script = ExtResource("1_g7xqu")

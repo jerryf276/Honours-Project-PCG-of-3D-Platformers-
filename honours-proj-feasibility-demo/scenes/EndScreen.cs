@@ -20,12 +20,10 @@ public partial class EndScreen : Control
         restartButton.Pressed += OnRestartEntered;
         quitButton.Pressed += OnQuitEntered;
         Visible = false;
-
-        //player = GetTree().Root.GetNode<PlayerCharacter>("Game/PlayerCharacter") as PlayerCharacter;
     }
     public override void _Process(double delta)
     {
-       // player = GetTree().Root.GetNode<PlayerCharacter>("Game/PlayerCharacter") as PlayerCharacter;
+
     }
 
     private void OnRestartEntered()
@@ -103,11 +101,8 @@ public partial class EndScreen : Control
         jsonWriter.addLevelData("DEATHS: " + player.getDeathCount());
         jsonWriter.addLevelData("COINS: " + player.getCoinCount());
         jsonWriter.addLevelData("TIME: " + getTimeText(gameTimer.getMinutes(), gameTimer.getSeconds()));
-      //  jsonWriter.addLevelData("TIME BONUS: " + "XXXXX");
         jsonWriter.addLevelData("COIN BONUS: " + player.getCoinCount() * 10);
         jsonWriter.addLevelData("FINAL SCORE: " + (player.getScore() + (player.getCoinCount() * 10)));
-       // jsonWriter.addLevelData("RANK: " + "D");
-       // animationPlayer.Play("blur");
     }
 
 }

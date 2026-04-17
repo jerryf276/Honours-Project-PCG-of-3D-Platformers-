@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cw6a1hrxqkxat"]
+
+[ext_resource type="PackedScene" uid="uid://cwh86qiadegpl" path="res://models/glb/large_grass_block.tscn" id="1_awuks"]
+
+[node name="PlatformMedium" type="Node3D" unique_id=2102310516]
+
+[node name="largeGrassBlock" parent="." unique_id=1219515989 instance=ExtResource("1_awuks")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 1.5)
+
+[node name="largeGrassBlock2" parent="." unique_id=1126656953 instance=ExtResource("1_awuks")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, -1.5)
+
+[node name="largeGrassBlock3" parent="." unique_id=393856529 instance=ExtResource("1_awuks")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, -1.5)
+
+[node name="largeGrassBlock4" parent="." unique_id=1398915015 instance=ExtResource("1_awuks")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 1.5)

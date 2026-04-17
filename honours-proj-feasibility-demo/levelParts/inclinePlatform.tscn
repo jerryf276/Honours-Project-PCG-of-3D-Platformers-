@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://bjxo1rh7ogvm4"]
+
+[ext_resource type="PackedScene" uid="uid://dc8xw8c6l64cy" path="res://models/glb/inclineGrassPlatform.glb" id="1_pl5aw"]
+[ext_resource type="PackedScene" uid="uid://crx22823mechj" path="res://models/glb/inclineGrassPlatformEdge.glb" id="2_l3kph"]
+[ext_resource type="PackedScene" uid="uid://dyscvxouuk4wy" path="res://models/glb/inclineGrassPlatformEdgeMirrored.glb" id="3_70k8f"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="inclineGrassPlatform" parent="." instance=ExtResource("1_pl5aw")]
+
+[node name="inclineGrassPlatformEdge" parent="." instance=ExtResource("2_l3kph")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.9992894)
+
+[node name="inclineGrassPlatformEdgeMirrored" parent="." instance=ExtResource("3_70k8f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.7804569)

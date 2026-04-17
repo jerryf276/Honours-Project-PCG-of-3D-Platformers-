@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://ciw3uoy65rtaw"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_n74wa"]
+
+[node name="Killzone" type="Area3D" unique_id=1980847613 groups=["killzone"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1540886166]
+shape = SubResource("WorldBoundaryShape3D_n74wa")

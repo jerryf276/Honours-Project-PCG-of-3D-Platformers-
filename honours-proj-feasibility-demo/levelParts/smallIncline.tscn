@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://b2ejpddxdar7"]
+
+[ext_resource type="PackedScene" uid="uid://cbyjp31apft0x" path="res://levelParts/inclineGrassPlatform.tscn" id="1_3kvpf"]
+[ext_resource type="PackedScene" uid="uid://slai7si411bg" path="res://levelParts/inclineGrassPlatformEdge.tscn" id="2_tjg2k"]
+[ext_resource type="PackedScene" uid="uid://7t6p7yu3kjqw" path="res://levelParts/inclineGrassPlatformEdgeMirrored.tscn" id="3_1nr2r"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3kvpf"]
+size = Vector3(3.0372314, 0.625, 4.10791)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="inclineGrassPlatform" parent="." instance=ExtResource("1_3kvpf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.79378974, 0.004988566, 0.37246895)
+
+[node name="inclineGrassPlatform" parent="inclineGrassPlatform" instance=ExtResource("1_3kvpf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0027492642, 1.1920929e-07, -0.99147123)
+
+[node name="inclineGrassPlatformEdge" parent="." instance=ExtResource("2_tjg2k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7893169, 0.0035999417, 2.3700087)
+
+[node name="inclineGrassPlatform2" parent="." instance=ExtResource("1_3kvpf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.792817, 0.004256904, 1.3710177)
+
+[node name="inclineGrassPlatformEdgeMirrored" parent="." instance=ExtResource("3_1nr2r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7908082, 0.004974976, -1.3983907)
+
+[node name="SmallIncline" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SmallIncline"]
+transform = Transform3D(0.91254175, -0.40898356, 0, 0.40898356, 0.91254175, 0, 0, 0, 1, 0.21665132, 0.6867623, 0.34106445)
+shape = SubResource("BoxShape3D_3kvpf")

@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://dnlkrj00b7ysp"]
+
+[ext_resource type="PackedScene" uid="uid://dnbbvwkhmdio7" path="res://levelParts/wideBridgePart.tscn" id="1_mi57g"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mi57g"]
+size = Vector3(6.899806, 0.48486328, 2.943491)
+
+[node name="BridgeMedium" type="StaticBody3D" unique_id=2137322766]
+
+[node name="wideBridge" parent="." unique_id=1946735557 instance=ExtResource("1_mi57g")]
+
+[node name="wideBridge2" parent="." unique_id=1050115462 instance=ExtResource("1_mi57g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="wideBridge3" parent="." unique_id=1541094190 instance=ExtResource("1_mi57g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+
+[node name="wideBridge4" parent="." unique_id=1024855732 instance=ExtResource("1_mi57g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="wideBridge5" parent="." unique_id=246958540 instance=ExtResource("1_mi57g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="wideBridge6" parent="." unique_id=1099082752 instance=ExtResource("1_mi57g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
+
+[node name="wideBridge7" parent="." unique_id=1465629126 instance=ExtResource("1_mi57g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+
+[node name="MediumBridge" type="Area3D" parent="." unique_id=134036120 groups=["platform"]]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MediumBridge" unique_id=674591993]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.009124279, -0.25756836, 0.5360193)
+shape = SubResource("BoxShape3D_mi57g")

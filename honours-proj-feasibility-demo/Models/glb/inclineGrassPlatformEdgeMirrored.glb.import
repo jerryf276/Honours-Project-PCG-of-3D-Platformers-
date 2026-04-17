@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://dyscvxouuk4wy"
-path="res://.godot/imported/inclineGrassPlatformEdgeMirrored.glb-8a03fc74c1e067dea0dc0d2a570fadde.scn"
+path="res://.godot/imported/inclineGrassPlatformEdgeMirrored.glb-a99257351830118d779522642fe94389.scn"
 
 [deps]
 
-source_file="res://Models/glb/inclineGrassPlatformEdgeMirrored.glb"
-dest_files=["res://.godot/imported/inclineGrassPlatformEdgeMirrored.glb-8a03fc74c1e067dea0dc0d2a570fadde.scn"]
+source_file="res://models/glb/inclineGrassPlatformEdgeMirrored.glb"
+dest_files=["res://.godot/imported/inclineGrassPlatformEdgeMirrored.glb-a99257351830118d779522642fe94389.scn"]
 
 [params]
 

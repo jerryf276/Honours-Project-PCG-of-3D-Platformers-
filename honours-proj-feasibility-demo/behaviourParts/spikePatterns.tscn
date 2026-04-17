@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cq3b51fhwijmd"]
+
+[ext_resource type="Script" uid="uid://1yw5u0l5kn2w" path="res://behaviourParts/SpikePatterns.cs" id="1_nw5ee"]
+
+[node name="SpikePatterns" type="Node" unique_id=536856]
+script = ExtResource("1_nw5ee")

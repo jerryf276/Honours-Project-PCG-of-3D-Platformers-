@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bcls3ehldqget"
-path.s3tc="res://.godot/imported/gdquest_logo_sdf.png-6d0fd5f5bbee2cfa5609a5173c07f3fd.s3tc.ctex"
-path.etc2="res://.godot/imported/gdquest_logo_sdf.png-6d0fd5f5bbee2cfa5609a5173c07f3fd.etc2.ctex"
+path.s3tc="res://.godot/imported/gdquest_logo_sdf.png-2579c35ebc1e0cf1fa9e1cfc9068dfcc.s3tc.ctex"
+path.etc2="res://.godot/imported/gdquest_logo_sdf.png-2579c35ebc1e0cf1fa9e1cfc9068dfcc.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Models/gdquest_model_viewer_3d/viewer/assets/textures/gdquest_logo_sdf.png"
-dest_files=["res://.godot/imported/gdquest_logo_sdf.png-6d0fd5f5bbee2cfa5609a5173c07f3fd.s3tc.ctex", "res://.godot/imported/gdquest_logo_sdf.png-6d0fd5f5bbee2cfa5609a5173c07f3fd.etc2.ctex"]
+source_file="res://models/gdquest_model_viewer_3d/viewer/assets/textures/gdquest_logo_sdf.png"
+dest_files=["res://.godot/imported/gdquest_logo_sdf.png-2579c35ebc1e0cf1fa9e1cfc9068dfcc.s3tc.ctex", "res://.godot/imported/gdquest_logo_sdf.png-2579c35ebc1e0cf1fa9e1cfc9068dfcc.etc2.ctex"]
 
 [params]
 

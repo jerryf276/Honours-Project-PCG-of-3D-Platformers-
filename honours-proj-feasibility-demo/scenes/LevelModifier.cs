@@ -37,15 +37,6 @@ public partial class LevelModifier : Control
 
     TestLevel level;
 
-
-    //struct LevelAttributes
-    //{
-
-    //}
-
-    
-
-
     public override void _Ready()
     {
         leftButton.Pressed += OnLeftButtonPressed;
@@ -85,17 +76,11 @@ public partial class LevelModifier : Control
 
     private void OnStartButtonPressed()
     {
-        ////GameManager.startLevel();
-        //PackedScene gameManagerScene;
-        //gameManagerScene = ResourceLoader.Load<PackedScene>("res://scenes/testGame.tscn");
-        //GetTree().Paused = false;
-        //GetTree().ChangeSceneToPacked(gameManagerScene);
         GameManager.StartLevel();
-        //Node3D level;
         PackedScene LevelScene;
         JsonWriter jsonWriter = GetNode<JsonWriter>("../JsonWriter");
 
-        LevelScene = ResourceLoader.Load<PackedScene>("res://TestLevel.tscn");
+        LevelScene = ResourceLoader.Load<PackedScene>("res://scenes/TestLevel.tscn");
         level = LevelScene.Instantiate<TestLevel>();
 
         level.setPlatformSpawnChances((uint)smallPlatformSlider.Value, (uint)mediumPlatformSlider.Value, (uint)largePlatformSlider.Value, (uint)extraLargePlatformSlider.Value);
@@ -129,7 +114,6 @@ public partial class LevelModifier : Control
         {
             if (result > 1 && result < 101)
             {
-                //level.settingSections((uint)numberOfSections.GetItemId(numberOfSections.Selected), result);
                 level.settingSections(result, (uint)numberOfSections.GetItemId(numberOfSections.Selected));
                 jsonWriter.addChosenLevelAttributes("Platforms per section: " + result);
             }
@@ -160,8 +144,6 @@ public partial class LevelModifier : Control
         level.setSpikeDifficulties((uint)easySpikeSlider.Value, (uint)hardSpikeSlider.Value);
         level.setSpawnSection(true);
         jsonWriter.displayChosenLevelAttributes();
-            //level.settingSections((uint)numberOfSections.Selected, 25);
-        // AddChild(level);
         GetTree().Paused = false;
         GameManager.AddLevel(level);
         this.QueueFree();
