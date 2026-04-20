@@ -34,37 +34,34 @@ public partial class TestLevel : Node3D
 	Vector3 translationVector;
 	//Chance of direction changing, we have made 50 the max 
 	[Export] Timer gameTimer;
-	/*[Export(PropertyHint.Range, "0, 50")]*/ private uint directionChangeChance;
+    private uint directionChangeChance;
 
 	//Default values will be 1.
-	//[ExportGroup("Spawn Chances")]
 	//Chance of spawning small platform
-	//[ExportSubgroup("Platform Spawn Chances")]
-	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint smallPlatformSpawnChance = 1;
+	private uint smallPlatformSpawnChance = 1;
 	//Chance of spawning medium platform
-	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint mediumPlatformSpawnChance = 1;
+	private uint mediumPlatformSpawnChance = 1;
 	//Chance of spawning large platform
-	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint largePlatformSpawnChance = 1;
+	private uint largePlatformSpawnChance = 1;
     //Chance of spawning extra large platform
-    /*[Export(PropertyHint.Range, "1, 100")]*/ private uint extraLargePlatformSpawnChance = 1;
+    private uint extraLargePlatformSpawnChance = 1;
 
-    //[ExportSubgroup("Jump Gap Spawn Chances")]
-	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint smallJumpGapSpawnChance = 1;
-	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint mediumJumpGapSpawnChance = 1;
-	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint largeJumpGapSpawnChance = 1;
 
-    //[ExportSubgroup("Platform Type Spawn Chances")]
-	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint flatPlatformTypeSpawnChance = 1;
-	/*[Export(PropertyHint.Range, "1, 100")]*/ private uint inclinePlatformTypeSpawnChance = 1;
-/*	[Export(PropertyHint.Range, "1, 100")]*/ private uint bridgePlatformTypeSpawnChance = 1;
+	private uint smallJumpGapSpawnChance = 1;
+	private uint mediumJumpGapSpawnChance = 1;
+	private uint largeJumpGapSpawnChance = 1;
 
-	//[ExportSubgroup("Bouncer Spawn Rate")]
-	/*[Export(PropertyHint.Range, "5, 20")]*/ private uint bounceSpawnRate = 5;
+
+	private uint flatPlatformTypeSpawnChance = 1;
+	private uint inclinePlatformTypeSpawnChance = 1;
+	private uint bridgePlatformTypeSpawnChance = 1;
+
+
+	private uint bounceSpawnRate = 5;
 	private uint coinSpawnRate = 0;
 	private uint spikeSpawnRate = 0;
 
-    //[ExportGroup("Number of Sections")]
-	/*[Export(PropertyHint.Range, "1, 10")]*/ private uint numberOfSections = 1;
+	private uint numberOfSections = 1;
 
 	
 
@@ -83,7 +80,7 @@ public partial class TestLevel : Node3D
 	//Size of section, which in this case is the size of the level for now.
 	//In the future we will make this an array of section sizes when we develop multiple level sections
 	//[ExportGroup("Sections")]
-/*	[Export]*/ int sectionSize { get; set; }
+	int sectionSize { get; set; }
 
 	bool spawnSection = false;
 
@@ -112,9 +109,10 @@ public partial class TestLevel : Node3D
     //directly above the platform.
     bool smallJumpGapBeforeExLarge = false;
 
+	//For spawning the coin and spike patterns onto the platform
 	CoinPatterns coinPatterns;
 	SpikePatterns spikePatterns;
-
+	//For writing data of the generated level to a json file
 	JsonWriter jsonWriter;
 	private struct LevelComponent
 	{
@@ -343,14 +341,17 @@ public partial class TestLevel : Node3D
                     else if (componentsToAdd[i + 1].action == ActionStates.BOUNCE)
                     {
                         spawnBouncer();
+						//spawn a bouncer
 						bounceSpawned = true;
                     }
 
 					if (componentsToAdd[i + 1].action != ActionStates.BOUNCE)
 					{
+						//do not spawn a bouncer
                         bounceSpawned = false;
                     }
 
+					//Translate the current position after spawning a platform
                     AddCurrentPosition(newDirection);
 				}
 			}
@@ -365,10 +366,12 @@ public partial class TestLevel : Node3D
 
 		if (sectionsSpawned == numberOfSections - 1)
 		{
+			//When it is the last section, spawn the goal
 			GenerateGoal();
 		}
 		else
 		{
+			//Otherwise generate a checkpoint
             GenerateCheckpoint();
         }
 
@@ -382,31 +385,31 @@ public partial class TestLevel : Node3D
 
 		bool bounceMode;
         if (nextAction == ActionStates.BOUNCE) { 
+			//If a bounce pad will be spawned, make the next platform a flat platform
 			platformType = PlatformTypes.FLAT;
 			bounceMode = true;
 		}
 		else
 		{
+			//Otherwise let the type to choose function select the platform type
             platformType = typeToChoose();
 			bounceMode = false;
         }
 
 		platformLength = determinePlatformLength(platformType);
 		string platformTypeToSpawn = platformPath(platformLength, platformType, nextAction);
-		//string platformTypeToSpawn = typeToChoose(platformLength, nextAction);
         platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
 
         Node3D newPlatform = platform.Instantiate<Node3D>();
 
+		//Determining platform rotation
 		newPlatform.RotationDegrees = new Vector3(0, determineAngle(currentDirection), 0);
 
         //Translate it by currentPosition.
         newPlatform.Position = currentPosition;
-		//GD.Print(newPlatform.Position);
 		AddChild(newPlatform);
 		jsonWriter.addPlatform(currentPosition, newPlatform.SceneFilePath, currentSection);
 		jsonWriter.addLevelPartToJson(currentPosition, newPlatform.SceneFilePath, currentSection);
-		
 
 		if (platformType == PlatformTypes.FLAT && bounceMode == false)
 		{
@@ -466,7 +469,6 @@ public partial class TestLevel : Node3D
 			//A health pack will be spawned at the next platform
 			spawnHealthPack = true;
 		}
-		//spawnCoins(currentDirection, 1, 1, "", newPlatform.Position);
 	}
 
 	private PlatformTypes typeToChoose()
@@ -524,7 +526,6 @@ public partial class TestLevel : Node3D
 		else
 		{
             uint rng = 1 + GD.Randi() % (combinedPlatformSpawnChance - extraLargePlatformSpawnChance);
-            // Lengths lenOfPlatform;
 
             if (rng > smallPlatformSpawnChance + mediumPlatformSpawnChance)
             {
@@ -549,8 +550,6 @@ public partial class TestLevel : Node3D
     }
 	private string platformPath(Lengths lenOfPlatform, PlatformTypes type, ActionStates nextAction)
 	{
-        //uint combinedChanceValues = smallPlatformSpawnChance + mediumPlatformSpawnChance + largePlatformSpawnChance + extraLargeJumpGapSpawnChance;
-      //  Lengths lenOfPlatform;
         if (type == PlatformTypes.FLAT)
 		{
 
@@ -612,8 +611,6 @@ public partial class TestLevel : Node3D
 
 		else
 		{
-
-
             if (type == PlatformTypes.BRIDGE)
             {
                 translationVector.Y = 0;
@@ -825,7 +822,6 @@ public partial class TestLevel : Node3D
 		numberToAdd = 12.0f;
 		translationVector.Y = 0;
 		AddCurrentPosition(currentDirection);
-        //checkpoint.Position.Y = currentPosition.Y + 1;
 
     }
 
@@ -848,12 +844,6 @@ public partial class TestLevel : Node3D
 		goalLoad = ResourceLoader.Load<PackedScene>("res://levelParts/goal.tscn");
 		Node3D goal = goalLoad.Instantiate<Node3D>();
 		goal.Position = new Vector3(currentPosition.X, currentPosition.Y + 3.0f, currentPosition.Z);
-
-        if (currentDirection == NewDirection.FORWARD)
-        {
-		//	goal.RotateY(Mathf.Pi / 2);
-
-        }
 
         AddChild(goal);
 
