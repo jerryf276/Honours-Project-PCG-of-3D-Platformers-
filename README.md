@@ -1,2 +1,2 @@
 # Honours-Project-PCG-of-3D-Platformers-
-My honours project wow
+My submission for my fourth year honours project and the context behind my dissertation.
