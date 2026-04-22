@@ -11,10 +11,8 @@ enum ActionStates {WALK, TURN_LEFT, TURN_RIGHT, JUMP, BOUNCE};
 //NONE is used for changing direction since a length doesn't exist for a direction change.
 public enum Lengths {SHORT, MEDIUM, LONG, LONGEST, NONE};
 
+//New, refined, direction
 //which direction the platform will be facing
-enum Direction {POSITIVE_X, NEGATIVE_X, POSITIVE_Z, NEGATIVE_Z};
-
-
 public enum NewDirection { FORWARD, LEFT, RIGHT};
 
 
@@ -46,17 +44,17 @@ public partial class TestLevel : Node3D
     //Chance of spawning extra large platform
     private uint extraLargePlatformSpawnChance = 1;
 
-
+	//chance of spawning jump gaps
 	private uint smallJumpGapSpawnChance = 1;
 	private uint mediumJumpGapSpawnChance = 1;
 	private uint largeJumpGapSpawnChance = 1;
 
-
+	//chance of spawning platform types
 	private uint flatPlatformTypeSpawnChance = 1;
 	private uint inclinePlatformTypeSpawnChance = 1;
 	private uint bridgePlatformTypeSpawnChance = 1;
 
-
+	//chance of spawning bouncer, coin, or spikes
 	private uint bounceSpawnRate = 5;
 	private uint coinSpawnRate = 0;
 	private uint spikeSpawnRate = 0;
@@ -77,9 +75,7 @@ public partial class TestLevel : Node3D
 	private uint easySpikeChance = 1;
 	private uint hardSpikeChance = 1;
 
-	//Size of section, which in this case is the size of the level for now.
-	//In the future we will make this an array of section sizes when we develop multiple level sections
-	//[ExportGroup("Sections")]
+	//size of a section
 	int sectionSize { get; set; }
 
 	bool spawnSection = false;
@@ -104,10 +100,6 @@ public partial class TestLevel : Node3D
 	//If a bounce pad on the previous platform spawned and the next platform is an extra large platform, we will translate the current position by 2 to prevent the extra large platform being
 	//directly above the bounce platform.
 	bool bounceSpawned = false;
-
-    //we will translate the current position by 2 to prevent the extra large platform being
-    //directly above the platform.
-    bool smallJumpGapBeforeExLarge = false;
 
 	//For spawning the coin and spike patterns onto the platform
 	CoinPatterns coinPatterns;
@@ -172,12 +164,14 @@ public partial class TestLevel : Node3D
 					{
 						if (bouncerDecider())
 						{
+							//Adds a bounce platform to the actions list
 							actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.BOUNCE });
 
 						}
 
                         else
                         {
+							//Adds a platform to the actions list
                             actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
                         }
                     }
@@ -186,7 +180,6 @@ public partial class TestLevel : Node3D
 					{
 						actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
 					}
-						//actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.JUMP });
 					platformsSpawned++;
                 }
 
@@ -202,12 +195,13 @@ public partial class TestLevel : Node3D
                             uint direction = GD.Randi() % 2;
                             if (direction == 0)
                             {
-                                //actionsToAdd.AddRange(ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP);
+								//Changes direction to left
                                 actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP });
 								currentDirection = NewDirection.LEFT;
                             }
                             else
                             {
+								//Changes direction to right
                                 actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP });
 								currentDirection = NewDirection.RIGHT;
                             }
@@ -215,12 +209,14 @@ public partial class TestLevel : Node3D
 
 						else if (currentDirection == NewDirection.LEFT)
 						{
+							//Changes direction to forward
                             actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_RIGHT, ActionStates.JUMP });
 							currentDirection = NewDirection.FORWARD;
                         }
 
 						else if (currentDirection == NewDirection.RIGHT)
 						{
+                            //Changes direction to forward
                             actionsToAdd.AddRange(new List<ActionStates> { ActionStates.WALK, ActionStates.TURN_LEFT, ActionStates.JUMP });
 							currentDirection = NewDirection.FORWARD;
                         }
@@ -295,9 +291,7 @@ public partial class TestLevel : Node3D
 
 	private void GenerateLevel(List<LevelComponent> componentsToAdd)
 	{
-		//Default direction is +ve x
-		Direction direction = Direction.POSITIVE_X;
-
+		//Default direction is forward
 		NewDirection newDirection = NewDirection.FORWARD;
 
 		//Default y position of platform will be neutral (in this case platform y position will be same as starting y position if first platform,
@@ -323,11 +317,13 @@ public partial class TestLevel : Node3D
 				//Spawns a platform
 				if (i >= componentsToAdd.Count - 1)
 				{
+					//For last platform, it will ignore the last action stuff for this function since the current action is spawning a platform
                     SpawnPlatform(componentsToAdd[i].lengthOfComponent, newDirection, platformSizes, componentsToAdd[i].action);
                 }
 
 				else
 				{
+					//Spawning a platform that is not the last one
                     SpawnPlatform(componentsToAdd[i].lengthOfComponent, newDirection, platformSizes, componentsToAdd[i + 1].action);
                 }
 
@@ -358,10 +354,12 @@ public partial class TestLevel : Node3D
 
 			else if (componentsToAdd[i].action == ActionStates.JUMP)
 			{
+				//Adding a jump space
 				AddJumpSpace(componentsToAdd[i].lengthOfComponent, newDirection, jumpGaps, jumpHeight);
 			}
  
 		}
+	  //Jump gap between second last and last platform
         AddCurrentPosition(newDirection);
 
 		if (sectionsSpawned == numberOfSections - 1)
@@ -396,8 +394,9 @@ public partial class TestLevel : Node3D
 			bounceMode = false;
         }
 
+		//determines the size of the platform
 		platformLength = determinePlatformLength(platformType);
-		string platformTypeToSpawn = platformPath(platformLength, platformType, nextAction);
+		string platformTypeToSpawn = platformPath(platformLength, platformType, nextAction, currentDirection);
         platform = ResourceLoader.Load<PackedScene>(platformTypeToSpawn);
 
         Node3D newPlatform = platform.Instantiate<Node3D>();
@@ -413,13 +412,16 @@ public partial class TestLevel : Node3D
 
 		if (platformType == PlatformTypes.FLAT && bounceMode == false)
 		{
+			//Choosing between a spike and a coin or nothing
 			uint rng = 1 + GD.Randi() % 200;
 			if (rng <= spikeSpawnRate)
 			{
+				//Spawning a spike
 				if (currentPosition != new Vector3(0, 0, 0))
 				{
+					//Choosing between easy and hard spikes
 					uint rng2 = 1 + GD.Randi() % +(easySpikeChance + hardSpikeChance);
-					if (rng <= hardSpikeChance)
+					if (rng2 <= hardSpikeChance)
 					{
 						spikePatterns.spawnSpikes(platformLength, currentPosition, currentDirection, true);
 					}
@@ -434,13 +436,14 @@ public partial class TestLevel : Node3D
 			}
 			else if (rng <= coinSpawnRate + spikeSpawnRate)
 			{
+				//Spawning a coin
                 coinPatterns.spawnCoins(platformType, platformLength, currentPosition, currentDirection);
             }
-            //}
 		}
 
 		else if (bounceMode == false)
 		{
+			//Choosing between a coin or nothing
             uint rng = 1 + GD.Randi() % 100;
 			if (rng <= coinSpawnRate)
 			{
@@ -450,6 +453,7 @@ public partial class TestLevel : Node3D
 
         if (spawnHealthPack == true)
         {
+			//Spawning a health pack
             PackedScene healthPackScene = ResourceLoader.Load<PackedScene>("res://levelParts/healthOrb.tscn");
 
             Node3D healthOrb = healthPackScene.Instantiate<Node3D>();
@@ -465,7 +469,6 @@ public partial class TestLevel : Node3D
         
 		if (spikeAreaCount == 3)
 		{
-			//PackedScene healthPackScene = ResourceLoader.Load<PackedScene>("");
 			//A health pack will be spawned at the next platform
 			spawnHealthPack = true;
 		}
@@ -473,6 +476,7 @@ public partial class TestLevel : Node3D
 
 	private PlatformTypes typeToChoose()
 	{
+		//Choosing between bridge, incline, or flat platform
         uint combinedPlatformTypeChance = bridgePlatformTypeSpawnChance + flatPlatformTypeSpawnChance + inclinePlatformTypeSpawnChance;
         uint rng = 1 + GD.Randi() % combinedPlatformTypeChance;
 		if (rng > flatPlatformTypeSpawnChance + inclinePlatformTypeSpawnChance)
@@ -548,11 +552,11 @@ public partial class TestLevel : Node3D
 
 		return lenOfPlatform;
     }
-	private string platformPath(Lengths lenOfPlatform, PlatformTypes type, ActionStates nextAction)
+	private string platformPath(Lengths lenOfPlatform, PlatformTypes type, ActionStates nextAction, NewDirection currentDirection)
 	{
         if (type == PlatformTypes.FLAT)
 		{
-
+			//Number to add is how much to translate the current position by when spawning a platform
             if (lenOfPlatform == Lengths.SHORT)
             {
                 numberToAdd = 6.0f;
@@ -569,32 +573,20 @@ public partial class TestLevel : Node3D
             {
 				if (currentDirection == NewDirection.FORWARD)
 				{
-					currentPosition.X += 3;
-
-					if (bounceSpawned == true || smallJumpGapBeforeExLarge == true) 
-					{
-						currentPosition.X += 3;
-					}
-				}
+					//translating by 3 to prevent overlap from previous platform
+					currentPosition += new Vector3(3.0f, 0, 0);
+                }
 
 				else if (currentDirection == NewDirection.LEFT)
 				{
-					currentPosition.Z -= 3;
-
-                    if (bounceSpawned == true || smallJumpGapBeforeExLarge == true)
-                    {
-                        currentPosition.Z -= 3;
-                    }
+                    //translating by 3 to prevent overlap from previous platform
+                    currentPosition += new Vector3(0, 0, -3.0f);
                 }
 
 				else
 				{
-					currentPosition.Z += 3;
-
-                    if (bounceSpawned == true || smallJumpGapBeforeExLarge == true)
-                    {
-                        currentPosition.Z += 3;
-                    }
+                    //translating by 3 to prevent overlap from previous platform
+                    currentPosition += new Vector3(0, 0, 3.0f);
                 }
 				
 				numberToAdd = 21.0f;
@@ -641,8 +633,11 @@ public partial class TestLevel : Node3D
                     numberToAdd = 12.0f;
                     if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
                     {
+						//Translate it less when the direction changes so that it is not too far away
                         numberToAdd = 8.5f;
                     }
+
+					//translates by y a bit to experience climbing up an incline
                     translationVector.Y = 2;
                     return "res://levelParts/inclinePlatformSmall.tscn";
                 }
@@ -653,8 +648,11 @@ public partial class TestLevel : Node3D
 
                     if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
                     {
+                        //Translate it less when the direction changes so that it is not too far away
                         numberToAdd = 10.5f;
                     }
+
+                    //translates by y a bit to experience climbing up an incline
                     translationVector.Y = 3;
                     return "res://levelParts/inclinePlatformMedium.tscn";
                 }
@@ -665,9 +663,11 @@ public partial class TestLevel : Node3D
 
                     if (nextAction == ActionStates.TURN_LEFT || nextAction == ActionStates.TURN_RIGHT)
                     {
+                        //Translate it less when the direction changes so that it is not too far away
                         numberToAdd = 12.5f;
                     }
 
+                    //translates by y a bit to experience climbing up an incline
                     translationVector.Y = 5;
                     return "res://levelParts/inclinePlatformLarge.tscn";
                 }
@@ -696,27 +696,6 @@ public partial class TestLevel : Node3D
 		}
 	}
 
-    private void AddCurrentPosition(Direction currentDirection, int inclineHeight)
-    {
-        switch (currentDirection)
-        {
-            //Make it so its not 0 when its an incline platform
-            case Direction.POSITIVE_X:
-                currentPosition += new Vector3(numberToAdd, 0, 0);
-                break;
-            case Direction.NEGATIVE_X:
-                currentPosition += new Vector3(-numberToAdd, 0, 0);
-                break;
-            case Direction.POSITIVE_Z:
-                currentPosition += new Vector3(0, 0, numberToAdd);
-                break;
-            case Direction.NEGATIVE_Z:
-                currentPosition += new Vector3(0, 0, -numberToAdd);
-                break;
-        }
-    }
-
-
 	private int determineAngle(NewDirection currentDirection)
 	{
 		int angle = 0;
@@ -739,18 +718,15 @@ public partial class TestLevel : Node3D
 
 	void AddJumpSpace(Lengths jumpLength, NewDirection currentDirection, List<float> jumpSizes, List<float> jumpHeight)
 	{
-		//TO DO: See if you could maybe combine this and the spawn platform functions? (to avoid repetition)
 		float numberToAdd = 0;
-
-		//for now we'll do a probability of 1/3 for deciding if the player ascends up, down, or does not.
 		uint rng = 1 + GD.Randi() % 3;
 
-
-		//Look into fixing this?
+		//translating up, down, or no translation
 		float yPosition = 0.0f;
 
 		switch (rng)
 		{
+			//Rng for ascending up or down a little, or keeping the next platform's y position to be the same as the previous one
 			case 1:
 				yPosition = 1.5f;
 				break;
@@ -764,18 +740,17 @@ public partial class TestLevel : Node3D
 		switch (jumpLength)
 		{
 			case Lengths.SHORT:
-				smallJumpGapBeforeExLarge = true;
+				//Adding a short jump gap
                 numberToAdd = jumpSizes[0];
 				jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "Small Jump Gap", currentSection);
 				break;
 			case Lengths.MEDIUM:
-                smallJumpGapBeforeExLarge = true;
+                //Adding a medium jump gap
                 numberToAdd = jumpSizes[1];
 				jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "Medium Jump Gap", currentSection);
 				break;
 			case Lengths.LONG:
-                smallJumpGapBeforeExLarge = false;
-                yPosition /= 2;
+                //Adding a long jump gap
 				numberToAdd = jumpSizes[2];
                 jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "Long Jump Gap", currentSection);
                 break;
@@ -783,7 +758,7 @@ public partial class TestLevel : Node3D
 
 		switch (currentDirection) 
 		{
-
+			//Translating based on the direction of where the generation is going
             case NewDirection.FORWARD:
                 currentPosition += new Vector3(numberToAdd, yPosition, 0);
                 break;
@@ -800,10 +775,9 @@ public partial class TestLevel : Node3D
 
 	private void GenerateCheckpoint()
 	{
+		//Spawning the platform
         PackedScene platform;
-
         platform = ResourceLoader.Load<PackedScene>("res://levelParts/largePlatform.tscn");
-
 		Node3D newPlatform = platform.Instantiate<Node3D>();
         //Translate it by currentPosition.
 		newPlatform.Position = currentPosition;
@@ -811,14 +785,12 @@ public partial class TestLevel : Node3D
 		jsonWriter.addPlatform(currentPosition, newPlatform.SceneFilePath, currentSection);
 		jsonWriter.addLevelPartToJson(currentPosition, newPlatform.SceneFilePath, currentSection);
 
+		//Spawning the checkpoint
 		PackedScene checkpointLoad;
-
-
 		checkpointLoad = ResourceLoader.Load<PackedScene>("res://levelParts/checkpoint.tscn");
 		Node3D checkpoint = checkpointLoad.Instantiate<Node3D>();
 		checkpoint.Position = new Vector3(currentPosition.X, currentPosition.Y + 3.0f, currentPosition.Z);
         AddChild(checkpoint);
-
 		numberToAdd = 12.0f;
 		translationVector.Y = 0;
 		AddCurrentPosition(currentDirection);
@@ -827,11 +799,9 @@ public partial class TestLevel : Node3D
 
 	private void GenerateGoal()
 	{
-
+		//Spawning the platform
         PackedScene platform;
-
         platform = ResourceLoader.Load<PackedScene>("res://levelParts/largePlatform.tscn");
-
         Node3D newPlatform = platform.Instantiate<Node3D>();
 		//Translate it by currentPosition.
 		newPlatform.Position = currentPosition;
@@ -839,12 +809,11 @@ public partial class TestLevel : Node3D
         jsonWriter.addPlatform(currentPosition, newPlatform.SceneFilePath, currentSection);
         jsonWriter.addLevelPartToJson(new Vector3(0, 100, 0), newPlatform.SceneFilePath, currentSection);
 
+		//Spawning the goal
         PackedScene goalLoad;
-
 		goalLoad = ResourceLoader.Load<PackedScene>("res://levelParts/goal.tscn");
 		Node3D goal = goalLoad.Instantiate<Node3D>();
 		goal.Position = new Vector3(currentPosition.X, currentPosition.Y + 3.0f, currentPosition.Z);
-
         AddChild(goal);
 
     }
@@ -859,12 +828,14 @@ public partial class TestLevel : Node3D
 		{
 			if (currentActionState == ActionStates.TURN_RIGHT)
 			{
+				//Changing direction to right
 				currentDirection = NewDirection.RIGHT;
 				jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "[Direction changed to right]", currentSection);
 			}
 
 			else
 			{
+				//Changing direction to left
 				currentDirection = NewDirection.LEFT;
 				jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "[Direction changed to left]", currentSection);
             }
@@ -872,6 +843,7 @@ public partial class TestLevel : Node3D
 
 		else if (currentDirection == NewDirection.RIGHT || currentDirection == NewDirection.LEFT)
 		{
+			//Changing direction back to forward
 			currentDirection = NewDirection.FORWARD;
             jsonWriter.addLevelPartToJson(new Vector3(0, -100, 0), "[Direction changed to forward]", currentSection);
         }
@@ -881,8 +853,8 @@ public partial class TestLevel : Node3D
 
 	private void spawnBouncer()
 	{
+		//Spawns a bouncer
 		PackedScene bouncerScene = ResourceLoader.Load<PackedScene>("res://levelParts/bouncer.tscn");
-
 		Node3D bouncer = bouncerScene.Instantiate<Node3D>();
 		bouncer.Position = new Vector3(currentPosition.X, currentPosition.Y + 2, currentPosition.Z);
 		AddChild(bouncer);
@@ -891,6 +863,7 @@ public partial class TestLevel : Node3D
 
 	private bool bouncerDecider()
 	{
+		//Determines if a bounce platform should be spawned
 		uint rng = 1 + GD.Randi() % 100;
 
 		if (rng <= bounceSpawnRate)
@@ -901,6 +874,9 @@ public partial class TestLevel : Node3D
 		return false;
 	}
 
+
+
+	//Used in level modifier
 	public void setPlatformSpawnChances(uint smallPlatform, uint mediumPlatform, uint largePlatform, uint extraLargePlatform)
 	{
 		smallPlatformSpawnChance = smallPlatform;

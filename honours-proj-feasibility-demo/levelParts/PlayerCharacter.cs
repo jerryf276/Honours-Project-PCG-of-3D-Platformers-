@@ -2,6 +2,8 @@ using Godot;
 using System;
 using System.Runtime.CompilerServices;
 
+//General Player Character movement and camera control taken from:
+//GDQuest (2024), 3D TUTORIAL: Make a Smooth 3D Character Controller in Godot 4, https://www.youtube.com/watch?v=JlgZtOFMdfc 
 public partial class PlayerCharacter : CharacterBody3D
 {
 	[ExportGroup("Camera")]
@@ -127,6 +129,7 @@ public partial class PlayerCharacter : CharacterBody3D
 
 		if (runMode)
 		{
+			//When player is holding shift, the characters speed will increase by 1.5f
 			Velocity = Velocity.MoveToward(moveDirection * (moveSpeed * 1.5f), acceleration * (float)delta);
 		}
 		else
@@ -155,12 +158,14 @@ public partial class PlayerCharacter : CharacterBody3D
 		{
 			if (jumpCount == 1)
 			{
+				//Regular jump
 				playerVelocity.Y += jumpImpulse;
 				Velocity = playerVelocity;
 			}
 
 			else
 			{
+				//Double jump
 				playerVelocity.Y = 0;
 				playerVelocity.Y += jumpImpulse;
 				Velocity = playerVelocity;
@@ -204,6 +209,7 @@ public partial class PlayerCharacter : CharacterBody3D
 
 		if (attackCooldown.TimeLeft <= 0) 
 		{
+			//If the cooldown from getting hit has ran out and the player collides with a spike again or is still colliding with a spike
 			isAttacked = false;
 			if (isOnSpike)
 			{
@@ -246,7 +252,8 @@ public partial class PlayerCharacter : CharacterBody3D
 				deathCount += 1;
 				jsonWriter.addLevelData("Player's current death count: " + deathCount);
 				playerHealth = 3;
-				currentScore -= 3000;
+                GameManager.updateHealthText(playerHealth);
+                currentScore -= 3000;
                 informationToAdd = "";
                 jsonWriter.addLevelData(informationToAdd);
             }
@@ -256,6 +263,7 @@ public partial class PlayerCharacter : CharacterBody3D
 
 			if (currentScore < 0)
 			{
+				//To prevent negative score
 				currentScore = 0;
 			}
 
@@ -289,7 +297,9 @@ public partial class PlayerCharacter : CharacterBody3D
 			jsonWriter.addLevelData("Player lost 1 health!");
 			playerHealth -= 1;
 			GameManager.updateHealthText(playerHealth);
+			//Jumps up when getting hit by a spike, to simulate that cartoon look of getting hurt
 			Vector3 playerVelocity = Velocity;
+			playerVelocity.Y = 0;
 			playerVelocity.Y += attackedImpulse;
 			Velocity = playerVelocity;
 			isAttacked = true;
@@ -297,6 +307,7 @@ public partial class PlayerCharacter : CharacterBody3D
 
 		if (playerHealth <= 0) 
 		{
+			//When player's health is 0, it will respawn back to checkpoint
 			this.respawn();
 			playerHealth = 3;
 			GameManager.updateHealthText(playerHealth);
@@ -306,6 +317,10 @@ public partial class PlayerCharacter : CharacterBody3D
 
 	public void bouncedOnSpring()
 	{
+
+		//Make velocity the run mode velocity when player has jumped on bounce pad
+		//If player is not holding shift when they land on ground, the speed will go back to the normal walk speed
+		runMode = true;
 		Vector3 playerVelocity = Velocity;
 		playerVelocity.Y = 0;
 		playerVelocity.Y += bounceImpulse;
@@ -340,10 +355,12 @@ public partial class PlayerCharacter : CharacterBody3D
 
 	public void healPlayer()
 	{
+		//Add to current score
         currentScore += 1000;
         GameManager.updateScoreText(currentScore);
         if (playerHealth < 3)
 		{
+			//Maximum health is 3
 			playerHealth += 1;
 			jsonWriter.addLevelData("Player restored 1 health!");
 		}

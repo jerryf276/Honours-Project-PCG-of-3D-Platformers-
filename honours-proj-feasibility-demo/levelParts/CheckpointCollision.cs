@@ -8,7 +8,6 @@ public partial class CheckpointCollision : Area3D
     public override void _Ready()
 
     {
-        //player = GetTree().Root.GetNode<PlayerCharacter>("../../../../../../PlayerCharacter");
         AreaEntered += OnAreaEntered;
     }
 
@@ -16,6 +15,7 @@ public partial class CheckpointCollision : Area3D
     {
         if (checkpointReached == false)
         {
+            //Player reaching checkpoint
             if (area.IsInGroup("player"))
             {
                 var playerArea = GetTree().GetFirstNodeInGroup("player");
@@ -27,6 +27,7 @@ public partial class CheckpointCollision : Area3D
                     {
                         player.setRespawnPosition(new Vector3(GlobalPosition.X, GlobalPosition.Y + 3, GlobalPosition.Z));
                         GD.Print("Checkpoint!");
+                        //Player earns checkpoint (gains 2000 points)
                         player.addScore(2000);
                         checkpointReached = true;
                     }
