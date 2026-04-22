@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 
 //General Player Character movement and camera control taken from:
 //GDQuest (2024), 3D TUTORIAL: Make a Smooth 3D Character Controller in Godot 4, https://www.youtube.com/watch?v=JlgZtOFMdfc 
+//and Bramwell (2023), Make your first 3D Platformer in Godot 4: Setup, Movement, and Camera Controls, https://www.youtube.com/watch?v=sVsn9NqpVhg
 public partial class PlayerCharacter : CharacterBody3D
 {
 	[ExportGroup("Camera")]
