@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d28w5bql3g21l"
-path="res://.godot/imported/gobot_gobot_normal.png-f35b3d7a6c104e6cf384face77f9bf53.ctex"
+path="res://.godot/imported/gobot_gobot_normal.png-87064718921a26b0f540c15c82471ec8.ctex"
 metadata={
 "vram_texture": false
 }
@@ -11,8 +11,8 @@ generator_parameters={}
 
 [deps]
 
-source_file="res://models/gdquest_gobot/model/gobot_gobot_normal.png"
-dest_files=["res://.godot/imported/gobot_gobot_normal.png-f35b3d7a6c104e6cf384face77f9bf53.ctex"]
+source_file="res://Models/gdquest_gobot/model/gobot_gobot_normal.png"
+dest_files=["res://.godot/imported/gobot_gobot_normal.png-87064718921a26b0f540c15c82471ec8.ctex"]
 
 [params]
 

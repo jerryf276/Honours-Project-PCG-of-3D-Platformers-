@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dq675fmt1rg8c"
-path.s3tc="res://.godot/imported/open_eye.png-c52dc3dc5e1bb84e477e30741bbaf2d4.s3tc.ctex"
-path.etc2="res://.godot/imported/open_eye.png-c52dc3dc5e1bb84e477e30741bbaf2d4.etc2.ctex"
+path.s3tc="res://.godot/imported/open_eye.png-d344f66713e7873c9a7ecbe7decc9862.s3tc.ctex"
+path.etc2="res://.godot/imported/open_eye.png-d344f66713e7873c9a7ecbe7decc9862.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://models/gdquest_gobot/textures/open_eye.png"
-dest_files=["res://.godot/imported/open_eye.png-c52dc3dc5e1bb84e477e30741bbaf2d4.s3tc.ctex", "res://.godot/imported/open_eye.png-c52dc3dc5e1bb84e477e30741bbaf2d4.etc2.ctex"]
+source_file="res://Models/gdquest_gobot/textures/open_eye.png"
+dest_files=["res://.godot/imported/open_eye.png-d344f66713e7873c9a7ecbe7decc9862.s3tc.ctex", "res://.godot/imported/open_eye.png-d344f66713e7873c9a7ecbe7decc9862.etc2.ctex"]
 
 [params]
 

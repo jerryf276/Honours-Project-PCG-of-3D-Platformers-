@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://c2xeoc406j3iv"
-path="res://.godot/imported/narrowBridge.glb-810624c95e727d40946ca5dc7f56de13.scn"
+path="res://.godot/imported/narrowBridge.glb-af59f673356f191495b90a8322d04f75.scn"
 
 [deps]
 
-source_file="res://models/glb/narrowBridge.glb"
-dest_files=["res://.godot/imported/narrowBridge.glb-810624c95e727d40946ca5dc7f56de13.scn"]
+source_file="res://Models/glb/narrowBridge.glb"
+dest_files=["res://.godot/imported/narrowBridge.glb-af59f673356f191495b90a8322d04f75.scn"]
 
 [params]
 

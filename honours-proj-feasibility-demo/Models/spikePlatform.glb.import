@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://tlp1ut178pq0"
-path="res://.godot/imported/spikePlatform.glb-cde4bf94d17bb0409ee6171c04889a52.scn"
+path="res://.godot/imported/spikePlatform.glb-6a5dea5f5e753b5d9477b5a5ef2f1e21.scn"
 
 [deps]
 
-source_file="res://models/spikePlatform.glb"
-dest_files=["res://.godot/imported/spikePlatform.glb-cde4bf94d17bb0409ee6171c04889a52.scn"]
+source_file="res://Models/spikePlatform.glb"
+dest_files=["res://.godot/imported/spikePlatform.glb-6a5dea5f5e753b5d9477b5a5ef2f1e21.scn"]
 
 [params]
 
