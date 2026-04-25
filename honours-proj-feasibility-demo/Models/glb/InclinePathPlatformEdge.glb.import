@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://042qi17e8a46"
-path="res://.godot/imported/InclinePathPlatformEdge.glb-d514eec5fe16967b12c0476ed62b9300.scn"
+path="res://.godot/imported/InclinePathPlatformEdge.glb-346c105d0f3d9168ca96f776e985c346.scn"
 
 [deps]
 
-source_file="res://Models/glb/InclinePathPlatformEdge.glb"
-dest_files=["res://.godot/imported/InclinePathPlatformEdge.glb-d514eec5fe16967b12c0476ed62b9300.scn"]
+source_file="res://models/glb/InclinePathPlatformEdge.glb"
+dest_files=["res://.godot/imported/InclinePathPlatformEdge.glb-346c105d0f3d9168ca96f776e985c346.scn"]
 
 [params]
 
