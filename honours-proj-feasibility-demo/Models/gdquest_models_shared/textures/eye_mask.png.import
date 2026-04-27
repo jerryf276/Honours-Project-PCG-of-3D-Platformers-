@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bvxkh2pa1nqdq"
-path="res://.godot/imported/eye_mask.png-06c68df0acd67f233591a9877a3191d4.ctex"
+path="res://.godot/imported/eye_mask.png-4132171ed5fe9baa975e9b7900b76969.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://models/gdquest_models_shared/textures/eye_mask.png"
-dest_files=["res://.godot/imported/eye_mask.png-06c68df0acd67f233591a9877a3191d4.ctex"]
+source_file="res://Models/gdquest_models_shared/textures/eye_mask.png"
+dest_files=["res://.godot/imported/eye_mask.png-4132171ed5fe9baa975e9b7900b76969.ctex"]
 
 [params]
 
