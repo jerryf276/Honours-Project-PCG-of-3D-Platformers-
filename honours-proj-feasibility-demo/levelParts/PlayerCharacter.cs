@@ -89,16 +89,56 @@ public partial class PlayerCharacter : CharacterBody3D
 		{
 			InputEventMouseMotion inputEventMouseMotion = (InputEventMouseMotion)inputEvent;
 
+			//It might be this to change the camera movement
+			//Camera movement for mouse
 			cameraInputDirection = inputEventMouseMotion.ScreenRelative * mouseSensitivity;
+			GD.Print(cameraInputDirection);
 		}
-	}
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
-		Vector3 rotation = cameraPivot.Rotation;
-		rotation.X += (float)(cameraInputDirection.Y * delta);
-		rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
-		rotation.Y -= (float)(cameraInputDirection.X * delta);
+        Vector3 rotation = cameraPivot.Rotation;
+        //Camera movement for controller
+        if (Input.IsActionPressed("camera_up") || Input.IsActionPressed("camera_down") || Input.IsActionPressed("camera_left") || Input.IsActionPressed("camera_right"))
+		{
+
+            if (Input.IsActionPressed("camera_up"))
+			{
+				cameraInputDirection.Y = -2000.0f * (float)delta;
+			}
+
+			if (Input.IsActionPressed("camera_down"))
+			{
+				cameraInputDirection.Y = 2000.0f * (float)delta;
+			}
+
+			if (Input.IsActionPressed("camera_left"))
+			{
+				cameraInputDirection.X = -4000.0f * (float)delta;
+			}
+
+			if (Input.IsActionPressed("camera_right"))
+			{
+				cameraInputDirection.X = 4000.0f * (float)delta;
+			}
+
+			cameraInputDirection = cameraInputDirection.Normalized();
+
+            rotation.X += (float)(cameraInputDirection.Y * delta);
+            rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
+            rotation.Y -= (float)(cameraInputDirection.X * delta * 2);
+        }
+
+
+		else
+		{
+            rotation.X += (float)(cameraInputDirection.Y * delta);
+            rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
+            rotation.Y -= (float)(cameraInputDirection.X * delta);
+        }
+		
+   
 		cameraPivot.Rotation = rotation;
 		cameraInputDirection = Vector2.Zero;
 
