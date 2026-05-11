@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://lnbv0urh2jg2"]
 
-[ext_resource type="PackedScene" uid="uid://cy36aygvs66pn" path="res://models/gdquest_gobot/gobot_skin.tscn" id="1_02ohv"]
+[ext_resource type="PackedScene" uid="uid://cy36aygvs66pn" path="res://Models/gdquest_gobot/gobot_skin.tscn" id="1_02ohv"]
 [ext_resource type="Script" uid="uid://4tsphlk807d1" path="res://levelParts/PlayerCharacter.cs" id="1_5up26"]
 [ext_resource type="Script" uid="uid://g380b4psx6my" path="res://levelParts/PlayerCollision.cs" id="3_4akcp"]
 
