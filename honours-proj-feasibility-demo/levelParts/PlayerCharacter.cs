@@ -9,6 +9,7 @@ public partial class PlayerCharacter : CharacterBody3D
 {
 	[ExportGroup("Camera")]
 	[Export(PropertyHint.Range, "0.0, 1.0")] private float mouseSensitivity = 0.25f;
+	float analogSensitivity = 2.5f;
 
 	[ExportGroup("Movement")]
 	[Export] private float moveSpeed = 8.0f;
@@ -52,6 +53,10 @@ public partial class PlayerCharacter : CharacterBody3D
 
 	private JsonWriter jsonWriter;
 
+	//for analog stick movement
+	bool sameDirection = false;
+	Vector2 previousDirection = new Vector2(0, 0);
+
 	public override void _Ready()
 	{
 		cameraPivot = GetNode<Node3D>("CameraPivot");
@@ -92,53 +97,92 @@ public partial class PlayerCharacter : CharacterBody3D
 			//It might be this to change the camera movement
 			//Camera movement for mouse
 			cameraInputDirection = inputEventMouseMotion.ScreenRelative * mouseSensitivity;
-			GD.Print(cameraInputDirection);
+			//GD.Print(cameraInputDirection);
 		}
-    }
+
+		if (Input.IsActionPressed("camera_up") || Input.IsActionPressed("camera_down") || Input.IsActionPressed("camera_left") || Input.IsActionPressed("camera_right"))
+		{
+            cameraInputDirection = new Vector2(Input.GetAxis("camera_right", "camera_left") * 10, Input.GetAxis("camera_down", "camera_up") * 10) * mouseSensitivity;
+			if (cameraInputDirection == previousDirection)
+			{
+				sameDirection = true;
+			}
+			else
+			{
+				sameDirection = false;
+			}
+			previousDirection = cameraInputDirection;
+        }
+        }
 
 	public override void _PhysicsProcess(double delta)
 	{
         Vector3 rotation = cameraPivot.Rotation;
-        //Camera movement for controller
-        if (Input.IsActionPressed("camera_up") || Input.IsActionPressed("camera_down") || Input.IsActionPressed("camera_left") || Input.IsActionPressed("camera_right"))
+		//Camera movement for controller
+		if (sameDirection)
 		{
 
-            if (Input.IsActionPressed("camera_up"))
-			{
-				cameraInputDirection.Y = -2000.0f * (float)delta;
-			}
-
-			if (Input.IsActionPressed("camera_down"))
+			if (Input.IsActionPressed("camera_up"))
 			{
 				cameraInputDirection.Y = 2000.0f * (float)delta;
 			}
 
+			if (Input.IsActionPressed("camera_down"))
+			{
+				cameraInputDirection.Y = -2000.0f * (float)delta;
+			}
+
 			if (Input.IsActionPressed("camera_left"))
 			{
-				cameraInputDirection.X = -4000.0f * (float)delta;
+				cameraInputDirection.X = 4000.0f * (float)delta;
 			}
 
 			if (Input.IsActionPressed("camera_right"))
 			{
 				cameraInputDirection.X = 4000.0f * (float)delta;
 			}
+			if (sameDirection)
+			{
+				if (Input.IsActionPressed("camera_up"))
+				{
+					cameraInputDirection.Y = -2000.0f * (float)delta;
+				}
 
-			cameraInputDirection = cameraInputDirection.Normalized();
+				if (Input.IsActionPressed("camera_down"))
+				{
+					cameraInputDirection.Y = 2000.0f * (float)delta;
+				}
 
-            rotation.X += (float)(cameraInputDirection.Y * delta);
-            rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
-            rotation.Y -= (float)(cameraInputDirection.X * delta * 2);
-        }
+				if (Input.IsActionPressed("camera_left"))
+				{
+					cameraInputDirection.X = -4000.0f * (float)delta;
+				}
 
+				if (Input.IsActionPressed("camera_right"))
+				{
+					cameraInputDirection.X = 4000.0f * (float)delta;
+				}
 
+				cameraInputDirection = cameraInputDirection.Normalized();
+
+				rotation.X += (float)(cameraInputDirection.Y * delta);
+				rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
+				rotation.Y -= (float)(cameraInputDirection.X * delta);
+			}
+
+		}
 		else
 		{
-            rotation.X += (float)(cameraInputDirection.Y * delta);
-            rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
-            rotation.Y -= (float)(cameraInputDirection.X * delta);
-        }
-		
-   
+            if (Input.IsActionPressed("camera_up") || Input.IsActionPressed("camera_down") || Input.IsActionPressed("camera_left") || Input.IsActionPressed("camera_right"))
+            {
+                cameraInputDirection = cameraInputDirection.Normalized();
+            }
+            rotation.X += (float)(cameraInputDirection.Y * delta * 2);
+			rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
+			rotation.Y -= (float)(cameraInputDirection.X * delta * 2);
+		}
+
+
 		cameraPivot.Rotation = rotation;
 		cameraInputDirection = Vector2.Zero;
 
