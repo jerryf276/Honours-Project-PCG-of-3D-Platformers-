@@ -7,464 +7,433 @@ using System.Runtime.CompilerServices;
 //and Bramwell (2023), Make your first 3D Platformer in Godot 4: Setup, Movement, and Camera Controls, https://www.youtube.com/watch?v=sVsn9NqpVhg
 public partial class PlayerCharacter : CharacterBody3D
 {
-	[ExportGroup("Camera")]
-	[Export(PropertyHint.Range, "0.0, 1.0")] private float mouseSensitivity = 0.25f;
-	float analogSensitivity = 2.5f;
+    [ExportGroup("Camera")]
+    [Export(PropertyHint.Range, "0.0, 1.0")] private float mouseSensitivity = 0.25f;
+    float analogStickSensitivity = 2.5f;
 
-	[ExportGroup("Movement")]
-	[Export] private float moveSpeed = 8.0f;
-	[Export] private float acceleration = 20.0f;
-	[Export] private float rotationSpeed = 12.0f;
-	[Export] private float jumpImpulse = 12.0f;
-	[Export] private float attackedImpulse = 40.0f;
-	[Export] private float bounceImpulse = 35.0f;
-	[ExportGroup("Timer cooldowns")]
-	[Export] Timer attackCooldown;
-	[Export] Timer doubleJumpTimer;
+    [ExportGroup("Movement")]
+    [Export] private float moveSpeed = 8.0f;
+    [Export] private float acceleration = 20.0f;
+    [Export] private float rotationSpeed = 12.0f;
+    [Export] private float jumpImpulse = 12.0f;
+    [Export] private float attackedImpulse = 40.0f;
+    [Export] private float bounceImpulse = 35.0f;
+    [ExportGroup("Timer cooldowns")]
+    [Export] Timer attackCooldown;
+    [Export] Timer doubleJumpTimer;
 
 
-	private int playerHealth = 3;
+    private int playerHealth = 3;
 
-	private Vector2 cameraInputDirection = Vector2.Zero;
-	private Vector3 lastMovementDirection = Vector3.Back;
-	private Node3D cameraPivot;
-	private Node3D camera;
-	private Node3D gobotSkin;
-	private float gravity = -30.0f;
+    private Vector2 cameraInputDirection = Vector2.Zero;
+    private Vector3 lastMovementDirection = Vector3.Back;
+    private Node3D cameraPivot;
+    private Node3D camera;
+    private Node3D gobotSkin;
+    private float gravity = -30.0f;
 
-	private Vector3 spawnPoint;
+    private Vector3 spawnPoint;
 
-	private int deathCount = 0;
+    private int deathCount = 0;
 
-	private bool hasDied;
-	private bool isAttacked;
-	private bool isOnSpike;
+    private bool hasDied;
+    private bool isAttacked;
+    private bool isOnSpike;
 
-	//The last platform the player jumped on
-	private string previousPlatform;
-	private Vector3 previousPlatformPosition;
+    //The last platform the player jumped on
+    private string previousPlatform;
+    private Vector3 previousPlatformPosition;
 
-	private int currentScore = 0;
-	private int coinCount = 0;
+    private int currentScore = 0;
+    private int coinCount = 0;
 
-	private int jumpCount = 0;
+    private int jumpCount = 0;
 
-	private bool runMode = false;
+    private bool runMode = false;
 
-	private JsonWriter jsonWriter;
+    private JsonWriter jsonWriter;
 
-	//for analog stick movement
-	bool sameDirection = false;
-	Vector2 previousDirection = new Vector2(0, 0);
+    private float controllerDeadzone = 0.2f;
 
-	public override void _Ready()
-	{
-		cameraPivot = GetNode<Node3D>("CameraPivot");
-		camera = GetNode<Camera3D>("CameraPivot/SpringArm3D/Camera3D");
-		gobotSkin = GetNode<Node3D>("GobotSkin");
+    public override void _Ready()
+    {
+        cameraPivot = GetNode<Node3D>("CameraPivot");
+        camera = GetNode<Camera3D>("CameraPivot/SpringArm3D/Camera3D");
+        gobotSkin = GetNode<Node3D>("GobotSkin");
 
-		spawnPoint = Position;
-		previousPlatform = "";
+        spawnPoint = Position;
+        previousPlatform = "";
 
-		Input.MouseMode = Input.MouseModeEnum.Captured;
+        Input.MouseMode = Input.MouseModeEnum.Captured;
 
-		jsonWriter = GetNode<JsonWriter>("../JsonWriter");
-	}
-	public override void _Input(InputEvent inputEvent)
-	{
-		if (inputEvent.IsActionPressed("left_click"))
-		{
-			Input.MouseMode = Input.MouseModeEnum.Captured;
-		}
-
-		if (inputEvent.IsActionPressed("cancel"))
-		{
-			Input.MouseMode = Input.MouseModeEnum.Visible;
-		}
-	}
-	public override void _UnhandledInput(InputEvent inputEvent) 
-	{
-		bool isCameraMotion = false; 
-		if (inputEvent is InputEventMouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
-		{
-			isCameraMotion = true;
-		}
-
-		if (isCameraMotion)
-		{
-			InputEventMouseMotion inputEventMouseMotion = (InputEventMouseMotion)inputEvent;
-
-			//It might be this to change the camera movement
-			//Camera movement for mouse
-			cameraInputDirection = inputEventMouseMotion.ScreenRelative * mouseSensitivity;
-			//GD.Print(cameraInputDirection);
-		}
-
-		if (Input.IsActionPressed("camera_up") || Input.IsActionPressed("camera_down") || Input.IsActionPressed("camera_left") || Input.IsActionPressed("camera_right"))
-		{
-            cameraInputDirection = new Vector2(Input.GetAxis("camera_right", "camera_left") * 10, Input.GetAxis("camera_down", "camera_up") * 10) * mouseSensitivity;
-			if (cameraInputDirection == previousDirection)
-			{
-				sameDirection = true;
-			}
-			else
-			{
-				sameDirection = false;
-			}
-			previousDirection = cameraInputDirection;
-        }
+        jsonWriter = GetNode<JsonWriter>("../JsonWriter");
+    }
+    public override void _Input(InputEvent inputEvent)
+    {
+        if (inputEvent.IsActionPressed("left_click"))
+        {
+            Input.MouseMode = Input.MouseModeEnum.Captured;
         }
 
-	public override void _PhysicsProcess(double delta)
-	{
+        if (inputEvent.IsActionPressed("cancel"))
+        {
+            Input.MouseMode = Input.MouseModeEnum.Visible;
+        }
+    }
+    public override void _UnhandledInput(InputEvent inputEvent)
+    {
+        bool isCameraMotion = false;
+        if (inputEvent is InputEventMouseMotion && Input.MouseMode == Input.MouseModeEnum.Captured)
+        {
+            isCameraMotion = true;
+        }
+
+        if (isCameraMotion)
+        {
+            InputEventMouseMotion inputEventMouseMotion = (InputEventMouseMotion)inputEvent;
+
+            //It might be this to change the camera movement
+            //Camera movement for mouse
+            cameraInputDirection = inputEventMouseMotion.ScreenRelative * mouseSensitivity;
+            GD.Print(cameraInputDirection);
+        }
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
         Vector3 rotation = cameraPivot.Rotation;
-		//Camera movement for controller
-		if (sameDirection)
-		{
+        //Camera movement for controller
+        if (Input.IsActionPressed("camera_up") || Input.IsActionPressed("camera_down") || Input.IsActionPressed("camera_left") || Input.IsActionPressed("camera_right"))
+        {
+            cameraInputDirection = new Vector2(Input.GetAxis("camera_left", "camera_right"), Input.GetAxis("camera_up", "camera_down")) * analogStickSensitivity * (float)delta;
+            //if (Input.IsActionPressed("camera_up"))
+            //{
+            //    cameraInputDirection.Y = -2000.0f * (float)delta;
+            //}
 
-			if (Input.IsActionPressed("camera_up"))
-			{
-				cameraInputDirection.Y = 2000.0f * (float)delta;
-			}
+            //if (Input.IsActionPressed("camera_down"))
+            //{
+            //    cameraInputDirection.Y = 2000.0f * (float)delta;
+            //}
 
-			if (Input.IsActionPressed("camera_down"))
-			{
-				cameraInputDirection.Y = -2000.0f * (float)delta;
-			}
+            //if (Input.IsActionPressed("camera_left"))
+            //{
+            //    cameraInputDirection.X = -4000.0f * (float)delta;
+            //}
 
-			if (Input.IsActionPressed("camera_left"))
-			{
-				cameraInputDirection.X = 4000.0f * (float)delta;
-			}
+            //if (Input.IsActionPressed("camera_right"))
+            //{
+            //    cameraInputDirection.X = 4000.0f * (float)delta;
+            //}
+            Vector2 move = new Vector2(Input.GetJoyAxis(0, JoyAxis.RightX), Input.GetJoyAxis(0, JoyAxis.RightY));
 
-			if (Input.IsActionPressed("camera_right"))
-			{
-				cameraInputDirection.X = 4000.0f * (float)delta;
-			}
-			if (sameDirection)
-			{
-				if (Input.IsActionPressed("camera_up"))
-				{
-					cameraInputDirection.Y = -2000.0f * (float)delta;
-				}
+            if (move.Length() < controllerDeadzone)
+            {
+                cameraInputDirection = Vector2.Zero;
+            }
 
-				if (Input.IsActionPressed("camera_down"))
-				{
-					cameraInputDirection.Y = 2000.0f * (float)delta;
-				}
-
-				if (Input.IsActionPressed("camera_left"))
-				{
-					cameraInputDirection.X = -4000.0f * (float)delta;
-				}
-
-				if (Input.IsActionPressed("camera_right"))
-				{
-					cameraInputDirection.X = 4000.0f * (float)delta;
-				}
-
-				cameraInputDirection = cameraInputDirection.Normalized();
-
-				rotation.X += (float)(cameraInputDirection.Y * delta);
-				rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
-				rotation.Y -= (float)(cameraInputDirection.X * delta);
-			}
-
-		}
-		else
-		{
-            if (Input.IsActionPressed("camera_up") || Input.IsActionPressed("camera_down") || Input.IsActionPressed("camera_left") || Input.IsActionPressed("camera_right"))
+            else
             {
                 cameraInputDirection = cameraInputDirection.Normalized();
             }
-            rotation.X += (float)(cameraInputDirection.Y * delta * 2);
-			rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
-			rotation.Y -= (float)(cameraInputDirection.X * delta * 2);
-		}
+          //  cameraInputDirection = cameraInputDirection.Normalized();
+
+            rotation.X += (float)(cameraInputDirection.Y * delta);
+            rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
+            rotation.Y -= (float)(cameraInputDirection.X * delta * 2);
+        }
+
+        //If user is using mouse for camera instead
+        else
+        {
+            rotation.X += (float)(cameraInputDirection.Y * delta);
+            rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
+            rotation.Y -= (float)(cameraInputDirection.X * delta);
+        }
 
 
-		cameraPivot.Rotation = rotation;
-		cameraInputDirection = Vector2.Zero;
+        cameraPivot.Rotation = rotation;
+        cameraInputDirection = Vector2.Zero;
 
-		Vector2 rawInput = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
-		Vector3 forward = camera.GlobalBasis.Z;
-		Vector3 right = camera.GlobalBasis.X;
+        Vector2 rawInput = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
+        Vector3 forward = camera.GlobalBasis.Z;
+        Vector3 right = camera.GlobalBasis.X;
 
-		Vector3 moveDirection = forward * rawInput.Y + right * rawInput.X;
-		moveDirection.Y = 0.0f;
-		moveDirection = moveDirection.Normalized();
+        Vector3 moveDirection = forward * rawInput.Y + right * rawInput.X;
+        moveDirection.Y = 0.0f;
+        moveDirection = moveDirection.Normalized();
 
-		float yVelocity = Velocity.Y;
-		Vector3 playerVelocity = Velocity;
-		playerVelocity.Y = 0.0f;
-		Velocity = playerVelocity;
+        float yVelocity = Velocity.Y;
+        Vector3 playerVelocity = Velocity;
+        playerVelocity.Y = 0.0f;
+        Velocity = playerVelocity;
 
-		if (IsOnFloor())
-		{
-			if (Input.IsActionPressed("run"))
-			{
-				runMode = true;
-			}
-			else
-			{
-				runMode = false;
-			}
-		}
+        if (IsOnFloor())
+        {
+            if (Input.IsActionPressed("run"))
+            {
+                runMode = true;
+            }
+            else
+            {
+                runMode = false;
+            }
+        }
 
 
-		if (runMode)
-		{
-			//When player is holding shift, the characters speed will increase by 1.5f
-			Velocity = Velocity.MoveToward(moveDirection * (moveSpeed * 1.5f), acceleration * (float)delta);
-		}
-		else
-		{
-			Velocity = Velocity.MoveToward(moveDirection * moveSpeed, acceleration * (float)delta);
-		}
+        if (runMode)
+        {
+            //When player is holding shift, the characters speed will increase by 1.5f
+            Velocity = Velocity.MoveToward(moveDirection * (moveSpeed * 1.5f), acceleration * (float)delta);
+        }
+        else
+        {
+            Velocity = Velocity.MoveToward(moveDirection * moveSpeed, acceleration * (float)delta);
+        }
 
-		playerVelocity = Velocity;
-		playerVelocity.Y = yVelocity + gravity * (float)delta;
-		Velocity = playerVelocity;
+        playerVelocity = Velocity;
+        playerVelocity.Y = yVelocity + gravity * (float)delta;
+        Velocity = playerVelocity;
 
-		bool isStartingJump = false;
+        bool isStartingJump = false;
 
-		if (Input.IsActionJustPressed("jump") && jumpCount < 2)
-		{
-			isStartingJump = true;
-			jumpCount++;
-		}
+        if (Input.IsActionJustPressed("jump") && jumpCount < 2)
+        {
+            isStartingJump = true;
+            jumpCount++;
+        }
 
-		else if (IsOnFloor())
-		{
-			jumpCount = 0;
-		}
+        else if (IsOnFloor())
+        {
+            jumpCount = 0;
+        }
 
-		if (isStartingJump)
-		{
-			if (jumpCount == 1)
-			{
-				//Regular jump
-				playerVelocity.Y += jumpImpulse;
-				Velocity = playerVelocity;
-			}
+        if (isStartingJump)
+        {
+            if (jumpCount == 1)
+            {
+                //Regular jump
+                playerVelocity.Y += jumpImpulse;
+                Velocity = playerVelocity;
+            }
 
-			else
-			{
-				//Double jump
-				playerVelocity.Y = 0;
-				playerVelocity.Y += jumpImpulse;
-				Velocity = playerVelocity;
-			}
-		}
-		
+            else
+            {
+                //Double jump
+                playerVelocity.Y = 0;
+                playerVelocity.Y += jumpImpulse;
+                Velocity = playerVelocity;
+            }
+        }
 
-		MoveAndSlide();
 
-		if (moveDirection.Length() > 0.2f)
-		{
-			lastMovementDirection = moveDirection;
-		}
+        MoveAndSlide();
 
-		float targetAngle = Vector3.Back.SignedAngleTo(lastMovementDirection, Vector3.Up);
-		Vector3 gobotGlobalRotation = gobotSkin.GlobalRotation;
-		gobotGlobalRotation.Y = Mathf.LerpAngle(gobotSkin.Rotation.Y, targetAngle, rotationSpeed * (float)delta);
-		gobotSkin.GlobalRotation = gobotGlobalRotation;
+        if (moveDirection.Length() > 0.2f)
+        {
+            lastMovementDirection = moveDirection;
+        }
 
-		if (isStartingJump)
-		{
-			gobotSkin.Call("jump");
-		}
-		else if (!IsOnFloor() && Velocity.Y < 0.0f)
-		{
-			gobotSkin.Call("fall");
-		}
-		else if (IsOnFloor())
-		{
-			float groundSpeed = Velocity.Length();
+        float targetAngle = Vector3.Back.SignedAngleTo(lastMovementDirection, Vector3.Up);
+        Vector3 gobotGlobalRotation = gobotSkin.GlobalRotation;
+        gobotGlobalRotation.Y = Mathf.LerpAngle(gobotSkin.Rotation.Y, targetAngle, rotationSpeed * (float)delta);
+        gobotSkin.GlobalRotation = gobotGlobalRotation;
 
-			if (groundSpeed > 0.0f)
-			{
-				gobotSkin.Call("run");
-			}
-			else
-			{
-				gobotSkin.Call("idle");
-			}
-		}
+        if (isStartingJump)
+        {
+            gobotSkin.Call("jump");
+        }
+        else if (!IsOnFloor() && Velocity.Y < 0.0f)
+        {
+            gobotSkin.Call("fall");
+        }
+        else if (IsOnFloor())
+        {
+            float groundSpeed = Velocity.Length();
 
-		if (attackCooldown.TimeLeft <= 0) 
-		{
-			//If the cooldown from getting hit has ran out and the player collides with a spike again or is still colliding with a spike
-			isAttacked = false;
-			if (isOnSpike)
-			{
-				attackedImpulse /= 2;
-				attackedBySpike();
-				attackedImpulse *= 2;
-			}
-		}
-	}
+            if (groundSpeed > 0.0f)
+            {
+                gobotSkin.Call("run");
+            }
+            else
+            {
+                gobotSkin.Call("idle");
+            }
+        }
 
-	public void respawn()
-	{
-		if (hasDied == false)
-		{
-			string informationToAdd = "";
-			if (playerHealth == 0)
-			{
-				informationToAdd = "Player died due to spikes!";
-				jsonWriter.addLevelData(informationToAdd);
-			}
-			else if (GlobalPosition.X != spawnPoint.X || GlobalPosition.Z != spawnPoint.Z)
-			{
+        if (attackCooldown.TimeLeft <= 0)
+        {
+            //If the cooldown from getting hit has ran out and the player collides with a spike again or is still colliding with a spike
+            isAttacked = false;
+            if (isOnSpike)
+            {
+                attackedImpulse /= 2;
+                attackedBySpike();
+                attackedImpulse *= 2;
+            }
+        }
+    }
 
-				informationToAdd = "Died at: " + "X: " + GlobalPosition.X + "Z: " + GlobalPosition.Z;
-				jsonWriter.addLevelData(informationToAdd);
+    public void respawn()
+    {
+        if (hasDied == false)
+        {
+            string informationToAdd = "";
+            if (playerHealth == 0)
+            {
+                informationToAdd = "Player died due to spikes!";
+                jsonWriter.addLevelData(informationToAdd);
+            }
+            else if (GlobalPosition.X != spawnPoint.X || GlobalPosition.Z != spawnPoint.Z)
+            {
 
-				informationToAdd = "Last platform jumped on before dying: " + previousPlatform + " Position: " + previousPlatformPosition;
-				jsonWriter.addLevelData(informationToAdd);
+                informationToAdd = "Died at: " + "X: " + GlobalPosition.X + "Z: " + GlobalPosition.Z;
+                jsonWriter.addLevelData(informationToAdd);
 
-				informationToAdd = "Platform before this: " + jsonWriter.getPlatformBeforeCurrent();
-				jsonWriter.addLevelData(informationToAdd);
+                informationToAdd = "Last platform jumped on before dying: " + previousPlatform + " Position: " + previousPlatformPosition;
+                jsonWriter.addLevelData(informationToAdd);
 
-				informationToAdd = "Platform after this: " + jsonWriter.getPlatformAfterCurrent();
+                informationToAdd = "Platform before this: " + jsonWriter.getPlatformBeforeCurrent();
+                jsonWriter.addLevelData(informationToAdd);
+
+                informationToAdd = "Platform after this: " + jsonWriter.getPlatformAfterCurrent();
                 jsonWriter.addLevelData(informationToAdd);
 
             }
 
-			if (playerHealth == 0 || (GlobalPosition.X != spawnPoint.X || GlobalPosition.Z != spawnPoint.Z))
-			{
-				deathCount += 1;
-				jsonWriter.addLevelData("Player's current death count: " + deathCount);
-				playerHealth = 3;
+            if (playerHealth == 0 || (GlobalPosition.X != spawnPoint.X || GlobalPosition.Z != spawnPoint.Z))
+            {
+                deathCount += 1;
+                jsonWriter.addLevelData("Player's current death count: " + deathCount);
+                playerHealth = 3;
                 GameManager.updateHealthText(playerHealth);
                 currentScore -= 3000;
                 informationToAdd = "";
                 jsonWriter.addLevelData(informationToAdd);
             }
-			Velocity = Vector3.Zero;
-			GlobalPosition = spawnPoint;
-			hasDied = true;
+            Velocity = Vector3.Zero;
+            GlobalPosition = spawnPoint;
+            hasDied = true;
 
-			if (currentScore < 0)
-			{
-				//To prevent negative score
-				currentScore = 0;
-			}
+            if (currentScore < 0)
+            {
+                //To prevent negative score
+                currentScore = 0;
+            }
 
-			GameManager.updateScoreText(currentScore);
-		}
+            GameManager.updateScoreText(currentScore);
+        }
 
-		if (GlobalPosition == spawnPoint)
-		{
-			hasDied = false;
-		}
-	}
+        if (GlobalPosition == spawnPoint)
+        {
+            hasDied = false;
+        }
+    }
 
-	public void setRespawnPosition(Vector3 pos)
-	{
-		spawnPoint = pos;
-	}
+    public void setRespawnPosition(Vector3 pos)
+    {
+        spawnPoint = pos;
+    }
 
-	public void setPlatformJumpedOn(string platform)
-	{
-		previousPlatform = platform;
-	}
+    public void setPlatformJumpedOn(string platform)
+    {
+        previousPlatform = platform;
+    }
 
-	public void setCurrentPlatformPosition(Vector3 pos)
-	{
-		previousPlatformPosition = pos;
-	}
+    public void setCurrentPlatformPosition(Vector3 pos)
+    {
+        previousPlatformPosition = pos;
+    }
 
-	public void attackedBySpike()
-	{
-			GD.Print("Attacked!");
-			jsonWriter.addLevelData("Player lost 1 health!");
-			playerHealth -= 1;
-			GameManager.updateHealthText(playerHealth);
-			//Jumps up when getting hit by a spike, to simulate that cartoon look of getting hurt
-			Vector3 playerVelocity = Velocity;
-			playerVelocity.Y = 0;
-			playerVelocity.Y += attackedImpulse;
-			Velocity = playerVelocity;
-			isAttacked = true;
-			attackCooldown.Start();
+    public void attackedBySpike()
+    {
+        GD.Print("Attacked!");
+        jsonWriter.addLevelData("Player lost 1 health!");
+        playerHealth -= 1;
+        GameManager.updateHealthText(playerHealth);
+        //Jumps up when getting hit by a spike, to simulate that cartoon look of getting hurt
+        Vector3 playerVelocity = Velocity;
+        playerVelocity.Y = 0;
+        playerVelocity.Y += attackedImpulse;
+        Velocity = playerVelocity;
+        isAttacked = true;
+        attackCooldown.Start();
 
-		if (playerHealth <= 0) 
-		{
-			//When player's health is 0, it will respawn back to checkpoint
-			this.respawn();
-			playerHealth = 3;
-			GameManager.updateHealthText(playerHealth);
-		}
+        if (playerHealth <= 0)
+        {
+            //When player's health is 0, it will respawn back to checkpoint
+            this.respawn();
+            playerHealth = 3;
+            GameManager.updateHealthText(playerHealth);
+        }
 
-	}
+    }
 
-	public void bouncedOnSpring()
-	{
+    public void bouncedOnSpring()
+    {
 
-		//Make velocity the run mode velocity when player has jumped on bounce pad
-		//If player is not holding shift when they land on ground, the speed will go back to the normal walk speed
-		runMode = true;
-		Vector3 playerVelocity = Velocity;
-		playerVelocity.Y = 0;
-		playerVelocity.Y += bounceImpulse;
-		Velocity = playerVelocity;
-	}
+        //Make velocity the run mode velocity when player has jumped on bounce pad
+        //If player is not holding shift when they land on ground, the speed will go back to the normal walk speed
+        runMode = true;
+        Vector3 playerVelocity = Velocity;
+        playerVelocity.Y = 0;
+        playerVelocity.Y += bounceImpulse;
+        Velocity = playerVelocity;
+    }
 
-	public bool isCurrentlyAttacked()
-	{
-		return isAttacked;
-	}
+    public bool isCurrentlyAttacked()
+    {
+        return isAttacked;
+    }
 
-	public void setOnSpike(bool spike)
-	{
-		isOnSpike = spike;
-	}
+    public void setOnSpike(bool spike)
+    {
+        isOnSpike = spike;
+    }
 
-	public void addScore(int scoreToAdd)
-	{
-		currentScore += scoreToAdd;
-		GameManager.updateScoreText(currentScore);
-	}
+    public void addScore(int scoreToAdd)
+    {
+        currentScore += scoreToAdd;
+        GameManager.updateScoreText(currentScore);
+    }
 
-	public void addCoinCount(int coinCountToAdd)
-	{
-		coinCount += coinCountToAdd;
-	}
-   
-	public int getCoinCount()
-	{
-		return coinCount;
-	}
+    public void addCoinCount(int coinCountToAdd)
+    {
+        coinCount += coinCountToAdd;
+    }
 
-	public void healPlayer()
-	{
-		//Add to current score
+    public int getCoinCount()
+    {
+        return coinCount;
+    }
+
+    public void healPlayer()
+    {
+        //Add to current score
         currentScore += 1000;
         GameManager.updateScoreText(currentScore);
         if (playerHealth < 3)
-		{
-			//Maximum health is 3
-			playerHealth += 1;
-			jsonWriter.addLevelData("Player restored 1 health!");
-		}
+        {
+            //Maximum health is 3
+            playerHealth += 1;
+            jsonWriter.addLevelData("Player restored 1 health!");
+        }
 
-	}
+    }
 
-	public int getHealth()
-	{
-		return playerHealth;
-	}
+    public int getHealth()
+    {
+        return playerHealth;
+    }
 
-	public int getScore()
-	{
-		return currentScore;
-	}
+    public int getScore()
+    {
+        return currentScore;
+    }
 
-	public int getDeathCount()
-	{
-		return deathCount;
-	}
+    public int getDeathCount()
+    {
+        return deathCount;
+    }
 
 }
