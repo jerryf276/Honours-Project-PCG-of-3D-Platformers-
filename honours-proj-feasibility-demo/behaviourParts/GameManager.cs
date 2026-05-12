@@ -32,7 +32,7 @@ public partial class GameManager : Node
     {
         //Loading each scene
         PackedScene hudScene = ResourceLoader.Load<PackedScene>("res://scenes/hud.tscn");
-        PackedScene playerScene = ResourceLoader.Load<PackedScene>("res://levelParts/playerCharacter.tscn");
+       // PackedScene playerScene = ResourceLoader.Load<PackedScene>("res://levelParts/playerCharacter.tscn");
         PackedScene pauseMenuScene = ResourceLoader.Load<PackedScene>("res://scenes/pauseMenu.tscn");
         PackedScene endScreenScene = ResourceLoader.Load<PackedScene>("res://scenes/EndScreen.tscn");
         PackedScene jsonWriterScene = ResourceLoader.Load<PackedScene>("res://behaviourParts/jsonWriter.tscn");
@@ -41,8 +41,8 @@ public partial class GameManager : Node
 
         //Instantiating each scene into the game
         instance.hud = hudScene.Instantiate<Control>();
-        instance.playerCharacter = playerScene.Instantiate<PlayerCharacter>();
-        instance.playerCharacter.Position = new Vector3(0, 2, 0);
+      //  instance.playerCharacter = playerScene.Instantiate<PlayerCharacter>();
+      //  instance.playerCharacter.Position = new Vector3(0, 2, 0);
         instance.pauseMenu = pauseMenuScene.Instantiate<PauseMenu>();
         instance.endScreen = endScreenScene.Instantiate<EndScreen>();
         instance.jsonWriter = jsonWriterScene.Instantiate<JsonWriter>();
@@ -57,7 +57,7 @@ public partial class GameManager : Node
         //Adding each scene into the game
         instance.AddChild(instance.hud);
         instance.AddChild(instance.jsonWriter);
-        instance.AddChild(instance.playerCharacter);
+      //  instance.AddChild(instance.playerCharacter);
         instance.AddChild(instance.pauseMenu);
         instance.AddChild(instance.endScreen);
         instance.AddChild(instance.coinPatterns);
@@ -99,6 +99,11 @@ public partial class GameManager : Node
         //Used in level modifier to add the level into the game once the start button has been clicked
         instance.level = levelToAdd;
         instance.AddChild(instance.level);
+    }
+
+    public static void AddPlayer(PlayerCharacter playerToAdd)
+    {
+        instance.AddChild(playerToAdd);
     }
 
     public static void displayEndScreen()

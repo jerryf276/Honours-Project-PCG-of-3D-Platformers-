@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://h7orjgplh878" path="res://scenes/LevelModifier.cs" id="1_fntvc"]
 
-[node name="LevelModifier" type="Control" unique_id=521948923 node_paths=PackedStringArray("smallPlatformSlider", "mediumPlatformSlider", "largePlatformSlider", "extraLargePlatformSlider", "smallJumpGapSlider", "mediumJumpGapSlider", "largeJumpGapSlider", "flatPlatformTypeSlider", "inclinePlatformTypeSlider", "bridgePlatformTypeSlider", "coinSlider", "spikeSlider", "bouncePadSlider", "easySpikeSlider", "hardSpikeSlider", "numberOfSections", "sizePerSection", "leftButton", "rightButton", "startButton", "directionChange", "pageOne", "pageTwo")]
+[node name="LevelModifier" type="Control" unique_id=521948923 node_paths=PackedStringArray("smallPlatformSlider", "mediumPlatformSlider", "largePlatformSlider", "extraLargePlatformSlider", "smallJumpGapSlider", "mediumJumpGapSlider", "largeJumpGapSlider", "flatPlatformTypeSlider", "inclinePlatformTypeSlider", "bridgePlatformTypeSlider", "coinSlider", "spikeSlider", "bouncePadSlider", "easySpikeSlider", "hardSpikeSlider", "numberOfSections", "presets", "sizePerSection", "leftButton", "rightButton", "startButton", "directionChange", "pageOne", "pageTwo")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -29,6 +29,7 @@ bouncePadSlider = NodePath("PageOne/LevelComponentsSlider/BouncePadSlider")
 easySpikeSlider = NodePath("PageTwo/SpikeTypeSliders/EasySlider")
 hardSpikeSlider = NodePath("PageTwo/SpikeTypeSliders/HardSlider")
 numberOfSections = NodePath("PageOne/SectionNumbers/VBoxContainer2/NumberOfSections")
+presets = NodePath("Presets")
 sizePerSection = NodePath("PageOne/SectionNumbers/VBoxContainer2/SizePerSection")
 leftButton = NodePath("LeftButton")
 rightButton = NodePath("RightButton")
@@ -72,8 +73,7 @@ layout_mode = 2
 [node name="LevelAttributesText" type="Label" parent="TitleContainer/VBoxContainer" unique_id=295680407]
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
-text = "Level Attributes"
-horizontal_alignment = 1
+text = "  Level Attributes"
 
 [node name="StartButton" type="Button" parent="." unique_id=1207104995]
 layout_mode = 1
@@ -431,10 +431,10 @@ rounded = true
 [node name="PageTwo" type="Node2D" parent="." unique_id=816605980]
 
 [node name="PlatformTypeContainer" type="MarginContainer" parent="PageTwo" unique_id=162021362]
-offset_left = 24.0
-offset_top = 124.0
+offset_left = 6.0
+offset_top = 102.0
 offset_right = 708.0
-offset_bottom = 379.0
+offset_bottom = 340.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo/PlatformTypeContainer" unique_id=360944940]
 layout_mode = 2
@@ -465,10 +465,10 @@ theme_override_font_sizes/font_size = 38
 text = "Bridge"
 
 [node name="PlatformSizeSliders" type="VBoxContainer" parent="PageTwo" unique_id=2119670998]
-offset_left = 167.0
-offset_top = 205.0
-offset_right = 354.5
-offset_bottom = 295.0
+offset_left = 138.0
+offset_top = 183.0
+offset_right = 340.0
+offset_bottom = 261.5
 scale = Vector2(2, 2)
 
 [node name="FlatPlatformSlider" type="HSlider" parent="PageTwo/PlatformSizeSliders" unique_id=1724264829]
@@ -492,10 +492,10 @@ min_value = 1.0
 value = 40.0
 
 [node name="DirectionChangeTextContainer" type="MarginContainer" parent="PageTwo" unique_id=1219826110]
-offset_left = 16.0
-offset_top = 499.0
-offset_right = 512.0
-offset_bottom = 560.0
+offset_left = 308.0
+offset_top = 390.0
+offset_right = 825.0
+offset_bottom = 443.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo/DirectionChangeTextContainer" unique_id=1882864919]
 layout_mode = 2
@@ -507,10 +507,10 @@ theme_override_font_sizes/font_size = 38
 text = "Direction Change Chance"
 
 [node name="DirectionChangeContainer" type="VBoxContainer" parent="PageTwo" unique_id=700902079]
-offset_left = 495.0
-offset_top = 503.0
-offset_right = 710.5
-offset_bottom = 534.0
+offset_left = 780.0
+offset_top = 396.0
+offset_right = 995.5
+offset_bottom = 421.0
 scale = Vector2(2, 2)
 
 [node name="DirectionChangeSlider" type="HSlider" parent="PageTwo/DirectionChangeContainer" unique_id=502257336]
@@ -521,10 +521,10 @@ max_value = 50.0
 value = 20.0
 
 [node name="SpikeTypeContainer" type="MarginContainer" parent="PageTwo" unique_id=1841229180]
-offset_left = 663.0
-offset_top = 220.0
-offset_right = 1282.0
-offset_bottom = 450.0
+offset_left = 612.0
+offset_top = 182.0
+offset_right = 1246.0
+offset_bottom = 378.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo/SpikeTypeContainer" unique_id=1984629539]
 layout_mode = 2
@@ -539,20 +539,20 @@ text = "Spike Types"
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_font_sizes/font_size = 38
-text = "Easy"
+text = "Easier Pattern"
 
 [node name="Hard" type="Label" parent="PageTwo/SpikeTypeContainer/VBoxContainer2" unique_id=1033432012]
 layout_mode = 2
 size_flags_vertical = 6
 size_flags_stretch_ratio = 1.62
 theme_override_font_sizes/font_size = 38
-text = "Hard"
+text = "Harder Pattern"
 
 [node name="SpikeTypeSliders" type="VBoxContainer" parent="PageTwo" unique_id=268932734]
-offset_left = 781.0
-offset_top = 294.0
-offset_right = 998.5
-offset_bottom = 359.0
+offset_left = 898.0
+offset_top = 249.0
+offset_right = 1073.5
+offset_bottom = 308.0
 scale = Vector2(2, 2)
 
 [node name="EasySlider" type="HSlider" parent="PageTwo/SpikeTypeSliders" unique_id=715028417]
@@ -567,3 +567,91 @@ layout_mode = 2
 size_flags_vertical = 6
 min_value = 1.0
 value = 25.0
+
+[node name="ControllerSensitivityTextContainer" type="MarginContainer" parent="PageTwo" unique_id=1073610812]
+offset_left = 10.0
+offset_top = 445.0
+offset_right = 592.0
+offset_bottom = 533.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo/ControllerSensitivityTextContainer" unique_id=1516316021]
+layout_mode = 2
+
+[node name="ControllerSensitivityText" type="Label" parent="PageTwo/ControllerSensitivityTextContainer/VBoxContainer2" unique_id=494917437]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 38
+text = "Camera Sensitivity (Controller)"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PageTwo" unique_id=487941198]
+offset_left = 595.0
+offset_top = 459.0
+offset_right = 764.5
+offset_bottom = 494.0
+scale = Vector2(2, 2)
+
+[node name="CameraControllerSlider" type="HSlider" parent="PageTwo/VBoxContainer" unique_id=1391704385]
+layout_mode = 2
+size_flags_vertical = 6
+min_value = 0.05
+max_value = 5.0
+step = 0.05
+value = 2.5
+
+[node name="ControllerSensitivityTextContainer2" type="MarginContainer" parent="PageTwo" unique_id=1334360381]
+offset_left = 10.0
+offset_top = 506.0
+offset_right = 598.0
+offset_bottom = 602.0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo/ControllerSensitivityTextContainer2" unique_id=1692390646]
+layout_mode = 2
+
+[node name="ControllerSensitivityText" type="Label" parent="PageTwo/ControllerSensitivityTextContainer2/VBoxContainer2" unique_id=756578458]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 38
+text = "Camera Sensitivity (Mouse)"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo" unique_id=35401852]
+offset_left = 536.0
+offset_top = 479.0
+offset_right = 704.5
+offset_bottom = 558.0
+scale = Vector2(2, 2)
+
+[node name="CameraMouseSlider" type="HSlider" parent="PageTwo/VBoxContainer2" unique_id=602402057]
+layout_mode = 2
+size_flags_vertical = 6
+min_value = 0.05
+max_value = 0.5
+step = 0.05
+value = 0.25
+
+[node name="Presets" type="OptionButton" parent="." unique_id=2028552474]
+layout_mode = 0
+offset_left = 941.0
+offset_top = 15.0
+offset_right = 1249.0
+offset_bottom = 86.0
+size_flags_stretch_ratio = 0.0
+theme_override_font_sizes/font_size = 32
+selected = 0
+item_count = 4
+popup/item_0/text = "Easy Difficulty"
+popup/item_0/id = 0
+popup/item_1/text = "Medium Difficulty"
+popup/item_1/id = 1
+popup/item_2/text = "Hard Difficulty"
+popup/item_2/id = 2
+popup/item_3/text = "Coin Heavy"
+popup/item_3/id = 3
+
+[node name="Label" type="Label" parent="." unique_id=1645686730]
+layout_mode = 0
+offset_left = 776.0
+offset_top = 16.0
+offset_right = 953.0
+offset_bottom = 83.0
+theme_override_font_sizes/font_size = 48
+text = "Preset"

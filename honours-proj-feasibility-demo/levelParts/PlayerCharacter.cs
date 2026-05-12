@@ -436,4 +436,14 @@ public partial class PlayerCharacter : CharacterBody3D
         return deathCount;
     }
 
+    public void setControllerSensitivity(float val)
+    {
+        analogStickSensitivity = val;
+    }
+
+    public void setMouseSensitivity(float val)
+    {
+        mouseSensitivity = val;
+    }
+
 }

@@ -25,6 +25,7 @@ public partial class LevelModifier : Control
     [Export] Slider hardSpikeSlider;
 
     [Export] OptionButton numberOfSections;
+    [Export] OptionButton presets;
     [Export] TextEdit sizePerSection;
 
     [Export] Button leftButton;
@@ -35,13 +36,18 @@ public partial class LevelModifier : Control
     [Export] Node2D pageOne;
     [Export] Node2D pageTwo;
 
+    [Export] Slider cameraSensitivityController;
+    [Export] Slider cameraSensitivityMouse;
+
     TestLevel level;
+    private PlayerCharacter player; 
 
     public override void _Ready()
     {
         leftButton.Pressed += OnLeftButtonPressed;
         rightButton.Pressed += OnRightButtonPressed;
         startButton.Pressed += OnStartButtonPressed;
+        presets.ItemSelected += OnPresetOptionSelected;
 
         pageTwo.Visible = false;
         pageOne.Visible = true;
@@ -74,9 +80,54 @@ public partial class LevelModifier : Control
 
     }
 
+    private void OnPresetOptionSelected(long index)
+    {
+        switch (index)
+        {
+            case 0:
+                setEasyPreset();
+                break;
+            case 1:
+                setMediumPreset();
+                break;
+            case 2:
+                setHardPreset();
+                break;
+            case 3:
+                setCoinHeavyPreset();
+                break;
+        }
+    }
+
+    private void setEasyPreset()
+    {
+
+    }
+
+    private void setMediumPreset()
+    {
+
+    }
+    
+    private void setHardPreset()
+    {
+
+    }
+
+    private void setCoinHeavyPreset()
+    {
+        coinSlider.Value = 100.0f;
+    }
+
     private void OnStartButtonPressed()
     {
         GameManager.StartLevel();
+        PackedScene playerScene = ResourceLoader.Load<PackedScene>("res://levelParts/playerCharacter.tscn");
+        player = playerScene.Instantiate<PlayerCharacter>();
+        player.Position = new Vector3(0, 2, 0);
+        player.setControllerSensitivity((float)cameraSensitivityController.Value);
+        player.setMouseSensitivity((float)cameraSensitivityController.Value);
+        GameManager.AddPlayer(player);
         PackedScene LevelScene;
         JsonWriter jsonWriter = GetNode<JsonWriter>("../JsonWriter");
 
