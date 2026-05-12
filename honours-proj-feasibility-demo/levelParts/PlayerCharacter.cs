@@ -105,7 +105,7 @@ public partial class PlayerCharacter : CharacterBody3D
         //Camera movement for controller
         if (Input.IsActionPressed("camera_up") || Input.IsActionPressed("camera_down") || Input.IsActionPressed("camera_left") || Input.IsActionPressed("camera_right"))
         {
-            cameraInputDirection = new Vector2(Input.GetAxis("camera_left", "camera_right"), Input.GetAxis("camera_up", "camera_down")) * analogStickSensitivity * (float)delta;
+            cameraInputDirection = new Vector2(Input.GetAxis("camera_left", "camera_right"), Input.GetAxis("camera_up", "camera_down")) * (float)delta;
             //if (Input.IsActionPressed("camera_up"))
             //{
             //    cameraInputDirection.Y = -2000.0f * (float)delta;
@@ -127,20 +127,20 @@ public partial class PlayerCharacter : CharacterBody3D
             //}
             Vector2 move = new Vector2(Input.GetJoyAxis(0, JoyAxis.RightX), Input.GetJoyAxis(0, JoyAxis.RightY));
 
-            if (move.Length() < controllerDeadzone)
-            {
-                cameraInputDirection = Vector2.Zero;
-            }
+            //if (move.Length() < controllerDeadzone)
+            //{
+            //    cameraInputDirection = Vector2.Zero;
+            //}
 
-            else
-            {
-                cameraInputDirection = cameraInputDirection.Normalized();
-            }
-          //  cameraInputDirection = cameraInputDirection.Normalized();
+            //else
+            //{
+            //    cameraInputDirection = cameraInputDirection.Normalized();
+            //}
+           cameraInputDirection = cameraInputDirection.Normalized();
 
-            rotation.X += (float)(cameraInputDirection.Y * delta);
+            rotation.X += (float)(cameraInputDirection.Y * delta * analogStickSensitivity);
             rotation.X = Mathf.Clamp(rotation.X, -Mathf.Pi / 6.0f, Mathf.Pi / 3.0f);
-            rotation.Y -= (float)(cameraInputDirection.X * delta * 2);
+            rotation.Y -= (float)(cameraInputDirection.X * delta * analogStickSensitivity);
         }
 
         //If user is using mouse for camera instead
