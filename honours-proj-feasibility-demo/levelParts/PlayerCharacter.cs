@@ -379,6 +379,7 @@ public partial class PlayerCharacter : CharacterBody3D
         playerVelocity.Y = 0;
         playerVelocity.Y += bounceImpulse;
         Velocity = playerVelocity;
+        gobotSkin.Call("jump");
     }
 
     public bool isCurrentlyAttacked()
