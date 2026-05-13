@@ -40,7 +40,7 @@ public partial class LevelModifier : Control
     [Export] Slider cameraSensitivityMouse;
 
     TestLevel level;
-    private PlayerCharacter player; 
+  //  private PlayerCharacter player; 
 
     public override void _Ready()
     {
@@ -122,15 +122,13 @@ public partial class LevelModifier : Control
     private void OnStartButtonPressed()
     {
         GameManager.StartLevel();
-        PackedScene playerScene = ResourceLoader.Load<PackedScene>("res://levelParts/playerCharacter.tscn");
-        player = playerScene.Instantiate<PlayerCharacter>();
-        player.Position = new Vector3(0, 2, 0);
+        //GameManager.setControllerSensitivity((float)cameraSensitivityController.Value);
+        //GameManager.setMouseSensitivity((float)cameraSensitivityMouse.Value);
+        PlayerCharacter player = GetNode<PlayerCharacter>("../PlayerCharacter");
         player.setControllerSensitivity((float)cameraSensitivityController.Value);
-        player.setMouseSensitivity((float)cameraSensitivityController.Value);
-        GameManager.AddPlayer(player);
+        //player.setMouseSensitivity((float)cameraSensitivityMouse.Value);
         PackedScene LevelScene;
         JsonWriter jsonWriter = GetNode<JsonWriter>("../JsonWriter");
-
         LevelScene = ResourceLoader.Load<PackedScene>("res://scenes/TestLevel.tscn");
         level = LevelScene.Instantiate<TestLevel>();
 

@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 public partial class PlayerCharacter : CharacterBody3D
 {
     [ExportGroup("Camera")]
-    [Export(PropertyHint.Range, "0.0, 1.0")] private float mouseSensitivity = 0.25f;
+    private float mouseSensitivity = 0.25f;
     float analogStickSensitivity = 2.5f;
 
     [ExportGroup("Movement")]
@@ -441,9 +441,9 @@ public partial class PlayerCharacter : CharacterBody3D
         analogStickSensitivity = val;
     }
 
-    public void setMouseSensitivity(float val)
-    {
-        mouseSensitivity = val;
-    }
+    //public void setMouseSensitivity(float val)
+    //{
+    //    mouseSensitivity = val;
+    //}
 
 }

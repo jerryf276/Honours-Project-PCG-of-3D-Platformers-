@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://h7orjgplh878" path="res://scenes/LevelModifier.cs" id="1_fntvc"]
 
-[node name="LevelModifier" type="Control" unique_id=521948923 node_paths=PackedStringArray("smallPlatformSlider", "mediumPlatformSlider", "largePlatformSlider", "extraLargePlatformSlider", "smallJumpGapSlider", "mediumJumpGapSlider", "largeJumpGapSlider", "flatPlatformTypeSlider", "inclinePlatformTypeSlider", "bridgePlatformTypeSlider", "coinSlider", "spikeSlider", "bouncePadSlider", "easySpikeSlider", "hardSpikeSlider", "numberOfSections", "presets", "sizePerSection", "leftButton", "rightButton", "startButton", "directionChange", "pageOne", "pageTwo")]
+[node name="LevelModifier" type="Control" unique_id=521948923 node_paths=PackedStringArray("smallPlatformSlider", "mediumPlatformSlider", "largePlatformSlider", "extraLargePlatformSlider", "smallJumpGapSlider", "mediumJumpGapSlider", "largeJumpGapSlider", "flatPlatformTypeSlider", "inclinePlatformTypeSlider", "bridgePlatformTypeSlider", "coinSlider", "spikeSlider", "bouncePadSlider", "easySpikeSlider", "hardSpikeSlider", "numberOfSections", "presets", "sizePerSection", "leftButton", "rightButton", "startButton", "directionChange", "pageOne", "pageTwo", "cameraSensitivityController", "cameraSensitivityMouse")]
 process_mode = 3
 layout_mode = 3
 anchors_preset = 15
@@ -37,6 +37,8 @@ startButton = NodePath("StartButton")
 directionChange = NodePath("PageTwo/DirectionChangeContainer/DirectionChangeSlider")
 pageOne = NodePath("PageOne")
 pageTwo = NodePath("PageTwo")
+cameraSensitivityController = NodePath("PageTwo/VBoxContainer/CameraControllerSlider")
+cameraSensitivityMouse = NodePath("")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1646966661]
 layout_mode = 1
@@ -570,9 +572,9 @@ value = 25.0
 
 [node name="ControllerSensitivityTextContainer" type="MarginContainer" parent="PageTwo" unique_id=1073610812]
 offset_left = 10.0
-offset_top = 445.0
+offset_top = 484.0
 offset_right = 592.0
-offset_bottom = 533.0
+offset_bottom = 566.0
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo/ControllerSensitivityTextContainer" unique_id=1516316021]
 layout_mode = 2
@@ -585,48 +587,18 @@ text = "Camera Sensitivity (Controller)"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PageTwo" unique_id=487941198]
 offset_left = 595.0
-offset_top = 459.0
+offset_top = 486.0
 offset_right = 764.5
-offset_bottom = 494.0
+offset_bottom = 527.0
 scale = Vector2(2, 2)
 
 [node name="CameraControllerSlider" type="HSlider" parent="PageTwo/VBoxContainer" unique_id=1391704385]
 layout_mode = 2
 size_flags_vertical = 6
-min_value = 0.05
+min_value = 0.4
 max_value = 5.0
 step = 0.05
 value = 2.5
-
-[node name="ControllerSensitivityTextContainer2" type="MarginContainer" parent="PageTwo" unique_id=1334360381]
-offset_left = 10.0
-offset_top = 506.0
-offset_right = 598.0
-offset_bottom = 602.0
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo/ControllerSensitivityTextContainer2" unique_id=1692390646]
-layout_mode = 2
-
-[node name="ControllerSensitivityText" type="Label" parent="PageTwo/ControllerSensitivityTextContainer2/VBoxContainer2" unique_id=756578458]
-layout_mode = 2
-size_flags_vertical = 6
-theme_override_font_sizes/font_size = 38
-text = "Camera Sensitivity (Mouse)"
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="PageTwo" unique_id=35401852]
-offset_left = 536.0
-offset_top = 479.0
-offset_right = 704.5
-offset_bottom = 558.0
-scale = Vector2(2, 2)
-
-[node name="CameraMouseSlider" type="HSlider" parent="PageTwo/VBoxContainer2" unique_id=602402057]
-layout_mode = 2
-size_flags_vertical = 6
-min_value = 0.05
-max_value = 0.5
-step = 0.05
-value = 0.25
 
 [node name="Presets" type="OptionButton" parent="." unique_id=2028552474]
 layout_mode = 0
