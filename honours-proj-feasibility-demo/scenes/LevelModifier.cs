@@ -101,17 +101,53 @@ public partial class LevelModifier : Control
 
     private void setEasyPreset()
     {
-
+        smallJumpGapSlider.Value = 100.0f;
+        mediumJumpGapSlider.Value = 25.0f;
+        largeJumpGapSlider.Value = 10.0f;
+        smallPlatformSlider.Value = 10.0f;
+        mediumPlatformSlider.Value = 30.0f;
+        largePlatformSlider.Value = 100.0f;
+        extraLargePlatformSlider.Value = 100.0f;
+        spikeSlider.Value = 10.0f;
+        easySpikeSlider.Value = 100.0f;
+        hardSpikeSlider.Value = 1.0f;
+        coinSlider.Value = 100.0f;
+        numberOfSections.Select(1);
+        sizePerSection.Text = "15";
     }
 
     private void setMediumPreset()
     {
-
+        smallJumpGapSlider.Value = 50.0f;
+        mediumJumpGapSlider.Value = 50.0f;
+        largeJumpGapSlider.Value = 50.0f;
+        smallPlatformSlider.Value = 50.0f;
+        mediumPlatformSlider.Value = 50.0f;
+        largePlatformSlider.Value = 50.0f;
+        extraLargePlatformSlider.Value = 50.0f;
+        spikeSlider.Value = 30.0f;
+        easySpikeSlider.Value = 75.0f;
+        hardSpikeSlider.Value = 25.0f;
+        coinSlider.Value = 50.0f;
+        numberOfSections.Select(0);
+        sizePerSection.Text = "25";
     }
     
     private void setHardPreset()
     {
-
+        smallJumpGapSlider.Value = 100.0f;
+        mediumJumpGapSlider.Value = 80.0f;
+        largeJumpGapSlider.Value = 30.0f;
+        smallPlatformSlider.Value = 100.0f;
+        mediumPlatformSlider.Value = 80.0f;
+        largePlatformSlider.Value = 20.0f;
+        extraLargePlatformSlider.Value = 20.0f;
+        spikeSlider.Value = 100.0f;
+        easySpikeSlider.Value = 25.0f;
+        hardSpikeSlider.Value = 75.0f;
+        coinSlider.Value = 25.0f;
+        numberOfSections.Select(2);
+        sizePerSection.Text = "30";
     }
 
     private void setCoinHeavyPreset()
