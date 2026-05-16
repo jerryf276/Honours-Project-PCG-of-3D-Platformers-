@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cfdf62ci74tew"
-path.s3tc="res://.godot/imported/closed_eyes.png-633bbbbd63683d35e6db7088a119d952.s3tc.ctex"
-path.etc2="res://.godot/imported/closed_eyes.png-633bbbbd63683d35e6db7088a119d952.etc2.ctex"
+path.s3tc="res://.godot/imported/closed_eyes.png-872f812d91024d5dad42f8651e149ea4.s3tc.ctex"
+path.etc2="res://.godot/imported/closed_eyes.png-872f812d91024d5dad42f8651e149ea4.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Models/gdquest_gobot/textures/closed_eyes.png"
-dest_files=["res://.godot/imported/closed_eyes.png-633bbbbd63683d35e6db7088a119d952.s3tc.ctex", "res://.godot/imported/closed_eyes.png-633bbbbd63683d35e6db7088a119d952.etc2.ctex"]
+source_file="res://models/gdquest_gobot/textures/closed_eyes.png"
+dest_files=["res://.godot/imported/closed_eyes.png-872f812d91024d5dad42f8651e149ea4.s3tc.ctex", "res://.godot/imported/closed_eyes.png-872f812d91024d5dad42f8651e149ea4.etc2.ctex"]
 
 [params]
 

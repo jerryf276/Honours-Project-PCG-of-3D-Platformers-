@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://yj5yx07nva6l"
-path.s3tc="res://.godot/imported/hurt_eyes.png-ed4f59fd383022ea1e501d70ed9f79e0.s3tc.ctex"
-path.etc2="res://.godot/imported/hurt_eyes.png-ed4f59fd383022ea1e501d70ed9f79e0.etc2.ctex"
+path.s3tc="res://.godot/imported/hurt_eyes.png-4fbd35a6fb530fc8a8a528485c0f4e6c.s3tc.ctex"
+path.etc2="res://.godot/imported/hurt_eyes.png-4fbd35a6fb530fc8a8a528485c0f4e6c.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Models/gdquest_gobot/textures/hurt_eyes.png"
-dest_files=["res://.godot/imported/hurt_eyes.png-ed4f59fd383022ea1e501d70ed9f79e0.s3tc.ctex", "res://.godot/imported/hurt_eyes.png-ed4f59fd383022ea1e501d70ed9f79e0.etc2.ctex"]
+source_file="res://models/gdquest_gobot/textures/hurt_eyes.png"
+dest_files=["res://.godot/imported/hurt_eyes.png-4fbd35a6fb530fc8a8a528485c0f4e6c.s3tc.ctex", "res://.godot/imported/hurt_eyes.png-4fbd35a6fb530fc8a8a528485c0f4e6c.etc2.ctex"]
 
 [params]
 

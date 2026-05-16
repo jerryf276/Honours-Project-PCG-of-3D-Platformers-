@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://cyjekkhp123in"
-path="res://.godot/imported/Bouncer.fbx-8652d8b6c96f0fb714dd2a99a028992a.scn"
+path="res://.godot/imported/Bouncer.fbx-068d48a67144c1774fc1bccc084b62c2.scn"
 
 [deps]
 
-source_file="res://Models/glb/Bouncer.fbx"
-dest_files=["res://.godot/imported/Bouncer.fbx-8652d8b6c96f0fb714dd2a99a028992a.scn"]
+source_file="res://models/glb/Bouncer.fbx"
+dest_files=["res://.godot/imported/Bouncer.fbx-068d48a67144c1774fc1bccc084b62c2.scn"]
 
 [params]
 

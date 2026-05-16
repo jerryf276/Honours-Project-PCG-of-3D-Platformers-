@@ -3,8 +3,8 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dbp3ucgth4ky4"
-path.s3tc="res://.godot/imported/double jump img.png-7b48792e8650e0509acfd23df908bca5.s3tc.ctex"
-path.etc2="res://.godot/imported/double jump img.png-7b48792e8650e0509acfd23df908bca5.etc2.ctex"
+path.s3tc="res://.godot/imported/double jump img.png-1f3a43cb02fc13ab63c56ce3f5fc198c.s3tc.ctex"
+path.etc2="res://.godot/imported/double jump img.png-1f3a43cb02fc13ab63c56ce3f5fc198c.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://Models/double jump img.png"
-dest_files=["res://.godot/imported/double jump img.png-7b48792e8650e0509acfd23df908bca5.s3tc.ctex", "res://.godot/imported/double jump img.png-7b48792e8650e0509acfd23df908bca5.etc2.ctex"]
+source_file="res://models/double jump img.png"
+dest_files=["res://.godot/imported/double jump img.png-1f3a43cb02fc13ab63c56ce3f5fc198c.s3tc.ctex", "res://.godot/imported/double jump img.png-1f3a43cb02fc13ab63c56ce3f5fc198c.etc2.ctex"]
 
 [params]
 

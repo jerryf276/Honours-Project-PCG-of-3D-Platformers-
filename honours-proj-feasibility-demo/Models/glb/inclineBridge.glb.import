@@ -4,12 +4,12 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://byqrqjmk188hc"
-path="res://.godot/imported/inclineBridge.glb-334a6343852e9668bf2ef468d8109f4b.scn"
+path="res://.godot/imported/inclineBridge.glb-2e159b389d13976c96c8872546b9d0af.scn"
 
 [deps]
 
-source_file="res://Models/glb/inclineBridge.glb"
-dest_files=["res://.godot/imported/inclineBridge.glb-334a6343852e9668bf2ef468d8109f4b.scn"]
+source_file="res://models/glb/inclineBridge.glb"
+dest_files=["res://.godot/imported/inclineBridge.glb-2e159b389d13976c96c8872546b9d0af.scn"]
 
 [params]
 
