@@ -135,9 +135,9 @@ public partial class LevelModifier : Control
     
     private void setHardPreset()
     {
-        smallJumpGapSlider.Value = 100.0f;
+        smallJumpGapSlider.Value = 30.0f;
         mediumJumpGapSlider.Value = 80.0f;
-        largeJumpGapSlider.Value = 30.0f;
+        largeJumpGapSlider.Value = 100.0f;
         smallPlatformSlider.Value = 100.0f;
         mediumPlatformSlider.Value = 80.0f;
         largePlatformSlider.Value = 20.0f;
